@@ -1,0 +1,1649 @@
+thread_02 0
+thread_02 1
+calculating time 2864
+main thread idle, uptime 13
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+calculating time 2864
+main thread idle, uptime 27
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+calculating time 2862
+main thread idle, uptime 41
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+calculating time 2862
+main thread idle, uptime 55
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+calculating time 2864
+main thread idle, uptime 68
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+calculating time 2863
+main thread idle, uptime 82
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+calculating time 2864
+main thread idle, uptime 96
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:07:32
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+calculating time 2864
+main thread idle, uptime 13
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+calculating time 2864
+main thread idle, uptime 27
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+calculating time 2862
+main thread idle, uptime 41
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:08:08
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+calculating time 53478
+main thread idle, uptime 64
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:09:49
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+calculating time 2864
+main thread idle, uptime 13
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+calculating time 2864
+main thread idle, uptime 27
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+calculating time 2862
+main thread idle, uptime 41
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+thread_03 3
+thread_01 0
+thread_01 1
+thread_01 2
+thread_01 3
+thread_02 0
+thread_02 1
+thread_02 2
+thread_02 3
+thread_03 0
+thread_03 1
+thread_03 2
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:10:35
+2830
+2829
+2830
+2830
+2831
+2827
+2832
+2831
+2832
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:12:40
+2864 104 124
+2860 104 124
+2865 104 125
+2862 104 124
+2864 104 124
+2862 104 124
+2865 104 124
+2861 104 124
+2861 104 124
+2863 104 124
+2861 104 124
+2862 104 124
+2862 104 124
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:15:41
+€        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:16:11
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stdio init done
+
+welcome to SuzuhaOS ^_^ 2.0.8
+BUILD Apr 20 2015 18:17:25
+4 2131 84 86
+5 2198 87 89
+6 2256 89 91
+7 2306 91 93
+8 2352 91 95
+9 2391 93 97
+10 2430 94 99
+11 2461 94 102
+12 2487 94 103
+13 2516 95 105
+14 2537 95 107
+15 2564 95 109
+16 2581 95 111
+17 2601 96 112
+18 2619 96 114
+19 2640 97 116
+20 2651 96 117
+21 2666 96 119
+22 2680 96 121
+23 2697 96 123
+24 2710 96 124
+25 2725 96 126
+26 2737 96 128
+27 2749 96 130
+28 2764 97 131
+29 2778 97 133
+30 2793 96 135
+31 2804 97 137
+32 2812 96 138
+33 2827 96 140
+34 2841 97 142
+35 2856 97 144
+36 2863 97 146
+37 2881 97 147
+38 2887 97 150
+39 2897 96 151
+40 2912 96 153
+4 2131 84 86
+5 2202 87 89

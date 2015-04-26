@@ -1,0 +1,6 @@
+experiment : julia set calculating, total points 96*96
+
+data format : 
+iterations_count, total time, minimal time per iteration, maximal time per iteration
+
+

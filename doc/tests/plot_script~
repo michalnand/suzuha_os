@@ -1,0 +1,76 @@
+set   autoscale                        # scale axes automatically
+unset log                              # remove any log-scaling
+unset label                            # remove any previous labels
+set xtic auto                         	# set xtics automatically
+set ytic auto                         # set ytics automatically
+
+set key right top
+
+set grid ytics lt 0.1 lw 0.1 lc rgb "#bbbbbb"
+set grid xtics lt 0.1 lw 0.1 lc rgb "#bbbbbb"
+set terminal png size 1024,768 enhanced font "Helvetica,20"
+
+
+
+set key
+set xlabel "iterations count"
+set ylabel "elapsed time [ms]"
+
+set output 'fpu_cpu_performance.png'
+
+plot "float_perfomance_cpu.txt" using 1:2 title "emulated float" with line lw 2, \
+	"float_perfomance_fpu.txt" using 1:2 title "fpu float" with line lw 2
+
+
+set yrange [0:42]
+
+
+set key right bottom
+set xlabel "measurement id"
+set ylabel "elapsed time [ms]"
+
+set output 'priority_scheduler_perfomance.png'
+
+plot "priority_scheduler_perfomance.txt" using 1 title "required time [ms]" with line lw 4, \
+	"priority_scheduler_perfomance.txt" using 2 title "maximal priority thread time [ms]" with line lw 2, \
+	"priority_scheduler_perfomance.txt" using 4 title "middle priority thread time [ms]" with line lw 2, \
+	"priority_scheduler_perfomance.txt" using 6 title "minimal priority thread time [ms]" with line lw 2
+
+
+
+set key
+set xlabel "measurement id"
+set ylabel "elapsed time [ms]"
+
+set output 'round_robin_scheduler_perfomance.png'
+
+plot "round_robin_scheduler_perfomance.txt" using 1 title "required time [ms]" with line lw 4, \
+	"round_robin_scheduler_perfomance.txt" using ($2+0.1) title "maximal priority thread time [ms]" with line lw 2, \
+	"round_robin_scheduler_perfomance.txt" using ($4+0.2) title "middle priority thread time [ms]" with line lw 2, \
+	"round_robin_scheduler_perfomance.txt" using ($6+0.3) title "minimal priority thread time [ms]" with line lw 2
+
+
+
+set key
+set xlabel "measurement id"
+set ylabel "elapsed time [ms]"
+
+set output 'priority_scheduler_similar_priority.png'
+
+plot "priority_scheduler_similar_priority.txt" using 1 title "required time [ms]" with line lw 4, \
+	"priority_scheduler_similar_priority.txt" using ($2+0.1) title "maximal priority thread time [ms]" with line lw 2, \
+	"priority_scheduler_similar_priority.txt" using ($4+0.2) title "maximal priority+2 thread time [ms]" with line lw 2, \
+	"priority_scheduler_similar_priority.txt" using ($6+0.3) title "maximal priority+4 thread time [ms]" with line lw 2
+	
+
+
+set   autoscale 
+set key
+set xlabel "measurement id"
+set ylabel "error value"
+
+set output 'scheduler_error.png'
+
+plot "round_robin_error.txt" using 1 title "round robin scheduler error" with line lw 2, \
+	"priority_error.txt" using 1 title "priority scheduler error" with line lw 2
+
