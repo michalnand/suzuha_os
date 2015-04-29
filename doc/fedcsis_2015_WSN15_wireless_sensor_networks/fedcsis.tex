@@ -50,7 +50,7 @@
 
 %
 %
-\title{Real time operating system for mobile robotics and wsn aplications}
+\title{Real time schedule for mobile robotics and wsn aplications}
 %
 %
 \author{
@@ -62,11 +62,11 @@ Faculty of management science and informatics\\
 michal.chovanec@fri.uniza.sk}
 \and
 
-\IEEEauthorblockN{Another Author}
+\IEEEauthorblockN{Peter \v{S}araf\'{i}n}
 \IEEEauthorblockA{{\v{Z}}ilinsk{\'{a}} Univerzita
 Faculty of management science and informatics\\
 {\v{Z}}ilina 010 26, \\
-another.author@fri.uniza.sk} 
+peter.sarafin@fri.uniza.sk} 
 
 
 }
@@ -101,14 +101,14 @@ another.author@fri.uniza.sk}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-This paper presents real time operating system running on ARM Cortex (M0, M3, M4), usable in small mobile robotics with kernel response around 1ms and for WSN applications too, thanks to strong modularity, advaced sleep modes and event driven programming ability.
+This paper presents real time scheduler in operating system running on ARM Cortex (M0, M3, M4), usable in small mobile robotics with kernel response around 1ms and for WSN applications too, thanks to strong modularity, advaced sleep modes and event driven programming ability.
 \end{abstract}
 
 keywords : operating system, ARM Cortex M, mobile robotics, wsn node, low power, real time
 
 \section{Introduction}
 
-Added value for embedded software developement is strong modularity, reusable code and rapid developement. Many applications can work operating system less well - usualy single purpose tasks, or interrupt driven tasks. For more complex application, operating system can help with some common problems :
+Added value for embedded software developement is strong modularity, reusable code and rapid developement \cite{bib:rad}. Many applications can work operating system less well - usualy single purpose tasks, or interrupt driven tasks. For more complex application, operating system can help with some common problems \cite{bib:wsn_applications1} \cite{bib:wsn_applications2} :
 
 \begin{itemize}
   \item Multiple sensors (or any inputs) reading
@@ -134,8 +134,8 @@ From these we can consider operating system requirements
 
 \section{Sytem architecture}
 
-Operating system runs on single chip microcontroller, supported are ARM Cortex M0, M0+, M3, M4 and M4F cores. For testing, TI TivaC ( tm4c123g) \ref{fig_ti_launchpad}, with cortex M4F core has been used. This MCU is running on 80MHz and have 256K flash memory and 32K sram. Other devices has been also tested, such stm32l053, stm32f103, stm32f407, lpc812, mkl02z32 and mkl25z4. \\
-All parts are compiled using GNU gcc (using C99 standard) into single binary file, which can be loaded into flash memory. 
+Operating system runs on single chip microcontroller, supported are ARM Cortex M0, M0+, M3, M4 and M4F cores. For testing, TI TivaC ( tm4c123g) figure \ref{fig_ti_launchpad}, more on \cite{bib:ti_launchpad}, with cortex M4F core has been used. This MCU is running on 80MHz and have 256K flash memory and 32K sram. Other devices has been also tested, such stm32l053, stm32f103, stm32f407, lpc812, mkl02z32 and mkl25z4. \\
+All parts are compiled using GNU gcc (using C99 standard) into single binary file, which can be loaded into flash memory \cite{bib:lm4flash}. Actual sources can be downloaded from \cite{bib:suzuha_git}.
 
 Presented operating system consist of these parts
 
@@ -329,11 +329,11 @@ void join(u32 thread_id);
 
 \section{Experimental results}
 
-For testing OS few experiments were done. First is comparsion of perfomance using hardware or software emulated float perfomance.
+For testing OS few experiments were done. First is basic multitasking test and comparsion of perfomance using hardware or software emulated float perfomance.
 There were 4 running threads. One thread was caculating julia set fractal, displaying on lcd. Total calculating points was set to 96x96.
 Algorithm interations was changing from interval $\langle 4, 40 \rangle$. Perfomance result is on figure \ref{fig_fpu_cpu}. In this test, basic functionalty has been tested, especially preemtive multitasking, timers and terminal interface. \\
 \\
-Next testing was focused on real time processing ability. There were 2 main and 6 child threads (on pictures only first 3 are shown). Each thread was waiting specified time (required waiting time) and this time was meassured. Difference, between required and meassured time is used to compare scheduling algorithms : round robin and priority scheduler. On figure \ref{fig_round_robin_scheduler_perfomance} we can see round robin result (all threads have same result). Required value is bellow measured lines, time difference was around 1ms.
+Next testing was focused on real time processing ability. There were 2 main and 6 child threads (on pictures only first 3 are shown). Each thread was waiting specified time (required waiting time) and this time was meassured. Difference, between required and meassured time is used to compare scheduling algorithms : round robin and priority scheduler. On figure \ref{fig_round_robin_scheduler_perfomance} we can see round robin result (all threads have same result). Required value is bellow measured lines, time difference was around 1ms. Little peaks are consequence of timer resolution : 1ms.
 On figure \label{fig_priority_scheduler_perfomance} we can see situation with priority scheduler. 
 
 \begin{figure}[]
@@ -397,23 +397,23 @@ In this paper has been explaned priority scheduler and briefly introduced OS. Fr
  \bibliographystyle{plain}
 \begin{thebibliography}{99}
 
-\bibitem{Astrom:adaptive_controll}
-Karl J. Astr{\"{o}}m, Dr. Bj{\"{o}}rn Wittenmark, Adaptive Control: Second Edition, ISBN10 100486462781
+\bibitem{bib:rad} Whill Hentzen, The Software Developer's Guide, 3rd Edition, ISBN: 1-930919-00-X, 2002
 
-\bibitem{Colorado:closed_loop}
-MAE171B DIGITAL CONTROL OF PHYSICAL SYSTEMS, H. Peng and George T.-C Chiu, T-C. Tsao ©1994- 2008, http://ecee.colorado.edu/shalom/Emulations.pdf
 
-\bibitem{VogelEdgar:controller}
-Vogel, E.F, and T.F. Edgar, A New Dead Time Compensator for Digital Control, lSA/80 Proc., Houston, TX, Oct. 1980.
+\bibitem{bib:wsn_applications1} John A. Stankovic, Anthony D. Wood, Tian He, Realistic Applications for Wireless Sensor Networks, http://www.ent.mrt.ac.lk/dialog/documents/ERU-2-wsn.ppt
 
-\bibitem{LMS:normalised}
-Normalised LMS, Note by Y. Hua , http://www.ee.ucr.edu/~yhua/ee211/Note\_3.pdf
+\bibitem{bib:wsn_applications2} Nuwan Gajaweera, Wireless Sensor Networks, http://www.ent.mrt.ac.lk/dialog/documents/ERU-2-wsn.ppt
 
-\bibitem{Springer:adaptive_filtering}
-Apolinario jr, Jose Antonio (Ed.),  QRD-RLS Adaptive Filtering, ISBN 978-0-387-09734-3, 2009, chap 2
+\bibitem{bib:lm4flash} LM4 flahsing tool, https://github.com/utzig/lm4tools/tree/master/lm4flash
 
-\bibitem{TI:msp430}
-Texas Instruments, Launchpad http://www.ti.com/tool/msp-exp430g2
+\bibitem{bib:ti_launchpad} Texas instruments TivaC Launchpad, http://www.ti.com/tool/ek-tm4c123gxl
+
+\bibitem{bib:suzuha_git}
+Suzuha OS sources https://github.com/michalnand/suzuha\_os
+
+\bibitem{bib:round_robin} Ishwari Singh Rajput and Deepa Gupta : A Priority based Round Robin CPU Scheduling Algorithm for Real Time Systems, ISSN: 2319 1058, 2012
+
+
 \end{thebibliography}
 
 
