@@ -12,9 +12,9 @@
 #device="stm32f10x"
 #device="stm32l152"
 #device="stm32f30x"
-#device="stm32f4"
+device="stm32f4"
 
-device="tm4c123"
+#device="tm4c123"
 
 echo configuring for device $device
 

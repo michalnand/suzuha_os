@@ -44,8 +44,8 @@ void uart_init()
   	GPIO_Init(GPIOA, &GPIO_InitStructure);
  
 
-  //	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
- // 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1); 
+  	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
+  	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1); 
 
   USART_InitStructure.USART_BaudRate = UART_BAUD_RATE;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;

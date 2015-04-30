@@ -3,10 +3,10 @@
 #include "../lib_usr/mag.h"
 #include "../lib_usr/accelerometer.h"
 #include "../lib_usr/ir.h"
-#include "../lib_usr/sh1106.h"
+// #include "../lib_usr/sh1106.h"
 // #include "../lib_usr/mp3.h"
 
-#include "../lib_usr/st7781/st7781.h"
+// #include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
 
 
@@ -223,6 +223,7 @@ void thread_03()
 
 */
 
+/*
 void julia_set(u32 iterations_max, float cr_)
 {
 	float cr = -0.8;
@@ -239,10 +240,7 @@ void julia_set(u32 iterations_max, float cr_)
 	{
 		for(i = 0; i < LCD_HORIZONTAL_MAX; i++)
 		{
-			/*
-			float cr = ((1.0*i)/LCD_HORIZONTAL_MAX - 0.5)*2.0 - 0.5;
-			float ci = ((1.0*j)/LCD_VERTICAL_MAX - 0.5)*2.0;
-			*/
+
 
 			float zr = ((1.0*i)/LCD_HORIZONTAL_MAX - 0.5)*4.0;
 			float zi = ((1.0*j)/LCD_VERTICAL_MAX - 0.5)*4.0;
@@ -270,6 +268,7 @@ void julia_set(u32 iterations_max, float cr_)
 		}
 	}
 }
+*/
 
 /*
 u32 iterations_max;
@@ -331,6 +330,7 @@ void main_thread()
 	flag_set(&flag_01);
 	*/
 
+	/*
 	thread_period = 10;
 
 	thread_01_time = 0;
@@ -348,6 +348,7 @@ void main_thread()
 	create_thread(thread_04, thread_04_stack, sizeof(thread_04_stack), 128);
 	create_thread(thread_05, thread_05_stack, sizeof(thread_05_stack), PRIORITY_MIN);
 	create_thread(thread_06, thread_06_stack, sizeof(thread_06_stack), PRIORITY_MIN);
+*/
 	
 	/*
 	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
@@ -357,45 +358,15 @@ void main_thread()
 	create_thread(thread_05, thread_05_stack, sizeof(thread_05_stack), PRIORITY_MAX+4);
 	create_thread(thread_06, thread_06_stack, sizeof(thread_06_stack), PRIORITY_MAX+5);
 	*/
-	timer_delay_ms(1000);
 
 
 	u32 i;
  	while (1)
 	{
-		for (i = 1; i < 30; i++) 
-		{
-			thread_period = 26;
 
-			timer_delay_ms(1000);
-
-
-			thread_01_time = 0;
-			thread_02_time = 0;
-			thread_03_time = 0;
-			thread_04_time = 0;
-			thread_05_time = 0;
-			thread_06_time = 0;
-				
-			timer_delay_ms(1000*thread_period);
-
-
-
-			printf_("%u %u %u %u %u %u %u\n", thread_period,
-				thread_01_time/FILTER_COEF, thread_02_time/FILTER_COEF, 
-				thread_03_time/FILTER_COEF, thread_04_time/FILTER_COEF,
-				thread_05_time/FILTER_COEF, thread_06_time/FILTER_COEF
-				);
-		}
-		
-
-		
-		// lcd_demo();
-
-		/*
 		led_on(LED_0);
 		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
 		led_off(LED_0);
-		*/
+		timer_delay_ms(100);
 	}
 }

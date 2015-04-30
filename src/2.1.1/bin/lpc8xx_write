@@ -1,0 +1,1 @@
+~/bin/lpc21isp_197/lpc21isp -bin main.bin /dev/ttyUSB0 9600 12000000
