@@ -3,227 +3,67 @@
 #include "../lib_usr/mag.h"
 #include "../lib_usr/accelerometer.h"
 #include "../lib_usr/ir.h"
-// #include "../lib_usr/sh1106.h"
+
+//#include "../lib_usr/sh1106.h"
+
 // #include "../lib_usr/mp3.h"
 
-// #include "../lib_usr/st7781/st7781.h"
+//#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
 
 
 thread_stack_t thread_01_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_02_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_03_stack[THREAD_STACK_SIZE];
-thread_stack_t thread_04_stack[THREAD_STACK_SIZE];
-thread_stack_t thread_05_stack[THREAD_STACK_SIZE];
-thread_stack_t thread_06_stack[THREAD_STACK_SIZE];
 
-
-volatile u32 thread_period;
-
-
-#define FILTER_COEF		(u32)1
-#define AVERAGE_LOOPS	(u32)100
-
-
-volatile time_t thread_01_time;
+void thread_01();
+void thread_02();
+void thread_03();
 
 void thread_01()
 {
 	while (1)
 	{
-		time_t time_start = timer_get_time();
+		printf_("thread 1\n");
+		printf_("creating child thread\n");
+		
+		u32 thread_id = create_thread(thread_02, thread_02_stack, sizeof(thread_02_stack), PRIORITY_MAX);
 
-		time_t time_off = time_start + thread_period;
+		if (thread_id == THREAD_CREATING_ERROR)
+			printf_("thread creating error\n");
+		else
+		{
+			printf_("waiting for thread %u done\n", thread_id);
+			join(thread_id);
+			printf_("done\n");
+		}
 
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		//thread_01_time = thread_01_time + dif - thread_01_time/FILTER_COEF;
-		if (dif > thread_01_time)
-			thread_01_time = dif;
+		timer_delay_ms(500);		
 	}
 }
-
-volatile time_t thread_02_time;
 
 void thread_02()
 {
-	while (1)
+	u32 i;
+	for (i = 0; i < 10; i++)
 	{
-		time_t time_start = timer_get_time();
-
-		time_t time_off = time_start + thread_period;
-
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		//thread_02_time = thread_02_time + dif - thread_02_time/FILTER_COEF;
-		if (dif > thread_02_time)
-			thread_02_time = dif;
-	}
+		printf_("another child thread, res %u\n", i);
+		//timer_delay_ms(20);
+	}	
 }
 
-volatile time_t thread_03_time;
 
 void thread_03()
 {
 	while (1)
 	{
-		time_t time_start = timer_get_time();
-
-		time_t time_off = time_start + thread_period;
-
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		//thread_03_time = thread_03_time + dif - thread_03_time/FILTER_COEF;
-		if (dif > thread_03_time)
-			thread_03_time = dif;
+		printf_("periodic thread\n");
+		timer_delay_ms(100);
 	}
 }
 
+#ifdef _ST7781_H_
 
-volatile time_t thread_04_time;
-
-void thread_04()
-{
-	while (1)
-	{
-		time_t time_start = timer_get_time();
-
-		time_t time_off = time_start + thread_period;
-
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		// thread_04_time = thread_04_time + dif - thread_04_time/FILTER_COEF;
-		if (dif > thread_04_time)
-			thread_04_time = dif;
-	}
-}
-
-volatile time_t thread_05_time;
-
-void thread_05()
-{
-	while (1)
-	{
-		time_t time_start = timer_get_time();
-
-		time_t time_off = time_start + thread_period;
-
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		// thread_05_time = thread_05_time + dif - thread_05_time/FILTER_COEF;
-		if (dif > thread_05_time)
-			thread_05_time = dif;
-	}
-}
-
-volatile time_t thread_06_time;
-
-void thread_06()
-{
-	while (1)
-	{
-		time_t time_start = timer_get_time();
-
-		time_t time_off = time_start + thread_period;
-
-		timer_delay_ms(thread_period);
-
-		time_t time_stop = timer_get_time();
-		time_t dif = time_stop - time_start;
-
-		//thread_06_time = thread_06_time + dif - thread_06_time/FILTER_COEF;
-		if (dif > thread_06_time)
-			thread_06_time = dif;
-	}
-}
-
-/*
-flag_t flag_01, flag_02, flag_03;
- 
-void thread_01()
-{
-	while (1)
-	{
-		u32 i;
-		if (flag_check(&flag_01))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				led_on(LED_1);
-				// printf_("thread_01 %u\n", i);
-				timer_delay_ms(10);
-				led_off(LED_1); 
-				timer_delay_ms(200);
-			}
-		
-			flag_clear(&flag_01);
-			flag_set(&flag_02);
-		}
-	}
-} 
-
-void thread_02()
-{
-	while (1)
-	{
-		u32 i;
-		if (flag_check(&flag_02))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				led_on(LED_2);
-				// printf_("thread_02 %u\n", i);
-				timer_delay_ms(10);
-				led_off(LED_2); 
-				timer_delay_ms(200);
-			}
-		
-			flag_clear(&flag_02);
-			flag_set(&flag_03);
-		}
-	}
-}
-
-void thread_03()
-{
-	while (1)
-	{
-		u32 i;
-		if (flag_check(&flag_03))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				led_on(LED_3);
-				// printf_("thread_03 %u\n", i);
-				timer_delay_ms(10);
-				led_off(LED_3); 
-				timer_delay_ms(200);
-			}
-		
-			flag_clear(&flag_03);
-			flag_set(&flag_01);
-		}
-	}
-}
-
-*/
-
-/*
 void julia_set(u32 iterations_max, float cr_)
 {
 	float cr = -0.8;
@@ -268,9 +108,7 @@ void julia_set(u32 iterations_max, float cr_)
 		}
 	}
 }
-*/
 
-/*
 u32 iterations_max;
 
 void lcd_demo()
@@ -316,57 +154,30 @@ void lcd_demo()
 	if (iterations_max > 40)
 		iterations_max = 4;
 }
-*/
+
+#endif
 
 void main_thread()
 {
 	printf_(OS_WELCOME_MESSAGE);
 
-	/*
-	flag_init(&flag_01);
-	flag_init(&flag_02);
-	flag_init(&flag_03);
-	
-	flag_set(&flag_01);
-	*/
-
-	/*
-	thread_period = 10;
-
-	thread_01_time = 0;
-	thread_02_time = 0;
-	thread_03_time = 0;
-	thread_04_time = 0;
-	thread_05_time = 0;
-	thread_06_time = 0;
-
-	
-
 	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
-	create_thread(thread_02, thread_02_stack, sizeof(thread_02_stack), PRIORITY_MAX);
-	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), 128);
-	create_thread(thread_04, thread_04_stack, sizeof(thread_04_stack), 128);
-	create_thread(thread_05, thread_05_stack, sizeof(thread_05_stack), PRIORITY_MIN);
-	create_thread(thread_06, thread_06_stack, sizeof(thread_06_stack), PRIORITY_MIN);
-*/
-	
-	/*
-	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
-	create_thread(thread_02, thread_02_stack, sizeof(thread_02_stack), PRIORITY_MAX+1);
-	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), PRIORITY_MAX+2);
-	create_thread(thread_04, thread_04_stack, sizeof(thread_04_stack), PRIORITY_MAX+3);
-	create_thread(thread_05, thread_05_stack, sizeof(thread_05_stack), PRIORITY_MAX+4);
-	create_thread(thread_06, thread_06_stack, sizeof(thread_06_stack), PRIORITY_MAX+5);
-	*/
+	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), PRIORITY_MAX);
 
+	#ifdef _ST7781_H_
+	iterations_max = 10;
+	#endif
 
-	u32 i;
  	while (1)
 	{
-
 		led_on(LED_0);
 		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
 		led_off(LED_0);
-		timer_delay_ms(100);
+
+		#ifdef _ST7781_H_
+		lcd_demo();
+		#else
+		timer_delay_ms(2000);
+		#endif
 	}
 }

@@ -1,0 +1,303 @@
+#/bin/bash
+
+
+#evice="qemu"
+
+#device="lpc812"
+
+#device="mkl02z32"
+#device="mkl25z4"
+
+#device="stm32l053"
+#device="stm32f10x"
+#device="stm32l152"
+#device="stm32f30x"
+device="stm32f4"
+
+#device="tm4c123"
+
+echo configuring for device $device
+
+
+if [ "$device" == "qemu" ] ; then
+
+	#create makefile
+
+	#echo "TARGET = -mcpu=cortex-m3 -mthumb -mfloat-abi=soft" > Makefile
+
+	echo "TARGET = -mthumb -mcpu=cortex-m3 -mfloat-abi=soft"> Makefile
+ 
+	echo "DEVICE_LIBS = device/qemu" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	echo "LDFLAGS+= --specs=rdimon.specs" >> Makefile
+ 
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_QEMU		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M_GENERIC	1" >> device/device.h
+	echo "#define __FPU_PRESENT 0" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"qemu/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+if [ "$device" == "lpc812" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m0 -mthumb -mfloat-abi=soft" > Makefile
+	echo "DEVICE_LIBS = device/lpc812" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_LPC812		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"lpc812/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+if [ "$device" == "mkl02z32" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m0 -mthumb -mfloat-abi=soft" > Makefile
+	echo "DEVICE_LIBS = device/mkl02z32" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_MKL02Z32		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"mkl02z32/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "mkl25z4" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m0 -mthumb -mfloat-abi=soft" > Makefile
+	echo "DEVICE_LIBS = device/mkl25z4" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_MKL25Z4		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"mkl25z4/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "stm32l053" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft" > Makefile
+
+	echo "DEVICE_LIBS = device/stm32l053" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32L053		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
+	echo "#define __FPU_PRESENT 0" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32l053/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+if [ "$device" == "stm32f10x" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m3 -mthumb -mfloat-abi=soft" > Makefile
+
+	echo "DEVICE_LIBS = device/stm32f10x" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32F10x		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M3	1" >> device/device.h
+	echo "#define __FPU_PRESENT 0" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32f10x/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "stm32l152" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m3 -mthumb -mfloat-abi=soft" > Makefile
+
+	echo "DEVICE_LIBS = device/stm32l152" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32L152		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M3	1" >> device/device.h
+	echo "#define __FPU_PRESENT 0" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32l152/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+if [ "$device" == "stm32f30x" ] ; then
+
+	#create makefile
+
+	#soft float
+	#echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=soft" > Makefile
+
+	#use FPU
+	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
+
+ 
+	echo "DEVICE_LIBS = device/stm32f30x" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32F3		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M4	1" >> device/device.h
+	echo "#define __FPU_PRESENT 1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32f30x/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+if [ "$device" == "stm32f4" ] ; then
+
+	#create makefile
+
+	#soft float
+	#echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=soft" > Makefile
+
+	#use FPU
+	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
+
+ 
+	echo "DEVICE_LIBS = device/stm32f4" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32F4		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M4	1" >> device/device.h
+	echo "#define __FPU_PRESENT 1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32f4/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "tm4c123" ] ; then
+
+	#create makefile
+
+	#soft float 
+	#echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=soft" > Makefile
+
+	#use FPU
+	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
+
+
+
+	echo "DEVICE_LIBS = device/tm4c123" >> Makefile
+	echo "TIVA_WARE_PATH = \$(HOME)/bin/tivaware" >> Makefile
+	
+	echo "THIRD_PARTY_LIBS_INC = -DPART_LM4F120H5QR -I\$(TIVA_WARE_PATH) -DTARGET_IS_BLIZZARD_RA1" >> Makefile
+
+	echo "THIRD_PARTY_LIBS_OBJ = \$(TIVA_WARE_PATH)/driverlib/gcc/libdriver.a " >> Makefile
+	echo >> Makefile
+
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_TM4C123		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M4	1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"tm4c123/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi

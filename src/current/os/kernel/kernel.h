@@ -56,7 +56,7 @@
 
  if this value is returned, new thread creating fail, because no space in \_\_task\_\_ TCB array
 */
-#define THREAD_CREATING_ERROR		THREAD_MAX_COUNT
+#define THREAD_CREATING_ERROR		THREADS_MAX_COUNT
 
 
 /**

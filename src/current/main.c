@@ -5,8 +5,7 @@
 #include "lib_usr/st7781/st7781.h"
 
 int main(void) 
-{
-	
+{	
 	lib_low_level_init();
 	lib_os_init();
 
