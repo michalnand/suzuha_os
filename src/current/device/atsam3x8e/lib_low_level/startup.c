@@ -260,5 +260,7 @@ void _reset_init(void)
     while(len--)
         *to++ = *fr++;
 
+    WDT->WDT_MR = WDT_MR_WDDIS;
+
     main();
 }

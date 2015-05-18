@@ -30,5 +30,4 @@ void sleep()
 void sytem_clock_init(void) 
 {
     SystemInit();
-    WDT->WDT_MR = WDT_MR_WDDIS;
 }

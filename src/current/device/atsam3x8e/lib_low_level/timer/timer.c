@@ -35,8 +35,11 @@ void timer_init()
     // Set Mode
     TC0->TC_CHANNEL->TC_CMR = TC_CMR_CPCTRG | TC_CMR_TCCLKS_TIMER_CLOCK5;
  
+ 	//TODO clock setup to 1ms
     // Compare Value
-    TC0->TC_CHANNEL[0].TC_RC = 24; // 1ms
+    TC0->TC_CHANNEL[0].TC_RC = 31;
+
+    //24; // 1ms
  
     // Configure and enable interrupt on RC compare
     NVIC_EnableIRQ((IRQn_Type) ID_TC0);
