@@ -8,7 +8,7 @@
 
 // #include "../lib_usr/mp3.h"
 
-//#include "../lib_usr/st7781/st7781.h"
+#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
 
 
@@ -26,7 +26,7 @@ void thread_01()
 	{
 		printf_("thread 1\n");
 		printf_("creating child thread\n");
-		
+
 		u32 thread_id = create_thread(thread_02, thread_02_stack, sizeof(thread_02_stack), PRIORITY_MAX);
 
 		if (thread_id == THREAD_CREATING_ERROR)
@@ -38,7 +38,7 @@ void thread_01()
 			printf_("done\n");
 		}
 
-		timer_delay_ms(500);		
+		timer_delay_ms(500);
 	}
 }
 
@@ -49,7 +49,7 @@ void thread_02()
 	{
 		printf_("another child thread, res %u\n", i);
 		//timer_delay_ms(20);
-	}	
+	}
 }
 
 
@@ -90,7 +90,7 @@ void julia_set(u32 iterations_max, float cr_)
 
 			u32 iterations = iterations_max;
 			do
-			{	
+			{
 				zr_ = zr*zr - zi*zi + cr;
 				zi_ = 2.0*zr*zi + ci;
 
@@ -135,7 +135,7 @@ void lcd_demo()
 		time_t tstop = timer_get_time();
 
 		time_t dif = tstop - tstart;
-		
+
 		time_total+= dif;
 
 		if (dif > time_max)
@@ -167,6 +167,8 @@ void main_thread()
 	#ifdef _ST7781_H_
 	iterations_max = 10;
 	#endif
+
+	lcd_demo();
 
  	while (1)
 	{

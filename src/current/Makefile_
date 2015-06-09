@@ -11,6 +11,7 @@ OBJDUMP = $(GCCDIR)arm-none-eabi-objdump
 SIZE = $(GCCDIR)arm-none-eabi-size
 
 CFLAGS = -O2 -Os -s -Wall -Wextra -pedantic -std=c99
+CFLAGS+= -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align
 CFLAGS+= $(TARGET) -fdata-sections -ffunction-sections
 CFLAGS+= $(THIRD_PARTY_LIBS_INC)
 

@@ -1,0 +1,93 @@
+#include "mp3.h"
+
+
+void mp3_keys_thread()
+{
+
+	GPIO_InitTypeDef  GPIO_InitStructure;
+
+	GPIO_InitStructure.GPIO_Pin = KEY_NEXT;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(KEY_NEXT_GPIO, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = KEY_PREV;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(KEY_PREV_GPIO, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = KEY_PLAY;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(KEY_PLAY_GPIO, &GPIO_InitStructure);
+
+
+    GPIO_InitStructure.GPIO_Pin = KEY_VOLUME_UP;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(KEY_VOLUME_UP_GPIO, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = KEY_VOLUME_DOWN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(KEY_VOLUME_DOWN_GPIO, &GPIO_InitStructure);
+
+
+	
+	u32 keys;
+	while (1) 
+	{
+		keys = 0;
+		if ((KEY_NEXT_GPIO->IDR&KEY_NEXT) == 0)
+			keys|= KEY_NEXT;
+
+		if ((KEY_PREV_GPIO->IDR&KEY_PREV) == 0)
+			keys|= KEY_PREV;
+
+		if ((KEY_PLAY_GPIO->IDR&KEY_PLAY) == 0)
+			keys|= KEY_PLAY;
+
+		if ((KEY_VOLUME_UP_GPIO->IDR&KEY_VOLUME_UP) == 0)
+			keys|= KEY_VOLUME_UP;
+
+		if ((KEY_VOLUME_DOWN_GPIO->IDR&KEY_VOLUME_DOWN) == 0)
+			keys|= KEY_VOLUME_DOWN;
+
+		printf_("keys %x\n", keys);
+
+		timer_delay_ms(50);  
+	}
+}
+
+
+// file_name = "01. Something.mp3";
+u32 mp3_main_thread(char *file_name)
+{
+	u32 open_res = romfs_open(file_name , ROMFS_OPEN_READ);
+	
+	if (open_res != 0)
+		return open_res;
+
+	// printf_("file begin %u size %u\n", adr, size);
+
+	vs1053_init();
+
+	u8 buffer[32];
+	u16 ch;
+	while (1)
+	{
+		u32 ptr = 0;
+		while ( (ptr < 32) && ((ch = romfs_getc())!= ROMFS_EOF) )
+		{
+			buffer[ptr] = ch;
+			ptr++;
+		}
+
+		if (ch == ROMFS_EOF)
+			return 1;
+
+		vs1053_sdi_write(buffer, 32);
+	}
+
+	return 0;
+}

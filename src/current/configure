@@ -14,9 +14,9 @@
 #device="stm32f30x"
 #device="stm32f4"
 
-#device="tm4c123"
+device="tm4c123"
 
-device="atsam3x8e"
+#device="atsam3x8e"
 
 echo configuring for device $device
 
@@ -28,13 +28,13 @@ if [ "$device" == "qemu" ] ; then
 	#echo "TARGET = -mcpu=cortex-m3 -mthumb -mfloat-abi=soft" > Makefile
 
 	echo "TARGET = -mthumb -mcpu=cortex-m3 -mfloat-abi=soft"> Makefile
- 
+
 	echo "DEVICE_LIBS = device/qemu" >> Makefile
 	echo "THIRD_PARTY_LIBS =" >>Makefile
 	echo >> Makefile
 
 	echo "LDFLAGS+= --specs=rdimon.specs" >> Makefile
- 
+
 	cat Makefile_ >> Makefile
 
 	#create device/device.h to include correct libs
@@ -214,7 +214,7 @@ if [ "$device" == "stm32f30x" ] ; then
 	#use FPU
 	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
 
- 
+
 	echo "DEVICE_LIBS = device/stm32f30x" >> Makefile
 	echo "THIRD_PARTY_LIBS =" >>Makefile
 	echo >> Makefile
@@ -245,7 +245,7 @@ if [ "$device" == "stm32f4" ] ; then
 	#use FPU
 	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
 
- 
+
 	echo "DEVICE_LIBS = device/stm32f4" >> Makefile
 	echo "THIRD_PARTY_LIBS =" >>Makefile
 	echo >> Makefile
@@ -271,7 +271,7 @@ if [ "$device" == "tm4c123" ] ; then
 
 	#create makefile
 
-	#soft float 
+	#soft float
 	#echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=soft" > Makefile
 
 	#use FPU
@@ -281,7 +281,7 @@ if [ "$device" == "tm4c123" ] ; then
 
 	echo "DEVICE_LIBS = device/tm4c123" >> Makefile
 	echo "TIVA_WARE_PATH = \$(HOME)/bin/tivaware" >> Makefile
-	
+
 	echo "THIRD_PARTY_LIBS_INC = -DPART_LM4F120H5QR -I\$(TIVA_WARE_PATH) -DTARGET_IS_BLIZZARD_RA1" >> Makefile
 
 	echo "THIRD_PARTY_LIBS_OBJ = \$(TIVA_WARE_PATH)/driverlib/gcc/libdriver.a " >> Makefile
