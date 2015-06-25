@@ -8,7 +8,7 @@
 
 // #include "../lib_usr/mp3.h"
 
-#include "../lib_usr/st7781/st7781.h"
+//#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
 
 
@@ -168,7 +168,7 @@ void main_thread()
 	iterations_max = 10;
 	#endif
 
-	lcd_demo();
+//	lcd_demo();
 
  	while (1)
 	{
