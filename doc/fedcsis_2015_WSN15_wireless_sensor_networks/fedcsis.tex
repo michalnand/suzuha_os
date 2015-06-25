@@ -11,7 +11,7 @@
 \usepackage{balance}
 
 %% to enable \thank command
-\IEEEoverridecommandlockouts 
+\IEEEoverridecommandlockouts
 %% The usage of the following packages is recommended
 %% to insert graphics
 %\usepackage[dvips]{graphicx}
@@ -58,7 +58,7 @@
 
 \IEEEauthorblockN{Michal Chovanec *}
 \IEEEauthorblockA{{University of \v{Z}}ilina\\
-Faculty of Management Science and Informatics,\\ 
+Faculty of Management Science and Informatics,\\
 Univerzitn{\'{a}} 8215/1
 {\v{Z}}ilina 010 26, \\
 michal.chovanec@fri.uniza.sk}
@@ -66,10 +66,10 @@ michal.chovanec@fri.uniza.sk}
 
 \IEEEauthorblockN{Peter \v{S}araf\'{i}n}
 \IEEEauthorblockA{{University of \v{Z}}ilina\\
-Faculty of Management Science and Informatics,\\ 
+Faculty of Management Science and Informatics,\\
 Univerzitn{\'{a}} 8215/1
 {\v{Z}}ilina 010 26, \\
-peter.sarafin@fri.uniza.sk} 
+peter.sarafin@fri.uniza.sk}
 
 
 }
@@ -81,10 +81,10 @@ peter.sarafin@fri.uniza.sk}
 
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
-% 
+%
 %\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
+%James Kirk\IEEEauthorrefmark{3},
 %Montgomery Scott\IEEEauthorrefmark{3} and
 %Eldon Tyrell\IEEEauthorrefmark{4}}
 %\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
@@ -135,7 +135,7 @@ From these, we can consider following operating system requirements:
 
 \section{Sytem architecture}
 
-The operating system runs on a single chip microcontroller. Supported cores are ARM Cortex M0, M0+, M3, M4 and M4F. For testing, TI TivaC TM4C123G \cite{bib:ti_launchpad} (Fig. \ref{fig_ti_launchpad}) with cortex M4F core has been used. This MCU is running on 80MHz and it disposes 256K flash memory and 32K SRAM. Other devices, such as STM32L053, STM32F103, STM32F407, LPC812, MKL02Z32 and MKL25Z4 have also been tested. 
+The operating system runs on a single chip microcontroller. Supported cores are ARM Cortex M0, M0+, M3, M4 and M4F. For testing, TI TivaC TM4C123G \cite{bib:ti_launchpad} (Fig. \ref{fig_ti_launchpad}) with cortex M4F core has been used. This MCU is running on 80MHz and it disposes 256K flash memory and 32K SRAM. Other devices, such as STM32L053, STM32F103, STM32F407, LPC812, MKL02Z32 and MKL25Z4 have also been tested.
 
 All parts are compiled using GNU GCC (using C99 standard) into single binary file, which can be loaded into flash memory \cite{bib:lm4flash}. Recent source files can be downloaded from \cite{bib:suzuha_git}.
 
@@ -149,7 +149,7 @@ Presented operating system consists of these parts:
 	\item Device low level libraries
 \end{itemize}
 
-All parts can work independently on each other. Only necessary part is device low level libraries, represented as HAL 
+All parts can work independently on each other. Only necessary part is device low level libraries, represented as HAL
 (hardware abstraction layer). Operating system is written with microkernel architecture, where kernel only creates and schedules threads. Other functions are implemented as optional libraries.
 
 \renewcommand{\figurename}{Fig.}
@@ -176,7 +176,7 @@ After this, kernel is initialized and user main thread is started.
 Users main loop is discussed in this section. The main function is called $void\ main\_thread()$. This main thread can create other threads, by calling $create\_thread$ function. Following code shows how another thread can be created. When $void\ main\_thread()$ is running, user can initialize it's own libraries, usually sensors, displays or communication module. Boot up and four running threads screenshot is displayed in  the Fig. \ref{fig_os_terminal}.
 
 \noindent\begin{minipage}{.45\textwidth}
-\lstset{language=C++}    
+\lstset{language=C++}
 \begin{lstlisting}[frame=single, caption = Thread creating]
 thread_stack_t thread_01_stack
 [THREAD_STACK_SIZE];
@@ -187,9 +187,9 @@ void thread_01()
 
 void main_thread()
 {
- create_thread(	thread_01, 
-		thread_01_stack, 
-		sizeof(thread_01_stack), 
+ create_thread(	thread_01,
+		thread_01_stack,
+		sizeof(thread_01_stack),
 		PRIORITY_MAX);
  while (1)
  {
@@ -201,7 +201,7 @@ void main_thread()
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=3.2in]{threads.png}
+\includegraphics[width=2.5in]{threads.png}
 \caption{OS terminal screenshot}
 \label{fig_os_terminal}
 \end{figure}
@@ -209,7 +209,7 @@ void main_thread()
 \section{Scheduling algorithm}
 
 Main part of OS is the microkernel core. Preemptive multitasking with two options, round robin scheduling or time decrease
-priority scheduling is implemented. To compare different schedule algorithms (especially real-time processing), we first need to define error function. Consider set of threads as 
+priority scheduling is implemented. To compare different schedule algorithms (especially real-time processing), we first need to define error function. Consider set of threads as
 \begin{align}
 \label{thread}
 t_i \in T(p, k, s, d, c) ,
@@ -221,7 +221,7 @@ $s$ stands for thread state (running, waiting, created),
 $d$ states thread deadline time (set by user, usually in ms),
 $c$ is thread running code (represented as Turing machine).
 
-Let us define thread execution time function as $g(t_i)$ and error function as 
+Let us define thread execution time function as $g(t_i)$ and error function as
 
 \begin{align}
 e = \sum_{i=1}^{Tc} |d_i - g(t_i)| ,
@@ -238,8 +238,8 @@ Consider that the faster execution of the thread is not an~issue. This fact mean
 
 \begin{align}
 \label{error_equ}
-	 e_i &=				
-	  \begin{cases}			
+	 e_i &=
+	  \begin{cases}
 	   d_i - g(t_i) & if\ d_i < g(t_i) \\
 	   0       & else
 	  \end{cases}
@@ -252,12 +252,12 @@ e = \sum_{i=1}^{Tc} |e(t_i)|\frac{1}{p_i}
 
 Threads with higher priority (smaller $p_i$) have bigger influence on the total error. To implement priorities, we define following structure for each thread:
 \noindent\begin{minipage}{.45\textwidth}
-\lstset{language=C++}    
+\lstset{language=C++}
 \begin{lstlisting}[frame=single, caption = thread structure]
 struct sThread
 {
   u16 cnt, icnt;
-  u32 flag; 
+  u32 flag;
   u32 *sp;
 };
 \end{lstlisting}
@@ -266,17 +266,17 @@ where $cnt$ and $icnt$ are counters used for priority scheduling, corresponding 
 When thread is created, $p$ and $k$ are set to $priority$ value and remain constant (variability during execution is also possible, but not tested yet).
 Each nonzero $k$ is decremented after each timer interrupt. Thread with smaller $k$ is chosen for the next execution and its $k$ is loaded back to $p$.
 Realization in C code is presented on following code listings.
-
-\noindent\begin{minipage}{.45\textwidth}
-\lstset{language=C++}    
+\noindent
+\begin{minipage}{.45\textwidth}
+\lstset{language=C++}
 \begin{lstlisting}[frame=single, caption = priority scheduler]
 u32 i, min_i = 0;
 
 /*find thread with minimum cnt*/
-for (i = 0; i < THREADS_MAX_COUNT; i++) 
+for (i = 0; i < THREADS_MAX_COUNT; i++)
 {
- if (__thread__[i].cnt < 
-     __thread__[min_i].cnt) 
+ if (__thread__[i].cnt <
+     __thread__[min_i].cnt)
    min_i=i;
 
 /*decrement counters*/
@@ -284,16 +284,16 @@ if (__thread__[i].cnt != 0)
  __thread__[i].cnt--;
 }
 
-__thread__[min_i].cnt = 
+__thread__[min_i].cnt =
 	__thread__[min_i].icnt;
 __current_thread__ = min_i;
 \end{lstlisting}
-\end{minipage}\hfill
-
+\end{minipage}
+%\hfill
+\\
 For full function, other common functions like thread creating, waiting or setting into waiting state are implemented.
-
 \noindent\begin{minipage}{.45\textwidth}
-\lstset{language=C++}    
+\lstset{language=C++}
 \begin{lstlisting}[frame=single, caption = kernel functions]
 
 void sched_off();
@@ -308,10 +308,10 @@ void kernel_init();
 void kernel_start();
 
 u32 create_thread(
-	void (*thread_ptr)(), 
-	thread_stack_t *s_ptr, 
-	u32 stack_size, 
-	u16 priority);	
+	void (*thread_ptr)(),
+	thread_stack_t *s_ptr,
+	u32 stack_size,
+	u16 priority);
 
 void kernel_panic();
 
@@ -328,10 +328,6 @@ void join(u32 thread_id);
 
 \section{Experimental results}
 
-For testing OS, few experiments were performed. First one was aimed for the basic multitasking test and comparison of performance using hardware and software emulated float performance.
-There were four running threads in this experiment. One thread was calculating Julia set fractal and results were displayed on LCD. Total number of calculating points was set to 96x96.
-Quantity of algorithm iterations was changing from interval $\langle 4, 40 \rangle$. Performance result is represented in the Fig.~\ref{fig_fpu_cpu}. In this test, basic functionality has been tested, especially preemptive multitasking, timers and terminal interface. 
-
 \begin{figure}[]
 \centering
 \includegraphics[width=3.4in]{fpu_cpu_performance.png}
@@ -339,7 +335,13 @@ Quantity of algorithm iterations was changing from interval $\langle 4, 40 \rang
 \label{fig_fpu_cpu}
 \end{figure}
 
-\begin{figure}[!b]
+For testing OS, few experiments were performed. First one was aimed for the basic multitasking test and comparison of performance using hardware and software emulated float performance.
+There were four running threads in this experiment. One thread was calculating Julia set fractal and results were displayed on LCD. Total number of calculating points was set to 96x96.
+Quantity of algorithm iterations was changing from interval $\langle 4, 40 \rangle$. Performance result is represented in the Fig.~\ref{fig_fpu_cpu}. In this test, basic functionality has been tested, especially preemptive multitasking, timers and terminal interface.
+
+
+
+\begin{figure}[]
 \centering
 \includegraphics[width=3.4in]{round_robin_scheduler_perfomance.png}
 \caption{Round robin real-time test}
@@ -347,7 +349,7 @@ Quantity of algorithm iterations was changing from interval $\langle 4, 40 \rang
 \end{figure}
 
 
-\begin{figure}[!t]
+\begin{figure}[]
 \centering
 \includegraphics[width=3.4in]{priority_scheduler_perfomance.png}
 \caption{Priority scheduler real-time test}
@@ -356,10 +358,10 @@ Quantity of algorithm iterations was changing from interval $\langle 4, 40 \rang
 
 
 
-Next testing was focused on the real-time processing ability. There were two main and six child threads (only first three are shown in figures). Each thread was waiting specified time (required waiting time) and this time was measured. Difference between required and measured time was used to compare round robin and priority scheduler scheduling algorithms. 
+Next testing was focused on the real-time processing ability. There were two main and six child threads (only first three are shown in figures). Each thread was waiting specified time (required waiting time) and this time was measured. Difference between required and measured time was used to compare round robin and priority scheduler scheduling algorithms.
 \balance
 We can see round robin results in the Fig. \ref{fig_round_robin_scheduler_perfomance} (all threads have same results). It can be seen, that required value is bellow measured lines and the time difference is around 1ms. Little peaks are consequence of timer resolution, which is 1ms.
-Situation with priority scheduler can be seen in the Fig. \ref{fig_priority_scheduler_perfomance}. 
+Situation with priority scheduler can be seen in the Fig. \ref{fig_priority_scheduler_perfomance}.
 
 
 
@@ -367,7 +369,7 @@ Situation with priority scheduler can be seen in the Fig. \ref{fig_priority_sche
 Threads with the maximum priority perfectly meet the conditions. Threads with lower priorities were executing for much longer time. Following priority values $p_i$ have been used:
 
 \begin{itemize}
-	\item PRIORITY\_MAX = 8		
+	\item PRIORITY\_MAX = 8
 	\item PRIORITY\_MID = 128
 	\item PRIORITY\_MIN = 255
 \end{itemize}
