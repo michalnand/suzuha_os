@@ -8,7 +8,7 @@
 
 // #include "../lib_usr/mp3.h"
 
-#include "../lib_usr/st7781/st7781.h"
+//#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
 
 
@@ -24,6 +24,7 @@ void thread_01()
 {
 	while (1)
 	{
+		led_on(LED_2);
 		printf_("thread 1\n");
 		printf_("creating child thread\n");
 
@@ -38,6 +39,7 @@ void thread_01()
 			printf_("done\n");
 		}
 
+		led_off(LED_2);
 		timer_delay_ms(500);
 	}
 }
@@ -168,13 +170,13 @@ void main_thread()
 	iterations_max = 10;
 	#endif
 
-	lcd_demo();
+//	lcd_demo();
 
  	while (1)
 	{
-		led_on(LED_0);
+		led_on(LED_1);
 		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
-		led_off(LED_0);
+		led_off(LED_1);
 
 		#ifdef _ST7781_H_
 		lcd_demo();

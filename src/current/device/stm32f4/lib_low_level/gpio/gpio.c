@@ -1,16 +1,17 @@
 #include "gpio.h"
 
-  
-void gpio_init() 
+
+void gpio_init()
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
- 
-	GPIO_InitStructure.GPIO_Pin = LED_1;// | LED_2 | LED_3;
+
+	GPIO_InitStructure.GPIO_Pin = LED_1 | LED_2 | LED_3 | LED_4;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
@@ -18,9 +19,12 @@ void gpio_init()
 
 	GPIO_Init(GPIO_BASE, &GPIO_InitStructure);
 
- 
+
 
 	led_off(LED_1);
+    led_off(LED_2);
+    led_off(LED_3);
+    led_off(LED_4);
 	//led_off(LED_2);
 	//led_off(LED_3);
 }

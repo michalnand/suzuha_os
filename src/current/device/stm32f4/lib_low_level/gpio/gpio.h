@@ -12,16 +12,17 @@
 
 #define LED_1	(1<<5)
 #define LED_2	(1<<4)
-#define LED_3	(1<<3) 
+#define LED_3	(1<<3)
 */
 
 /*on GPIOA*/
 
-#define GPIO_BASE	GPIOA
+#define GPIO_BASE	GPIOD
 
-#define LED_1	(1<<5)
-#define LED_2	(1<<6)
-#define LED_3	(1<<7) 
+#define LED_1	(1<<12)
+#define LED_2	(1<<13)
+#define LED_3	(1<<14)
+#define LED_4	(1<<15) 
 
 #define LED_0 	LED_1
 
@@ -29,7 +30,7 @@
 
 #define LED_R	(LED_1)
 #define LED_G	(LED_2)
-#define LED_B	(LED_3) 
+#define LED_B	(LED_3)
 
 void gpio_init();
 void led_on(u32 led);
