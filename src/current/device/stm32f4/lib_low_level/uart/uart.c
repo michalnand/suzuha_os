@@ -2,7 +2,7 @@
 #include "stm32f4xx_usart.h"
 
 
-#define USART   USART2
+#define USART   USART2 
 
 void uart_write(char c)
 {
