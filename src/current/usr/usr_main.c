@@ -3,7 +3,7 @@
 #include "../lib_usr/mag.h"
 #include "../lib_usr/accelerometer.h"
 #include "../lib_usr/ir.h"
-
+ 
 //#include "../lib_usr/sh1106.h"
 
 // #include "../lib_usr/mp3.h"
@@ -159,6 +159,8 @@ void lcd_demo()
 
 #endif
 
+#include <stdlib.h>
+
 void main_thread()
 {
 	printf_(OS_WELCOME_MESSAGE);
@@ -169,6 +171,16 @@ void main_thread()
 	#ifdef _ST7781_H_
 	iterations_max = 10;
 	#endif
+
+	u32 *array = NULL;
+
+
+	array = (u32*)malloc(100*sizeof(u32));
+
+	if (array != NULL)
+	{
+		printf_("OK\n");
+	}
 
 //	lcd_demo();
 
