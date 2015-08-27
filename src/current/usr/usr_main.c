@@ -3,18 +3,20 @@
 #include "../lib_usr/mag.h"
 #include "../lib_usr/accelerometer.h"
 #include "../lib_usr/ir.h"
- 
+
 //#include "../lib_usr/sh1106.h"
 
 // #include "../lib_usr/mp3.h"
 
 //#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
+#include "mem_test.h"
 
 
 thread_stack_t thread_01_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_02_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_03_stack[THREAD_STACK_SIZE];
+
 
 void thread_01();
 void thread_02();
@@ -159,7 +161,6 @@ void lcd_demo()
 
 #endif
 
-#include <stdlib.h>
 
 void main_thread()
 {
@@ -172,28 +173,16 @@ void main_thread()
 	iterations_max = 10;
 	#endif
 
-	u32 *array = NULL;
-
-
-	array = (u32*)malloc(100*sizeof(u32));
-
-	if (array != NULL)
-	{
-		printf_("OK\n");
-	}
-
-//	lcd_demo();
 
  	while (1)
 	{
+        //mem_test();
+
 		led_on(LED_1);
 		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
 		led_off(LED_1);
 
-		#ifdef _ST7781_H_
-		lcd_demo();
-		#else
+
 		timer_delay_ms(2000);
-		#endif
 	}
 }

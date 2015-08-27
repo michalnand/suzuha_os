@@ -6,7 +6,7 @@ MEMORY
 {
     FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 512K
     RAM (rwx)       : ORIGIN = 0x20000000, LENGTH = 128K
-   /* CCM (rwx)       : ORIGIN = 0x10000000, LENGTH = 64K */ 
+   /* CCM (rwx)       : ORIGIN = 0x10000000, LENGTH = 64K */
 }
 
 /* Highest address of the user mode stack */
@@ -53,6 +53,7 @@ SECTIONS
     .text :
     {
         *(.text*)
+        _text = .;
 
         KEEP(*(.init))
         KEEP(*(.fini))
@@ -93,6 +94,7 @@ SECTIONS
     .data : AT (__etext)
     {
         __data_start__ = .;
+        _data = __data_start__;
         *(vtable)
         *(.data*)
 
@@ -113,14 +115,17 @@ SECTIONS
     .bss :
     {
         __bss_start__ = .;
+        _bss = __bss_start__;
         *(.bss*)
         *(COMMON)
         __bss_end__ = .;
+        _ebss = __bss_end__;
     } > RAM
 
     .heap :
     {
         __end__ = .;
+        _heap = __end__;
         end = __end__;
         *(.heap*)
         __HeapLimit = .;

@@ -1,8 +1,8 @@
 #include "timer.h"
 #include "stm32f4xx_tim.h"
- 
 
-volatile time_t __system_time__;
+
+volatile time_t_ __system_time__;
 
 volatile u16 __event_timer_cnt__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_csr__[EVENT_TIMER_COUNT];
@@ -21,33 +21,33 @@ void timer_init()
 
 	__system_time__ = 0;
 
- 
+
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 
-    TIM_TimeBaseInitTypeDef timer; 
+    TIM_TimeBaseInitTypeDef timer;
     timer.TIM_Prescaler = 84 - 1;
     timer.TIM_CounterMode = TIM_CounterMode_Up;
-    timer.TIM_Period = 50 - 1; 
+    timer.TIM_Period = 50 - 1;
     timer.TIM_ClockDivision = TIM_CKD_DIV1;
     timer.TIM_RepetitionCounter = 0;
-    TIM_TimeBaseInit(TIM4, &timer); 
-    TIM_Cmd(TIM4, ENABLE); 
+    TIM_TimeBaseInit(TIM4, &timer);
+    TIM_Cmd(TIM4, ENABLE);
 
     TIM4->DIER |= TIM_DIER_UIE; // Enable interrupt on update event
 
- 
+
 
     NVIC_InitTypeDef nvicStructure;
-    nvicStructure.NVIC_IRQChannel = TIM4_IRQn; 
+    nvicStructure.NVIC_IRQChannel = TIM4_IRQn;
     nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
     nvicStructure.NVIC_IRQChannelSubPriority = 1;
     nvicStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&nvicStructure);
 }
-	 
+
 void TIM4_IRQHandler()
 {
-	u32 i; 
+	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
 		if (__event_timer_cnt__[i])
@@ -70,20 +70,20 @@ void timer_delay_loops(u32 loops)
 		__asm("nop");
 }
 
-time_t timer_get_time()
+time_t_ timer_get_time()
 {
-	volatile time_t time;
-	
+	volatile time_t_ time;
+
 	__disable_irq();
 	time = __system_time__;
 	__enable_irq();
-	
+
 	return (time/10);
 }
 
 void timer_delay_ms(u32 ms)
 {
-	volatile time_t time_end = (time_t)ms + timer_get_time();
+	volatile time_t_ time_end = (time_t_)ms + timer_get_time();
 	while (time_end > timer_get_time())
 		sleep();
 }

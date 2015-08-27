@@ -15,7 +15,8 @@ CFLAGS+= -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align
 CFLAGS+= $(TARGET) -fdata-sections -ffunction-sections
 CFLAGS+= $(THIRD_PARTY_LIBS_INC)
 
-LDFLAGS+= -T$(LDSCRIPT) $(TARGET) --specs=rdimon.specs -lgcc -lc -lm -lrdimon -mthumb -Wl,--gc-sections
+#LDFLAGS+= -T$(LDSCRIPT) $(TARGET) --specs=rdimon.specs -Wl,--start-group -lgcc -stdlib -lc -lm -lrdimon -mthumb -Wl,--gc-sections
+LDFLAGS+= -T$(LDSCRIPT) $(TARGET) -mthumb -Wl,--gc-sections
 LDFLAGS+= $(THIRD_PARTY_LIBS_OBJ)
 
 SRCS_DEVICE_LIBS = $(shell find $(DEVICE_LIBS) -name '*.c')

@@ -17,7 +17,7 @@
   @see THREADS_MAX_COUNT
 */
 struct sThread volatile __thread__[THREADS_MAX_COUNT];
- 
+
 
 thread_stack_t __null_thread_stack__[32];
 
@@ -48,13 +48,13 @@ void scheduler()
   /*death times priority scheduler*/
   u32 i, min_i = 0;
 
-  for (i = 0; i < THREADS_MAX_COUNT; i++)		
+  for (i = 0; i < THREADS_MAX_COUNT; i++)
   {
   /*find thread with minimum counter value*/
-    if ( 
-         ((__thread__[i].flag&TF_WAITING) == 0) && 
-         ((__thread__[i].flag&TF_CREATED) != 0) && 
-         (__thread__[i].cnt < __thread__[min_i].cnt) 
+    if (
+         ((__thread__[i].flag&TF_WAITING) == 0) &&
+         ((__thread__[i].flag&TF_CREATED) != 0) &&
+         (__thread__[i].cnt < __thread__[min_i].cnt)
         )
       min_i=i;
 
@@ -70,7 +70,7 @@ void scheduler()
 
   #ifdef SCHED_ROUND_ROBIN
   /*round robin scheduler*/
-  do						
+  do
     {
       /*find next thread in cycle*/
       __current_thread__++;
@@ -79,7 +79,7 @@ void scheduler()
     }
   while ( ( (__thread__[__current_thread__].flag&TF_CREATED) == 0) );
   #endif
-} 
+}
 
 
 /**
@@ -97,7 +97,7 @@ void scheduler()
  @see void scheduler()
 */
 
-void SysTick_Handler()__attribute__(( naked )); 
+void SysTick_Handler()__attribute__(( naked ));
 void SysTick_Handler()
 {
   /*save context*/
@@ -127,8 +127,8 @@ void SysTick_Handler()
   scheduler();						                /*choose next thread*/
 
   sp = __thread__[__current_thread__].sp;			/*set it stackpointer*/
- 
-  u32 int_return = 0xfffffff9;      /*exit interrupt magic number, 
+
+  u32 int_return = 0xfffffff9;      /*exit interrupt magic number,
                                      tells mcu core to restore registers stored by hardware*/
   /*restore context and return from interrupt*/
 
@@ -214,10 +214,10 @@ void yield()
 void kernel_panic()
 {
   sched_off();
-  while (1) 
+  while (1)
   {
     __asm volatile("nop");
-  }  
+  }
 }
 
 /**
@@ -233,7 +233,7 @@ void thread_ending()
   sched_off();
   __thread__[__current_thread__].flag = TF_NULL;  /*terminate itself*/
   sched_on();
- 
+
   while (1)
   {
     /*after sys tick interrupt this will never return*/
@@ -249,7 +249,7 @@ void thread_ending()
 u32 get_thread_id()
 {
   volatile u32 res;
-  
+
   sched_off();
   res = __current_thread__;
   sched_on();
@@ -304,7 +304,7 @@ void kernel_start()
  @brief create new thread
 
  function create new thread to executing\n
- 
+
  @param void (*thread_ptr)() is pointer to thread function
  @param *s_ptr is pointer to thread stack, it must be global variable array
  @param stack_size is stack array size
@@ -339,12 +339,12 @@ u32 create_thread(void (*thread_ptr)(), thread_stack_t *s_ptr, u32 stack_size, u
       *(s_ptr+stack_size-3)= (u32)thread_ending; 	  /*thread terminating function*/
       *(s_ptr+stack_size-2)= (u32)thread_ptr;		    /*pointer to thread function*/
       *(s_ptr+stack_size-1)= (u32)0x21000000;		     /*status register default*/
- 
+
       if (priority<PRIORITY_MAX)
         priority=PRIORITY_MAX;
 
       __thread__[thread_id].icnt = priority;			/*set priority*/
-      __thread__[thread_id].cnt = priority;			
+      __thread__[thread_id].cnt = priority;
       __thread__[thread_id].flag = TF_CREATED;		/*and flag to run*/
       res = thread_id;
     }
@@ -372,7 +372,7 @@ void set_wait_state()
 
   sched_off();
   __thread__[thread_id].flag|= TF_WAITING;  /*set waiting flag*/
- 
+
   do				/*wait in loop till TF_FLAG is set*/
   {
     sched_off();
@@ -411,13 +411,13 @@ void wake_up_threads_int()
   for (i = 0; i < THREADS_MAX_COUNT; i++)   /*for all threads*/
   {
     __thread__[i].flag&= ~TF_WAITING;       /*clear waiting flag*/
-  } 
+  }
 }
 
 
 /**
   @brief wait until thread with specified ID ends
-  
+
   this ID is returned when create_thread(); called\n
 
   @param thread_id : unique thread id returned when thread_created called
@@ -428,7 +428,7 @@ void join(u32 thread_id)
   volatile u32 tmp_flag, tmp_id;
 
   tmp_id = thread_id;			/*copy thread ID*/
-  
+
   do
   {
     yield();			/*dont waste cpu time*/
@@ -442,7 +442,7 @@ void join(u32 thread_id)
 void null_thread()
 {
   while (1)
-  { 
+  {
     sleep();
   }
 }

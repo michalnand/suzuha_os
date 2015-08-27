@@ -12,13 +12,13 @@
 #define EVENT_TIMER_3_ID	3
 
 
-typedef long unsigned int time_t ;
+typedef long unsigned int time_t_ ;
 
 
 
 void timer_init();
 void timer_delay_loops(u32 loops);
-time_t timer_get_time();
+time_t_ timer_get_time();
 void timer_delay_ms(u32 ms);
 
 /*

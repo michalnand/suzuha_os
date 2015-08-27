@@ -17,6 +17,7 @@
 
 /*on GPIOA*/
 
+/*
 #define GPIO_BASE	GPIOD
 
 #define LED_1	(1<<12)
@@ -25,7 +26,16 @@
 #define LED_4	(1<<15)
 
 #define LED_0 	LED_1
+*/
 
+
+#define GPIO_BASE	GPIOF
+
+#define LED_1	(1<<13)
+#define LED_2	(1<<14)
+#define LED_3	(1<<15)
+
+#define LED_0 	LED_1
 
 
 #define LED_R	(LED_1)
