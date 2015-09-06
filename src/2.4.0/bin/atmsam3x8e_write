@@ -1,0 +1,4 @@
+#$(UPLOAD_BOSSA) $(UPLOAD_VERBOSE_FLAGS) --port="$(UPLOAD_PORT_BASENAME)" -U false -e -w -v -b "$(OBJ_DIR)/$(OUTPUT_NAME).bin" -R
+
+
+bossa -i -d --port="/dev/ttyACM0" =U false -e -w -v -b "main.bin" -R

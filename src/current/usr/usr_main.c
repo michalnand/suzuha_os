@@ -10,11 +10,13 @@
 
 //#include "../lib_usr/st7781/st7781.h"
 #include "../lib_usr/math.h"
+#include "mem_test.h"
 
 
 thread_stack_t thread_01_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_02_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_03_stack[THREAD_STACK_SIZE];
+
 
 void thread_01();
 void thread_02();
@@ -24,6 +26,7 @@ void thread_01()
 {
 	while (1)
 	{
+		led_on(LED_2);
 		printf_("thread 1\n");
 		printf_("creating child thread\n");
 
@@ -38,6 +41,7 @@ void thread_01()
 			printf_("done\n");
 		}
 
+		led_off(LED_2);
 		timer_delay_ms(500);
 	}
 }
@@ -157,6 +161,7 @@ void lcd_demo()
 
 #endif
 
+
 void main_thread()
 {
 	printf_(OS_WELCOME_MESSAGE);
@@ -168,18 +173,16 @@ void main_thread()
 	iterations_max = 10;
 	#endif
 
-//	lcd_demo();
 
  	while (1)
 	{
-		led_on(LED_0);
-		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
-		led_off(LED_0);
+        //mem_test();
 
-		#ifdef _ST7781_H_
-		lcd_demo();
-		#else
+		led_on(LED_1);
+		printf_("main thread idle, uptime %u\n", timer_get_time()/1000);
+		led_off(LED_1);
+
+
 		timer_delay_ms(2000);
-		#endif
 	}
 }

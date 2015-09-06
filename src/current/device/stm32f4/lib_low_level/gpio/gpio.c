@@ -9,9 +9,9 @@ void gpio_init()
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
-
 
 	GPIO_InitStructure.GPIO_Pin = LED_1 | LED_2 | LED_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -21,23 +21,19 @@ void gpio_init()
 
 	GPIO_Init(GPIO_BASE, &GPIO_InitStructure);
 
-
-
 	led_off(LED_1);
-	//led_off(LED_2);
-	//led_off(LED_3);
+  led_off(LED_2);
+  led_off(LED_3);
 }
 
 void led_on(u32 led)
 {
 	GPIO_BASE->BSRRL = led;
-  //GPIO_BASE->BSRRH = led;
 }
 
 void led_off(u32 led)
 {
 	GPIO_BASE->BSRRH = led;
-  //GPIO_BASE->BSRRL = led;
 }
 
 u32 get_key()

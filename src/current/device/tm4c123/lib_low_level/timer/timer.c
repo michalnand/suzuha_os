@@ -3,14 +3,14 @@
 
 #define SWTIMER_PERIOD 5000
 
-volatile time_t __system_time__;
+volatile time_t_ __system_time__;
 
 volatile u16 __event_timer_cnt__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_csr__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_flag__[EVENT_TIMER_COUNT];
 
 
-void timer_init() 
+void timer_init()
 {
 	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
@@ -32,7 +32,7 @@ void timer_init()
 
 void Timer0A_Handler()
 {
-	u32 i; 
+	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
 		if (__event_timer_cnt__[i])
@@ -46,7 +46,7 @@ void Timer0A_Handler()
 
 	__system_time__++;
 
-	ROM_TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);	/*clear interrupt flag*/ 
+	ROM_TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);	/*clear interrupt flag*/
 }
 
 
@@ -56,20 +56,20 @@ void timer_delay_loops(u32 loops)
 		__asm("nop");
 }
 
-time_t timer_get_time()
+time_t_ timer_get_time()
 {
-	volatile time_t time;
-	
+	volatile time_t_ time;
+
 	__disable_irq();
 	time = __system_time__;
 	__enable_irq();
-	
+
 	return (time/10);
 }
 
 void timer_delay_ms(u32 ms)
 {
-	volatile time_t time_end = (time_t)ms + timer_get_time();
+	volatile time_t_ time_end = (time_t_)ms + timer_get_time();
 	while (time_end > timer_get_time())
 		sleep();
 }

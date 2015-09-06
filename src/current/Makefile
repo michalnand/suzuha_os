@@ -7,7 +7,11 @@ GCCDIR=
 
 LDSCRIPT = $(DEVICE_LIBS)/ldscript.ld
 ELF = bin/main.elf
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 91ec94a73597dd68084b5dc7418702b8f1693c7e
 CC = $(GCCDIR)arm-none-eabi-gcc
 LD = $(GCCDIR)arm-none-eabi-gcc
 OBJCOPY = $(GCCDIR)arm-none-eabi-objcopy
@@ -19,6 +23,10 @@ CFLAGS+= -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align
 CFLAGS+= $(TARGET) -fdata-sections -ffunction-sections
 CFLAGS+= $(THIRD_PARTY_LIBS_INC)
 
+<<<<<<< HEAD
+=======
+#LDFLAGS+= -T$(LDSCRIPT) $(TARGET) --specs=rdimon.specs -Wl,--start-group -lgcc -stdlib -lc -lm -lrdimon -mthumb -Wl,--gc-sections
+>>>>>>> 91ec94a73597dd68084b5dc7418702b8f1693c7e
 LDFLAGS+= -T$(LDSCRIPT) $(TARGET) -mthumb -Wl,--gc-sections
 LDFLAGS+= $(THIRD_PARTY_LIBS_OBJ)
 
@@ -27,10 +35,18 @@ SRCS = $(shell find -name '*.c' -not -path "*/device/*")
 SRCS+= $(SRCS_DEVICE_LIBS)
 OBJS = $(SRCS:.c=.o)
 OBJS+= $(THIRD_PARTY_LIBS_OBJ)
+<<<<<<< HEAD
  
 all: $(ELF)
 	$(OBJDUMP) --disassemble $< > bin/main.asm
 	$(OBJCOPY) -O srec $< bin/main.s19
+=======
+
+all: $(ELF)
+	$(OBJDUMP) --disassemble $< > bin/main.asm
+	$(OBJCOPY) -O srec $< bin/main.s19
+	$(OBJCOPY) -O ihex $< bin/main.hex
+>>>>>>> 91ec94a73597dd68084b5dc7418702b8f1693c7e
 	$(OBJCOPY) -O binary $< bin/main.bin
 	$(SIZE) $(ELF)
 
@@ -39,7 +55,11 @@ $(ELF): $(OBJS)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 91ec94a73597dd68084b5dc7418702b8f1693c7e
 %.o: %.s
 	$(CC) -c $(CFLAGS) $< -o $@
 

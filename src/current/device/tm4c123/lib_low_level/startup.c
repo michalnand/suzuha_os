@@ -10,7 +10,7 @@ extern uint32_t __bss_start__[], __bss_end__[];
 extern uint32_t __etext[];                // End of code/flash
 
 void _reset_init(void)    __attribute__((naked, aligned(8)));
-extern int main(void);  
+extern int main(void);
 
 void __attribute__((interrupt("IRQ"))) Default_Handler()
 {
@@ -20,7 +20,7 @@ void __attribute__((interrupt("IRQ"))) Default_Handler()
     }
 }
 
-static void __attribute__((naked)) HardFault_Handler(void) 
+static void __attribute__((naked)) HardFault_Handler(void)
 {
     while (1)
     {
@@ -159,7 +159,7 @@ void PWM1Fault_Handler() __attribute__ ((weak, alias("Default_Handler")));
 
 
 
-void (* const InterruptVector[])() __attribute__ ((section(".isr_vector"))) = 
+void (* const InterruptVector[])() __attribute__ ((section(".isr_vector"))) =
 {
     (void(*)(void)) (int)__StackTop,
     _reset_init,
@@ -243,10 +243,10 @@ void (* const InterruptVector[])() __attribute__ ((section(".isr_vector"))) =
     UART5RXTX_Handler,
     UART6RXTX_Handler,
     UART7RXTX_Handler,
-    0,                
-    0,                
-    0,                
-    0,                
+    0,
+    0,
+    0,
+    0,
     I2C2_Handler,
     I2C3_Handler,
     Timer4A_Handler,
@@ -322,7 +322,7 @@ void (* const InterruptVector[])() __attribute__ ((section(".isr_vector"))) =
 
 // ----------------------------------------------------------------------------------
 //
-// _reset_init() -- Reset entry point.  
+// _reset_init() -- Reset entry point.
 //
 //      The CPU reset vector points here.  Initialize the CPU, and jump
 //      to the C runtime start, which will eventually invoke main()
@@ -338,7 +338,6 @@ void _reset_init(void)
 
     FPUEnable();
     FPUStackingDisable();
-
 
     main();
 }
