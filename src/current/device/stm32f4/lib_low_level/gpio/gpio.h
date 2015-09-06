@@ -4,36 +4,11 @@
 #include "../lib_low_level.h"
 #include "stm32f4xx_gpio.h"
 
-/*on GPIOC */
-
-/*
-
-#define GPIO_BASE	GPIOC
-
-#define LED_1	(1<<5)
-#define LED_2	(1<<4)
-#define LED_3	(1<<3)
-*/
-
-/*on GPIOA*/
-
-/*
-<<<<<<< HEAD
-#define GPIO_BASE	GPIOB
-
-#define LED_1	(1<<4)
-#define LED_2	(1<<5)
-#define LED_3	(1<<6)
-*/
-
 #define GPIO_BASE	GPIOF
 
 #define LED_1	(1<<13)
 #define LED_2	(1<<14)
 #define LED_3	(1<<15)
-
-
-
 
 #define LED_R	(LED_1)
 #define LED_G	(LED_2)

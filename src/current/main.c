@@ -19,17 +19,12 @@ void mem_info_print()
 	printf_("\n\n");
 }
 
+
 int main(void)
 {
 	lib_low_level_init();
-	led_on(LED_1);
 	lib_os_init();
-
 	mem_info_print();
-
-	//mem_test();
-
-	//stdlib_abort_();
 
 	create_thread(main_thread, main_thread_stack, sizeof(main_thread_stack), PRIORITY_MAX);
 	kernel_start();

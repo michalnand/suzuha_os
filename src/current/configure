@@ -13,6 +13,7 @@
 #device="stm32l152"
 #device="stm32f30x"
 device="stm32f4"
+#device="stm32f746"
 
 #device="tm4c123"
 
@@ -262,6 +263,38 @@ if [ "$device" == "stm32f4" ] ; then
 	echo "#define __FPU_PRESENT 1" >> device/device.h
 	echo " " >> device/device.h
 	echo "#include \"stm32f4/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "stm32f746" ] ; then
+
+	#create makefile
+
+	#soft float
+	#echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=soft" > Makefile
+
+	#use FPU
+	echo "TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant" > Makefile
+
+
+	echo "DEVICE_LIBS = device/stm32f746" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32F7		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M7	1" >> device/device.h
+	echo "#define __FPU_PRESENT 1" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32f746/lib_low_level/lib_low_level.h\" " >> device/device.h
 	echo " " >> device/device.h
 	echo "#endif" >> device/device.h
 fi

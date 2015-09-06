@@ -15,7 +15,7 @@ void stdlib_init_()
     extern char _heap;
     heap_ptr = &_heap;
     heap_ptr_prev = heap_ptr;
-}
+} 
 
 void stdlib_abort_()
 {

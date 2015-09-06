@@ -1,7 +1,7 @@
 #ifndef _STDLIB__H__
 #define _STDLIB__H__
 
-#include "../suzuha_os.h"
+#include "lib_os.h"
 
 #include <sys/types.h>
 

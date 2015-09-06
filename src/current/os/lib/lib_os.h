@@ -5,7 +5,7 @@
 #include "stdlib_.h"
 #include "mutex.h"
 #include "messages_f.h"
-#include "stdio.h"
+#include "stdio_.h"
 #include "flags.h"
 
 #include "../suzuha_os.h"
