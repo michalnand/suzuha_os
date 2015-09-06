@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.4.20)  25 JUN 2015 09:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.6.28)  28 JUN 2015 17:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -431,20 +431,50 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <24> not available
 \makeMPintoPDFobject=\count130
 \everyMPtoPDFconversion=\toks26
 )
+
+LaTeX Warning: Citation `bib:rad' on page 1 undefined on input line 114.
+
+
+LaTeX Warning: Citation `bib:wsn_applications1' on page 1 undefined on input li
+ne 114.
+
+
+LaTeX Warning: Citation `bib:wsn_applications2' on page 1 undefined on input li
+ne 114.
+
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 117.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 117.
- <testing_board_01.jpg, id=1, 2601.72pt x 1951.29pt>
-File: testing_board_01.jpg Graphic file (type jpg)
 
-<use testing_board_01.jpg>
+LaTeX Warning: Citation `bib:ti_launchpad' on page 1 undefined on input line 13
+8.
+
+
+LaTeX Warning: Reference `fig_ti_launchpad' on page 1 undefined on input line 1
+38.
+
+
+LaTeX Warning: Citation `bib:lm4flash' on page 1 undefined on input line 140.
+
+
+LaTeX Warning: Citation `bib:suzuha_git' on page 1 undefined on input line 140.
+
+
+<testing_board_01.jpg, id=1, 2601.72pt x 1951.29pt>
+File: testing_board_01.jpg Graphic file (type jpg)
+ <use testing_board_01.jpg>
 Package pdftex.def Info: testing_board_01.jpg used on input line 158.
 (pdftex.def)             Requested size: 231.26378pt x 173.435pt.
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
  <./testing_board_01.jpg>]
+
+LaTeX Warning: Reference `fig_os_terminal' on page 2 undefined on input line 17
+6.
+
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
@@ -463,14 +493,24 @@ File: threads.png Graphic file (type png)
  <use threads.png>
 Package pdftex.def Info: threads.png used on input line 204.
 (pdftex.def)             Requested size: 180.67499pt x 313.26668pt.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 261.
 
+
+LaTeX Warning: Reference `error_equ' on page 2 undefined on input line 237.
+
+
+LaTeX Warning: Reference `error_eq' on page 2 undefined on input line 237.
+
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 261.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 261.
+
+
+LaTeX Warning: Reference `thread' on page 2 undefined on input line 265.
+
 LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 275.
 
@@ -492,12 +532,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 253--326
 
 Underfull \hbox (badness 10000) in paragraph at lines 253--326
 []$
- []
-
-
-Underfull \hbox (badness 1603) in paragraph at lines 253--326
-\T1/ptm/m/n/10 cor-re-spond-ing with $\OML/cmm/m/it/10 p$ \T1/ptm/m/n/10 and $\
-OML/cmm/m/it/10 k$ \T1/ptm/m/n/10 re-spec-tively in (1[]). When
  []
 
 
@@ -528,7 +562,11 @@ File: fpu_cpu_performance.png Graphic file (type png)
 <use fpu_cpu_performance.png>
 Package pdftex.def Info: fpu_cpu_performance.png used on input line 333.
 (pdftex.def)             Requested size: 245.71754pt x 184.28275pt.
- [3 <./fpu_cpu_performance.png>]
+
+
+LaTeX Warning: Reference `fig_fpu_cpu' on page 3 undefined on input line 340.
+
+[3 <./fpu_cpu_performance.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 344.
@@ -553,6 +591,14 @@ Package pdftex.def Info: priority_scheduler_perfomance.png used on input line 3
 54.
 (pdftex.def)             Requested size: 245.71754pt x 184.28275pt.
 
+
+LaTeX Warning: Reference `fig_round_robin_scheduler_perfomance' on page 4 undef
+ined on input line 363.
+
+
+LaTeX Warning: Reference `fig_priority_scheduler_perfomance' on page 4 undefine
+d on input line 364.
+
 <priority_scheduler_similar_priority.png, id=31, 770.88pt x 578.16pt>
 File: priority_scheduler_similar_priority.png Graphic file (type png)
 
@@ -566,6 +612,27 @@ File: scheduler_error.png Graphic file (type png)
  <use scheduler_error.png>
 Package pdftex.def Info: scheduler_error.png used on input line 387.
 (pdftex.def)             Requested size: 245.71754pt x 184.28275pt.
+
+
+LaTeX Warning: Reference `error_eq' on page 4 undefined on input line 392.
+
+
+LaTeX Warning: Reference `fig_error' on page 4 undefined on input line 392.
+
+
+LaTeX Warning: Reference `fig_priority_scheduler_similar_priority' on page 4 un
+defined on input line 392.
+
+
+LaTeX Warning: Reference `error_eq' on page 4 undefined on input line 397.
+
+
+LaTeX Warning: Reference `fig_priority_scheduler_similar_priority' on page 4 un
+defined on input line 397.
+
+
+Overfull \vbox (2.4796pt too high) has occurred while \output is active []
+
 
 [4 <./round_robin_scheduler_perfomance.png> <./priority_scheduler_perfomance.pn
 g> <./priority_scheduler_similar_priority.png> <./scheduler_error.png>]
@@ -610,27 +677,34 @@ Before submitting the final camera ready copy, remember to:
 Overfull \vbox (1.71692pt too high) has occurred while \output is active []
 
 
-[5] (./fedcsis.aux) ) 
+[5] (./fedcsis.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  5615 strings out of 493304
  81487 string characters out of 6139871
- 206785 words of memory out of 5000000
+ 206714 words of memory out of 5000000
  8973 multiletter control sequences out of 15000+600000
  109345 words of font info for 106 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,14n,58p,713b,1248s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc
-}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
-/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on fedcsis.pdf (5 pages, 1858695 bytes).
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/urw/times/utmri8a.pfb>
+Output written on fedcsis.pdf (5 pages, 1859314 bytes).
 PDF statistics:
  79 PDF objects out of 1000 (max. 8388607)
  47 compressed objects within 1 object stream
