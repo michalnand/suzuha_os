@@ -9,11 +9,18 @@
 
 #ifdef SOFTWARE_I2C
 
+/*
 #define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOC
-
 #define SDA     	1
 #define SCL     	0
 #define I2C_GPIO    GPIOC
+*/
+
+#define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOA
+#define SDA     	6
+#define SCL     	7
+#define I2C_GPIO    GPIOA
+
 
 #define NO_I2C_ACK 0
 #define OK_I2C_ACK 1
@@ -27,7 +34,7 @@ void i2c_write_reg(u8 dev_addr, u8 reg_addr, u8 data);
 
 void i2cStart();
 void i2cStop();
-int i2cWrite(u8 a); 
+int i2cWrite(u8 a);
 u8 i2cRead(u8  ack);
 
 #endif

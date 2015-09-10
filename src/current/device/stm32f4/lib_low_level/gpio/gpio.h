@@ -14,6 +14,9 @@
 #define LED_G	(LED_2)
 #define LED_B	(LED_3)
 
+#define KEY_GPIO    GPIOA
+#define KEY_1       (1<<0)
+
 void gpio_init();
 void led_on(u32 led);
 void led_off(u32 led);

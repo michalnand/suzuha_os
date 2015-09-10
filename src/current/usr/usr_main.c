@@ -3,6 +3,8 @@
 #include "../lib_usr/mag.h"
 #include "../lib_usr/accelerometer.h"
 #include "../lib_usr/ir.h"
+#include "../lib_usr/pca9685.h"
+#include "../lib_usr/motor_shield.h"
 
 //#include "../lib_usr/sh1106.h"
 
@@ -166,6 +168,11 @@ void main_thread()
 {
 	printf_(OS_WELCOME_MESSAGE);
 
+	gyro_init();
+	pca9685_init();
+	motor_init();
+
+
 	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
 	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), PRIORITY_MAX);
 
@@ -173,6 +180,50 @@ void main_thread()
 	iterations_max = 10;
 	#endif
 
+
+
+	while (get_key() == 0)
+	{
+		led_on(LED_1);
+		timer_delay_ms(200);
+
+		led_off(LED_1);
+		timer_delay_ms(200);
+	}
+
+	timer_delay_ms(800);
+
+
+	motor_run(PCA9685_PWM_MAX/2, 0);
+	timer_delay_ms(800);
+
+	motor_run(-PCA9685_PWM_MAX/2, 0);
+	timer_delay_ms(800);
+
+	motor_run(0, PCA9685_PWM_MAX/2);
+	timer_delay_ms(800);
+
+	motor_run(0, -PCA9685_PWM_MAX/2);
+	timer_delay_ms(800);
+
+	motor_run(PCA9685_PWM_MAX/2, PCA9685_PWM_MAX/2);
+	timer_delay_ms(800);
+
+	motor_run(0, 0);
+
+	/*
+	while (1)
+	{
+
+		gyro_read();
+		led_on(LED_1);
+		printf_("%i %i %i\n", g_gyro.x, g_gyro.y, g_gyro.z);
+		led_off(LED_1);
+
+
+		timer_delay_ms(100);
+	}
+	*/
 
  	while (1)
 	{
