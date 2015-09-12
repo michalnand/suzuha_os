@@ -4,6 +4,7 @@
 #include "int_def.h"
 #include "core/stm32f4xx.h"
 #include "core/cortex_cpu.h"
+#include "core/core_cmFunc.h"
 #include "core/core_cm4_simd.h"
 
 #include "misc.h"

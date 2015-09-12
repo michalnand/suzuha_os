@@ -35,12 +35,20 @@ void gpio_init()
 
 void led_on(u32 led)
 {
+	__disable_irq();
+
 	GPIO_BASE->BSRRL = led;
+
+	__enable_irq();
 }
 
 void led_off(u32 led)
 {
+	__disable_irq();
+
 	GPIO_BASE->BSRRH = led;
+
+	__enable_irq();
 }
 
 u32 get_key()

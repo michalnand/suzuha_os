@@ -2,7 +2,7 @@
 #define _ST7781_H_
 
 #include "st7781_port.h"
- 
+
 
 
 #define TFTLCD_DRIV_ID_READ		0x00
@@ -51,13 +51,6 @@
 
 #define TFTWIDTH  240
 #define TFTHEIGHT  320
-
-
-
-
-
-
-
 
 
 

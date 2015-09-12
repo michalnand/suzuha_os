@@ -10,10 +10,11 @@
 
 // #include "../lib_usr/mp3.h"
 
-//#include "../lib_usr/st7781/st7781.h"
+
 #include "../lib_usr/math.h"
 #include "mem_test.h"
 
+#include "../lib_usr/st7781/st7781.h"
 
 thread_stack_t thread_01_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_02_stack[THREAD_STACK_SIZE];
@@ -68,8 +69,7 @@ void thread_03()
 	}
 }
 
-#ifdef _ST7781_H_
-
+/*
 void julia_set(u32 iterations_max, float cr_)
 {
 	float cr = -0.8;
@@ -161,8 +161,7 @@ void lcd_demo()
 		iterations_max = 4;
 }
 
-#endif
-
+*/
 
 void main_thread()
 {
@@ -176,10 +175,35 @@ void main_thread()
 	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
 	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), PRIORITY_MAX);
 
-	#ifdef _ST7781_H_
-	iterations_max = 10;
-	#endif
 
+	st7781_init();
+
+	u32 x = 0;
+	u32 y = 0;
+	u32 r = 150;
+	u32 g = 100;
+	u32 b = 50;
+
+	while (1)
+	{
+		st7781_put_pixel(x, y, r, g, b);
+
+		x++;
+		if (x > 100)
+		{
+			x = 0;
+			y++;
+			led_on(LED_3);
+		}
+
+		if (y > 100)
+		{
+			y = 0;
+		}
+
+		timer_delay_ms(2);
+		led_off(LED_3);
+	}
 
 
 	while (get_key() == 0)
@@ -211,7 +235,7 @@ void main_thread()
 
 	motor_run(0, 0);
 
-	/*
+
 	while (1)
 	{
 
@@ -223,7 +247,6 @@ void main_thread()
 
 		timer_delay_ms(100);
 	}
-	*/
 
  	while (1)
 	{
