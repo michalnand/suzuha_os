@@ -11,7 +11,6 @@
 #include "../lib_usr/lsm9ds0.h"
 #include "../lib_usr/imu.h"
 
-
 void robot_init();
 void robot_main();
 

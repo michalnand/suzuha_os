@@ -16,6 +16,10 @@ u32 lsm9ds0_init()
     g_lsm9d0_imu.gy = 0;
     g_lsm9d0_imu.gz = 0;
 
+    g_lsm9d0_imu.gx_ofs = 0;
+    g_lsm9d0_imu.gy_ofs = 0;
+    g_lsm9d0_imu.gz_ofs = 0;
+
 
     g_lsm9d0_imu.temp = 0;
 
@@ -58,6 +62,25 @@ u32 lsm9ds0_init()
         //continuous normal mode
         i2c_write_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_CTRL_REG7_XM, 1<<7);
 
+    lsm9ds0_read();
+
+    u32 i, measurments = 100;
+
+    i32 gx_ofs_sum = 0;
+    i32 gy_ofs_sum = 0;
+    i32 gz_ofs_sum = 0;
+
+    for (i = 0; i < measurments; i++)
+    {
+        lsm9ds0_read();
+        gx_ofs_sum+= g_lsm9d0_imu.gx;
+        gy_ofs_sum+= g_lsm9d0_imu.gy;
+        gz_ofs_sum+= g_lsm9d0_imu.gz;
+    }
+
+    g_lsm9d0_imu.gx_ofs = gx_ofs_sum / (i32)measurments;
+    g_lsm9d0_imu.gy_ofs = gy_ofs_sum / (i32)measurments;
+    g_lsm9d0_imu.gz_ofs = gz_ofs_sum / (i32)measurments;
 
     //success
     return 0;

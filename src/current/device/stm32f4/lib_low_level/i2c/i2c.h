@@ -16,10 +16,17 @@
 #define I2C_GPIO    GPIOC
 */
 
+/*
 #define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOA
 #define SDA     	6
 #define SCL     	7
 #define I2C_GPIO    GPIOA
+*/
+
+#define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOB
+#define SDA     	14
+#define SCL     	15
+#define I2C_GPIO    GPIOB
 
 
 #define NO_I2C_ACK 0

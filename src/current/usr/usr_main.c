@@ -66,8 +66,11 @@ void main_thread()
 
 	robot_init();
 
+/*
 	create_thread(thread_01, thread_01_stack, sizeof(thread_01_stack), PRIORITY_MAX);
 	create_thread(thread_03, thread_03_stack, sizeof(thread_03_stack), PRIORITY_MAX);
+*/
+
 
 	robot_main();
 }

@@ -10,6 +10,8 @@ struct sLSM9DS0IMU
     i16 mx, my, mz;
     i16 gx, gy, gz;
 
+    i16 gx_ofs, gy_ofs, gz_ofs;
+
     i16 temp;
 };
 

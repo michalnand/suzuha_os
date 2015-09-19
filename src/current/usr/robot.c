@@ -9,9 +9,9 @@ void robot_init()
     imu_init();
 }
 
-
 void robot_main()
 {
+    /*
     while (get_key() == 0)
     {
         led_on(LED_1);
@@ -22,7 +22,9 @@ void robot_main()
     }
 
     timer_delay_ms(800);
+    */
 
+    robot_test_lsm9ds0();
     robot_test_navigation();
 }
 
@@ -54,6 +56,7 @@ void robot_test_motors()
     }
 }
 
+
 void robot_test_lsm9ds0()
 {
     u32 tmp = lsm9ds0_init();
@@ -69,22 +72,27 @@ void robot_test_lsm9ds0()
         printf_("%u %i %i: ", tmp, g_lsm9d0_imu.temp, timer_stop - timer_start);
         printf_("[ %i %i %i ] ", g_lsm9d0_imu.ax, g_lsm9d0_imu.ay, g_lsm9d0_imu.az);
         printf_("[ %i %i %i ] ", g_lsm9d0_imu.mx, g_lsm9d0_imu.my, g_lsm9d0_imu.mz);
-        printf_("[ %i %i %i ] ", g_lsm9d0_imu.gx, g_lsm9d0_imu.gy, g_lsm9d0_imu.gz);
+        printf_("[ %i %i %i ] ", g_lsm9d0_imu.gx - g_lsm9d0_imu.gx_ofs, g_lsm9d0_imu.gy - g_lsm9d0_imu.gy_ofs, g_lsm9d0_imu.gz - g_lsm9d0_imu.gz_ofs);
+        printf_("> %i >>>>%i <", (i32)(m_atan2(g_lsm9d0_imu.ax, g_lsm9d0_imu.az)*180.0/PI_) , (i32)(m_atan2(g_lsm9d0_imu.my, g_lsm9d0_imu.mx)*180.0/PI_) );
         printf_("\n");
 
-        timer_delay_ms(50);
+        timer_delay_ms(100);
     }
 }
 
 void robot_test_navigation()
 {
-    float e0 = 0;
-    float e1 = 0;
+    float e0 = 0.0;
+    float e1 = 0.0;
 
+    //PD controller parameters
     float p = 0.4;
     float d = 0.4;
 
+    //gyro low pass filter
     float gyro_filter = 0.0;
+
+    //low pass filter time constant
     float k = 0.8;
 
     while (1)
@@ -93,14 +101,13 @@ void robot_test_navigation()
         lsm9ds0_read();
         led_off(LED_3);
 
-        gyro_filter = k*gyro_filter + (1.0 - k)*(g_lsm9d0_imu.gz - 120);
+        gyro_filter = k*gyro_filter + (1.0 - k)*(g_lsm9d0_imu.gz - 120); //120? gyro offset error
 
         e1 = e0;
         e0 = 0.0 - gyro_filter;
 
-
-        float base = PCA9685_PWM_MAX*0.5;
-        float dif = p*e0 + d*(e0 - e1);
+        float base = PCA9685_PWM_MAX*0.5;       //base forward speed
+        float dif = p*e0 + d*(e0 - e1);         //course correction
 
         i32 left = base - dif;
         i32 right = base + dif;

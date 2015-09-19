@@ -19,7 +19,7 @@ void lib_low_level_init()
 
 
 	#ifdef _PWM_H_
-	//pwm_init();
+	pwm_init();
 	#endif
 
 	#ifdef _I2C_H_
