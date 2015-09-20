@@ -15,7 +15,7 @@ struct sLSM9DS0IMU
     i16 temp;
 };
 
-struct sLSM9DS0IMU g_lsm9d0_imu;
+struct sLSM9DS0IMU g_lsm9ds0_imu;
 
 
 #define LSM9DS0_ACC_MAG_ADDRESS     0x3C

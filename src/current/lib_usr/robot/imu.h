@@ -1,8 +1,10 @@
 #ifndef _IMU_H_
 #define _IMU_H_
 
-#include "../device/device.h"
-#include "lsm9ds0.h"
+#include "../../device/device.h"
+#include "../lsm9ds0.h"
+
+#include "../math.h"
 
 
 #define IMU_ACCELEROMETER_RANGE                 2       /* 2g range */

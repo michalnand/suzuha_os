@@ -1,7 +1,7 @@
 #ifndef _PCA9685_H_
 #define _PCA9685_H_
 
-#include "../device/device.h"
+#include "../../device/device.h"
 
 #define PCA9685_ADDRESS		((1<<7)|(1<<6))
 

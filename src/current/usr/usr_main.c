@@ -1,11 +1,8 @@
 #include "usr_main.h"
-#include "robot.h"
+#include "../lib_usr/robot/robot.h"
 //#include "../lib_usr/sh1106.h"
 
 // #include "../lib_usr/mp3.h"
-
-
-#include "../lib_usr/st7781/st7781.h"
 
 thread_stack_t thread_01_stack[THREAD_STACK_SIZE];
 thread_stack_t thread_02_stack[THREAD_STACK_SIZE];

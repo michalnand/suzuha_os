@@ -4,24 +4,24 @@ u32 lsm9ds0_init()
 {
     u8 tmp;
 
-    g_lsm9d0_imu.ax = 0;
-    g_lsm9d0_imu.ay = 0;
-    g_lsm9d0_imu.az = 0;
+    g_lsm9ds0_imu.ax = 0;
+    g_lsm9ds0_imu.ay = 0;
+    g_lsm9ds0_imu.az = 0;
 
-    g_lsm9d0_imu.mx = 0;
-    g_lsm9d0_imu.my = 0;
-    g_lsm9d0_imu.mz = 0;
+    g_lsm9ds0_imu.mx = 0;
+    g_lsm9ds0_imu.my = 0;
+    g_lsm9ds0_imu.mz = 0;
 
-    g_lsm9d0_imu.gx = 0;
-    g_lsm9d0_imu.gy = 0;
-    g_lsm9d0_imu.gz = 0;
+    g_lsm9ds0_imu.gx = 0;
+    g_lsm9ds0_imu.gy = 0;
+    g_lsm9ds0_imu.gz = 0;
 
-    g_lsm9d0_imu.gx_ofs = 0;
-    g_lsm9d0_imu.gy_ofs = 0;
-    g_lsm9d0_imu.gz_ofs = 0;
+    g_lsm9ds0_imu.gx_ofs = 0;
+    g_lsm9ds0_imu.gy_ofs = 0;
+    g_lsm9ds0_imu.gz_ofs = 0;
 
 
-    g_lsm9d0_imu.temp = 0;
+    g_lsm9ds0_imu.temp = 0;
 
     //check gyro who am I register
     tmp = i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_WHO_AM_I_G);
@@ -73,14 +73,14 @@ u32 lsm9ds0_init()
     for (i = 0; i < measurments; i++)
     {
         lsm9ds0_read();
-        gx_ofs_sum+= g_lsm9d0_imu.gx;
-        gy_ofs_sum+= g_lsm9d0_imu.gy;
-        gz_ofs_sum+= g_lsm9d0_imu.gz;
+        gx_ofs_sum+= g_lsm9ds0_imu.gx;
+        gy_ofs_sum+= g_lsm9ds0_imu.gy;
+        gz_ofs_sum+= g_lsm9ds0_imu.gz;
     }
 
-    g_lsm9d0_imu.gx_ofs = gx_ofs_sum / (i32)measurments;
-    g_lsm9d0_imu.gy_ofs = gy_ofs_sum / (i32)measurments;
-    g_lsm9d0_imu.gz_ofs = gz_ofs_sum / (i32)measurments;
+    g_lsm9ds0_imu.gx_ofs = gx_ofs_sum / (i32)measurments;
+    g_lsm9ds0_imu.gy_ofs = gy_ofs_sum / (i32)measurments;
+    g_lsm9ds0_imu.gz_ofs = gz_ofs_sum / (i32)measurments;
 
     //success
     return 0;
@@ -94,45 +94,45 @@ void lsm9ds0_read()
     //read gyroscope
     tmp = ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_X_L_G));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_X_H_G))<<8;
-    g_lsm9d0_imu.gx = tmp;
+    g_lsm9ds0_imu.gx = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_Y_L_G));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_Y_H_G))<<8;
-    g_lsm9d0_imu.gy = tmp;
+    g_lsm9ds0_imu.gy = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_Z_L_G));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_GYRO_ADDRESS, LSM9DS0_OUT_Z_H_G))<<8;
-    g_lsm9d0_imu.gz = tmp;
+    g_lsm9ds0_imu.gz = tmp;
 
     //read magnetometer
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_X_L_M));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_X_H_M))<<8;
-    g_lsm9d0_imu.mx = tmp;
+    g_lsm9ds0_imu.mx = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Y_L_M));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Y_H_M))<<8;
-    g_lsm9d0_imu.my = tmp;
+    g_lsm9ds0_imu.my = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Z_L_M));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Z_H_M))<<8;
-    g_lsm9d0_imu.mz = tmp;
+    g_lsm9ds0_imu.mz = tmp;
 
 
     //read accelerometer
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_X_L_A));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_X_H_A))<<8;
-    g_lsm9d0_imu.ax = tmp;
+    g_lsm9ds0_imu.ax = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Y_L_A));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Y_H_A))<<8;
-    g_lsm9d0_imu.ay = tmp;
+    g_lsm9ds0_imu.ay = tmp;
 
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Z_L_A));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_Z_H_A))<<8;
-    g_lsm9d0_imu.az = tmp;
+    g_lsm9ds0_imu.az = tmp;
 
     //read temperature
     tmp = ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_TEMP_L_XM));
     tmp|= ((u16)i2c_read_reg(LSM9DS0_ACC_MAG_ADDRESS, LSM9DS0_OUT_TEMP_H_XM))<<8;
-    g_lsm9d0_imu.temp = tmp;
+    g_lsm9ds0_imu.temp = tmp;
 }

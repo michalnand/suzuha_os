@@ -69,11 +69,11 @@ void robot_test_lsm9ds0()
         time_t timer_stop = timer_get_time();
         led_off(LED_3);
 
-        printf_("%u %i %i: ", tmp, g_lsm9d0_imu.temp, timer_stop - timer_start);
-        printf_("[ %i %i %i ] ", g_lsm9d0_imu.ax, g_lsm9d0_imu.ay, g_lsm9d0_imu.az);
-        printf_("[ %i %i %i ] ", g_lsm9d0_imu.mx, g_lsm9d0_imu.my, g_lsm9d0_imu.mz);
-        printf_("[ %i %i %i ] ", g_lsm9d0_imu.gx - g_lsm9d0_imu.gx_ofs, g_lsm9d0_imu.gy - g_lsm9d0_imu.gy_ofs, g_lsm9d0_imu.gz - g_lsm9d0_imu.gz_ofs);
-        printf_("> %i >>>>%i <", (i32)(m_atan2(g_lsm9d0_imu.ax, g_lsm9d0_imu.az)*180.0/PI_) , (i32)(m_atan2(g_lsm9d0_imu.my, g_lsm9d0_imu.mx)*180.0/PI_) );
+        printf_("%u %i %i: ", tmp, g_lsm9ds0_imu.temp, timer_stop - timer_start);
+        printf_("[ %i %i %i ] ", g_lsm9ds0_imu.ax, g_lsm9ds0_imu.ay, g_lsm9ds0_imu.az);
+        printf_("[ %i %i %i ] ", g_lsm9ds0_imu.mx, g_lsm9ds0_imu.my, g_lsm9ds0_imu.mz);
+        printf_("[ %i %i %i ] ", g_lsm9ds0_imu.gx - g_lsm9ds0_imu.gx_ofs, g_lsm9ds0_imu.gy - g_lsm9ds0_imu.gy_ofs, g_lsm9ds0_imu.gz - g_lsm9ds0_imu.gz_ofs);
+        printf_("> %i >>>>%i <", (i32)(m_atan2(g_lsm9ds0_imu.ax, g_lsm9ds0_imu.az)*180.0/PI_) , (i32)(m_atan2(g_lsm9ds0_imu.my, g_lsm9ds0_imu.mx)*180.0/PI_) );
         printf_("\n");
 
         timer_delay_ms(100);
@@ -101,7 +101,7 @@ void robot_test_navigation()
         lsm9ds0_read();
         led_off(LED_3);
 
-        gyro_filter = k*gyro_filter + (1.0 - k)*(g_lsm9d0_imu.gz - 120); //120? gyro offset error
+        gyro_filter = k*gyro_filter + (1.0 - k)*(g_lsm9ds0_imu.gz - g_lsm9ds0_imu.gz_ofs); //120? gyro offset error
 
         e1 = e0;
         e0 = 0.0 - gyro_filter;

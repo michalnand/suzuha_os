@@ -1,10 +1,5 @@
 #include "pwm.h"
 
-#include "../stm32f4xx_rcc.h"
-#include "../gpio/stm32f4xx_gpio.h"
-#include "../timer/stm32f4xx_tim.h"
-
-
 #define PWM_BASE_CLOCK  SystemCoreClock
 //#define PWM_FREQUENCY   4096
 #define PWM_FREQUENCY   10000
