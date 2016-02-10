@@ -5,7 +5,7 @@
 #include "../os/suzuha_os.h"
 
 
-#define THREAD_STACK_SIZE	128
+#define THREAD_STACK_SIZE	256
 
 thread_stack_t main_thread_stack[THREAD_STACK_SIZE];
 thread_stack_t sensor_thread_stack[THREAD_STACK_SIZE];

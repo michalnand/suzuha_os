@@ -1,8 +1,7 @@
 #include "sh1106.h"
 #include "font.h"
 
-#define LCD_SH1106_WIDTH	((u32)128)
-#define LCD_SH1106_HEIGHT	((u32)64)
+
 
 
 volatile u8 LCD_SH1106_frame_buffer[LCD_SH1106_HEIGHT>>3][LCD_SH1106_WIDTH];
@@ -17,7 +16,7 @@ void LCD_SH1106_write_data(u8 data)
 {
 	i2c_write_reg(SH1106_ADDRESS, 0x40, data);
 }
- 
+
 void LCD_SH1106_set_cursor(u32 x, u32 y)
 {
 	u8 m_col = x + 2;
@@ -33,13 +32,13 @@ void LCD_SH1106_set_pixel(u32 x, u32 y, u8 value)
 		LCD_SH1106_frame_buffer[y>>3][x]|= 1<<(y&7);
 	else
 		LCD_SH1106_frame_buffer[y>>3][x]&=~(1<<(y&7));
-} 
+}
 
 void LCD_SH1106_set8_pixel(u32 x, u32 y, u8 value)
 {
 	LCD_SH1106_frame_buffer[y][x] = value;
-} 
- 
+}
+
 u8 LCD_SH1106_get_pixel(u32 x, u32 y)
 {
 	u8 res = LCD_SH1106_frame_buffer[y>>3][x]&(1<<(y&7));
@@ -48,7 +47,7 @@ u8 LCD_SH1106_get_pixel(u32 x, u32 y)
 		return 1;
 
 	return 0;
-}  
+}
 
 void LCD_SH1106_clear_buffer(u8 value)
 {
@@ -65,9 +64,9 @@ void LCD_SH1106_flush_buffer()
 	LCD_SH1106_write_command(SSD1306_SETLOWCOLUMN | 0x0); // low col = 0
 	LCD_SH1106_write_command(SSD1306_SETHIGHCOLUMN | 0x0); // hi col = 0
 	LCD_SH1106_write_command(SSD1306_SETSTARTLINE | 0x0); // line #0
-	
+
 	volatile u32 i, j, k;
-	for (i = 0; i < (LCD_SH1106_HEIGHT>>3); i++) 
+	for (i = 0; i < (LCD_SH1106_HEIGHT>>3); i++)
 	{
 		// send a bunch of data in one xmission
 		LCD_SH1106_write_command(0xB0 + i + 0);		//set page address
@@ -117,17 +116,17 @@ void LCD_SH1106_init()
 	LCD_SH1106_write_command(0x40);
 	LCD_SH1106_write_command(0xAF); /*display ON*/
 
- 	LCD_SH1106_clear_buffer(0);  
-	LCD_SH1106_flush_buffer();   
+ 	LCD_SH1106_clear_buffer(0);
+	LCD_SH1106_flush_buffer();
 
 	/*
 	while (1)
 	{
 		lcd_put_s((char*)"testing string 0123456789");
-		LCD_SH1106_flush_buffer(); 
+		LCD_SH1106_flush_buffer();
 
 		lcd_put_s((char*)"ABqK .0123456788!");
-		LCD_SH1106_flush_buffer();  
+		LCD_SH1106_flush_buffer();
 	}
 	while (1)
 	{
@@ -135,35 +134,35 @@ void LCD_SH1106_init()
  		// lcd_put_s((char*)"ABqK .0123456788!");
 
  		//lcd_put_s((char*)".KI");
- 		   
 
-		LCD_SH1106_flush_buffer(); 
+
+		LCD_SH1106_flush_buffer();
 		timer_delay_ms(500);
 	}
 	*/
-} 
+}
 
 
 
 void lcd_put_char_xy(u32 x, u32 y, u8 c)
-{  
-	u32 j, i;   
+{
+	u32 j, i;
 
 	if (c < 32)
-		c = 0;   
-	else   
-		c-= 32;     
+		c = 0;
+	else
+		c-= 32;
 
 	/*
-	u32 idx = (u32)c*FONT_WIDTH;     
+	u32 idx = (u32)c*FONT_WIDTH;
 
-	for (j = 0; j < FONT_HEIGHT; j++) 
-		for (i = 0; i < FONT_WIDTH; i++) 
-		{  
+	for (j = 0; j < FONT_HEIGHT; j++)
+		for (i = 0; i < FONT_WIDTH; i++)
+		{
 			u32 tmp_x = FONT_HEIGHT - j + x;
-			u32 tmp_y = i + y;  
+			u32 tmp_y = i + y;
 
-			u8 b = font_data[idx + i]; 
+			u8 b = font_data[idx + i];
 			u8 shift = j;
 
 
@@ -171,38 +170,38 @@ void lcd_put_char_xy(u32 x, u32 y, u8 c)
 				tmp_x = LCD_SH1106_WIDTH;
 
 			if (tmp_y > LCD_SH1106_HEIGHT)
-				tmp_y = LCD_SH1106_HEIGHT; 
-		
-			#ifdef FONT_FLIP 
+				tmp_y = LCD_SH1106_HEIGHT;
+
+			#ifdef FONT_FLIP
 			LCD_SH1106_set_pixel(LCD_SH1106_WIDTH - tmp_x, LCD_SH1106_HEIGHT - tmp_y, b&(1<<shift));
 			#else
 			LCD_SH1106_set_pixel(tmp_x, tmp_y, b&(1<<shift));
 			#endif
-		}  
-	*/    
-	u32 idx = (u32)c*FONT_WIDTH*(FONT_HEIGHT>>3);     
+		}
+	*/
+	u32 idx = (u32)c*FONT_WIDTH*(FONT_HEIGHT>>3);
 
-	for (j = 0; j < FONT_HEIGHT; j++) 
-		for (i = 0; i < FONT_WIDTH; i++) 
-		{  
+	for (j = 0; j < FONT_HEIGHT; j++)
+		for (i = 0; i < FONT_WIDTH; i++)
+		{
 			u32 tmp_x = FONT_HEIGHT - j + x;
-			u32 tmp_y = i + y;  
+			u32 tmp_y = i + y;
 
-			u8 b = font_data[idx + i + 8*(j/8)]; 
+			u8 b = font_data[idx + i + 8*(j/8)];
 			u8 shift = j;
 
 			if (tmp_x > LCD_SH1106_WIDTH)
 				tmp_x = LCD_SH1106_WIDTH;
 
 			if (tmp_y > LCD_SH1106_HEIGHT)
-				tmp_y = LCD_SH1106_HEIGHT; 
-		
-			#ifdef FONT_FLIP 
+				tmp_y = LCD_SH1106_HEIGHT;
+
+			#ifdef FONT_FLIP
 			LCD_SH1106_set_pixel(LCD_SH1106_WIDTH - tmp_x, LCD_SH1106_HEIGHT - tmp_y, b&(1<<shift));
 			#else
 			LCD_SH1106_set_pixel(tmp_x, tmp_y, b&(1<<shift));
 			#endif
-		} 
+		}
 }
 
 void lcd_put_s(char *s)
@@ -212,14 +211,14 @@ void lcd_put_s(char *s)
 	char c;
 	u32 x = 0, y = 0;
 	while ( (c = *s++) != '\0')
-	{ 
+	{
 		lcd_put_char_xy(x, y, c);
-		x+= FONT_HEIGHT; 
+		x+= FONT_HEIGHT;
 		if (x >= LCD_SH1106_WIDTH)
 		{
 			x = 0;
 			y+= FONT_WIDTH;
-		} 
+		}
 	}
 
 	LCD_SH1106_flush_buffer();
@@ -260,22 +259,22 @@ void LCD_SH1106_fractal_demo()
 		float ci = sqrt_(r - x*x);
 
 		time+= r/32.0;
-		
+
 		if (time >= r)
 			time = 0.0;
-		
+
 
 
 		for (j = 0; j < LCD_SH1106_HEIGHT; j++)
 			for (i = 0; i < LCD_SH1106_WIDTH; i++)
-			{ 
+			{
 				float re = (i/(1.0*LCD_SH1106_WIDTH) - 0.5) * 4.0;
 				float im = (j/(1.0*LCD_SH1106_HEIGHT) - 0.5) * 4.0;
 
-				u32 iterations = 16; 
-	 
+				u32 iterations = 16;
+
 				float zre = re;
-				float zim = im; 
+				float zim = im;
 				float zre_ = 0.0;
 				float zim_ = 0.0;
 
@@ -288,7 +287,7 @@ void LCD_SH1106_fractal_demo()
 					zim = zim_;
 
 					iterations--;
-				} 
+				}
 				while ((zre*zre + zim*zim < 4.0) && (iterations != 0));
 
 				if (iterations == 0)
@@ -296,7 +295,7 @@ void LCD_SH1106_fractal_demo()
 				else
 					LCD_SH1106_set_pixel(i, j, 0);
 			}
-	
+
 		LCD_SH1106_flush_buffer();
 	}
 	#endif
@@ -308,15 +307,15 @@ void LCD_SH1106_fractal_demo()
 	while (1)
 	{
 		u32 j, i;
-	 
+
 		for (j = 0; j < LCD_SH1106_HEIGHT; j++)
 			for (i = 0; i < LCD_SH1106_WIDTH; i++)
-			{ 
+			{
 				float re = -1.108 + (i/(1.0*LCD_SH1106_WIDTH) - 0.5) * 4.0*zoom;
 				float im = 0.230 + (j/(1.0*LCD_SH1106_HEIGHT) - 0.5) * 2.0*zoom;
 
-				u32 iterations = 16*(1.0 + 1.0/zoom); 
-	 
+				u32 iterations = 16*(1.0 + 1.0/zoom);
+
 				float zre = 0.0;
 				float zim = 0.0;
 				float zre_ = 0.0;
@@ -331,7 +330,7 @@ void LCD_SH1106_fractal_demo()
 					zim = zim_;
 
 					iterations--;
-				} 
+				}
 				while ((zre*zre + zim*zim < 4.0) && (iterations != 0));
 
 				if (iterations == 0)
@@ -359,7 +358,7 @@ void LCD_SH1106_fractal_demo()
 					break;
 
 		}
-		
+
 		LCD_SH1106_flush_buffer();
 	}
 	#endif

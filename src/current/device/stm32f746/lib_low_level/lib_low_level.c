@@ -92,11 +92,12 @@ void SystemClock_Config(void)
   }
 
   /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2 clocks dividers */
+
   RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   ret = HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7);
   if(ret != HAL_OK)
@@ -105,24 +106,6 @@ void SystemClock_Config(void)
   }
 }
 
-void test()
-{
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;		//Enable clock for PORT I
-	RCC->AHB1RSTR |= RCC_AHB1RSTR_GPIOIRST;		//Reset PORT I
-	RCC->AHB1RSTR &= ~RCC_AHB1RSTR_GPIOIRST;
-	GPIOI->MODER |= GPIO_MODER_MODER1_0;		//Set mode register PIN 1, PORT I
-	GPIOI->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR1;	//Set speed register PIN 1, PORT I
-
-	GPIOI->ODR |= GPIO_ODR_ODR_1;				//Set output data register PIN 1, PORT I
-	while(1)
-	{
-		GPIOI->ODR|= (1<<1);
-		timer_delay_loops(10000000);
-
-		GPIOI->ODR&=~(1<<1);
-		timer_delay_loops(10000000);
-	}
-}
 
 
 void lib_low_level_init()
@@ -178,4 +161,22 @@ void lib_low_level_init()
 	#ifdef _ADC_H_
 	//adc_init();
 	#endif
+
+  uart_write('A');
+  uart_write('B');
+  uart_write('C');
+  uart_write('D');
+
+
+  while (1)
+  {
+    led_on(LED_1);
+    timer_delay_loops(1000000);
+    led_off(LED_1);
+    timer_delay_loops(10000000);
+
+    u32 c;
+    for (c = 'A'; c < 'Z'; c++)
+      uart_write(c);
+  }
 }

@@ -12,8 +12,8 @@
 #device="stm32f10x"
 #device="stm32l152"
 #device="stm32f30x"
-device="stm32f4"
-#device="stm32f746"
+#device="stm32f4"
+device="stm32f746"
 
 #device="tm4c123"
 

@@ -10,23 +10,17 @@
 #ifdef SOFTWARE_I2C
 
 /*
-#define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOC
-#define SDA     	1
-#define SCL     	0
-#define I2C_GPIO    GPIOC
-*/
-
-/*
 #define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOA
 #define SDA     	6
 #define SCL     	7
 #define I2C_GPIO    GPIOA
 */
 
-#define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOB
-#define SDA     	14
-#define SCL     	15
-#define I2C_GPIO    GPIOB
+#define RCC_AHB1Periph_GPIO_I2C RCC_AHB1Periph_GPIOA
+#define SDA     	3
+#define SCL     	2
+#define I2C_GPIO    GPIOA
+
 
 
 #define NO_I2C_ACK 0

@@ -8,11 +8,11 @@ void i2c_delay()
     while (loops--)
         __asm("nop");
 }
- 
+
 void SetLowSDA()
 {
     GPIO_InitTypeDef GPIO_InitStruct;
-
+  
     GPIO_InitStruct.GPIO_Pin = (1<<SDA);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;//this sets the GPIO modules clock speed

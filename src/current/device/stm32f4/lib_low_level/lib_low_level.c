@@ -17,6 +17,9 @@ void lib_low_level_init()
 	timer_init();
 	#endif
 
+	#ifdef _ADC_H_
+	adc_init();
+	#endif
 
 	#ifdef _PWM_H_
 	//pwm_init();
@@ -30,7 +33,6 @@ void lib_low_level_init()
 	//spi_init();
 	#endif
 
-	#ifdef _ADC_H_
-	//adc_init();
-	#endif
+
+
 }

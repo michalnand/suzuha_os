@@ -29,6 +29,7 @@ void gpio_init()
 
 
 
+			/*
 	GPIO_InitStructure.GPIO_Pin = LED_W;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -37,8 +38,10 @@ void gpio_init()
 
 	GPIO_Init(LED_W_GPIO_BASE, &GPIO_InitStructure);
 
-	//LED_W_GPIO_BASE->BSRRL = LED_W;
+	LED_W_GPIO_BASE->BSRRL = LED_W;
 	GPIO_SetBits(LED_W_GPIO_BASE, LED_W);
+	*/
+
 
 	led_off(LED_1);
   	led_off(LED_2);

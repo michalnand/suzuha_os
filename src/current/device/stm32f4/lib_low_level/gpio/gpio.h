@@ -4,20 +4,21 @@
 #include "../lib_low_level.h"
 #include "stm32f4xx_gpio.h"
 
-/*
+
 #define GPIO_BASE	GPIOF
 
 #define LED_1	(1<<13)
 #define LED_2	(1<<14)
 #define LED_3	(1<<15)
-*/
 
 
+/*
 #define GPIO_BASE	GPIOB
 
 #define LED_1	(1<<4)
 #define LED_2	(1<<5)
 #define LED_3	(1<<6)
+*/ 
 
 #define LED_W_GPIO_BASE	    GPIOC
 #define LED_W	          (1<<5)

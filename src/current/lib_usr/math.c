@@ -100,6 +100,16 @@ float m_atan2(float y, float x)
 		return -m_atan(tmp);
 }
 
+float m_sqrt(float x)
+{
+		float res = 1.0;
+		unsigned int i;
+	 for (i = 0; i < 16; i++)
+	 {
+			 res = ((x/res) + res) / 2.0;
+	 }
+	 return res;
+}
 
 unsigned int __rnda__ = 1;
 unsigned int __rndb__ = 123;

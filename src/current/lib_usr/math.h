@@ -14,6 +14,7 @@ mint m_max(mint value_a, mint value_b);
 
 float m_atan(float value);
 float m_atan2(float y, float x);
+float m_sqrt(float x);
 
 void m_srand(unsigned int seed);
 mint m_rnd();
