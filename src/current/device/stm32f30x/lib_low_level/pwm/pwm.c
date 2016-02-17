@@ -47,7 +47,7 @@ void pwm_init()
   TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
 
 
-  pwm_set(10, 10);
+  pwm_set(0, 0);
 
   /* TIM1 counter enable */
   TIM_Cmd(TIM1, ENABLE);

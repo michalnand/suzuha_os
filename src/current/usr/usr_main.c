@@ -19,6 +19,4 @@ void main_thread()
 
 		timer_delay_ms(100);
 	}
-
-	robot_main();
 }

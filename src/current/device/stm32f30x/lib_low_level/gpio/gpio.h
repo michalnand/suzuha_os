@@ -5,12 +5,16 @@
 #include "stm32f30x_gpio.h"
 
 
- #define GPIO_BASE	GPIOB
+#define GPIO_BASE	GPIOB
  
-#define LED_0	((u32)(1<<15))
-#define LED_G	(LED_0)
+#define LED_0		((u32)(1<<15))
+#define LED_G		(LED_0)
 
-#define KEY 	(1<<9)
+#define KEY 		(1<<9)
+
+
+#define TURBO_FAN_GPIO	GPIOC
+#define TURBO_FAN		((u32)(1<<13))
 
 
 void gpio_init();

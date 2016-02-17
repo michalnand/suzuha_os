@@ -11,6 +11,8 @@
 
 void uart_write(char c);
 char uart_read();
+u16 uart_is_char();
 void uart_init();
+void uart_clear_buffer();
 
 #endif

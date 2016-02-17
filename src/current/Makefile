@@ -1,5 +1,5 @@
-TARGET = -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -mfpu=vfp -fsingle-precision-constant
-DEVICE_LIBS = device/stm32f746
+TARGET = -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft
+DEVICE_LIBS = device/stm32l0xx
 THIRD_PARTY_LIBS =
 
 #GCCDIR=~/bin/arm-none-eabi/bin/

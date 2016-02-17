@@ -8,7 +8,7 @@ MEMORY
     RAM (rwx)       : ORIGIN = 0x20000000, LENGTH = 16K
 }
 
-/* Highest address of the user mode stack */ 
+/* Highest address of the user mode stack */
 _estack = 0x20004000;    /* end of 24K RAM on AHB bus*/
 
 /* Linker script to place sections and symbol values. Should be used together
@@ -52,6 +52,7 @@ SECTIONS
     .text :
     {
         *(.text*)
+        _text = .;
 
         KEEP(*(.init))
         KEEP(*(.fini))
@@ -92,6 +93,7 @@ SECTIONS
     .data : AT (__etext)
     {
         __data_start__ = .;
+        _data = __data_start__;
         *(vtable)
         *(.data*)
 
@@ -112,14 +114,17 @@ SECTIONS
     .bss :
     {
         __bss_start__ = .;
+        _bss = __bss_start__;
         *(.bss*)
         *(COMMON)
         __bss_end__ = .;
+        _ebss = __bss_end__;
     } > RAM
 
     .heap :
     {
         __end__ = .;
+        _heap = __end__;
         end = __end__;
         *(.heap*)
         __HeapLimit = .;

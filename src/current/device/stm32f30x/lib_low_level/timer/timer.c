@@ -23,7 +23,7 @@ void timer_init()
 	__system_time__ = 0;
 
  
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 
 
     TIM_TimeBaseInitTypeDef timer; 
@@ -32,23 +32,23 @@ void timer_init()
     timer.TIM_Period = 50 - 1; 
     timer.TIM_ClockDivision = TIM_CKD_DIV1;
     timer.TIM_RepetitionCounter = 0;
-    TIM_TimeBaseInit(TIM2, &timer); 
+    TIM_TimeBaseInit(TIM3, &timer); 
     
-    TIM_Cmd(TIM2, ENABLE); 
+    TIM_Cmd(TIM3, ENABLE); 
 
-   TIM2->DIER |= TIM_DIER_UIE; // Enable interrupt on update event
+   TIM3->DIER |= TIM_DIER_UIE; // Enable interrupt on update event
 
  
 
     NVIC_InitTypeDef nvicStructure;
-    nvicStructure.NVIC_IRQChannel = TIM2_IRQn; 
+    nvicStructure.NVIC_IRQChannel = TIM3_IRQn; 
     nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
     nvicStructure.NVIC_IRQChannelSubPriority = 1;
     nvicStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&nvicStructure);
 } 
 	 
-void TIM2_IRQHandler()
+void TIM3_IRQHandler()
 {
 	u32 i; 
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
@@ -63,7 +63,7 @@ void TIM2_IRQHandler()
 	}
 	__system_time__++;
 
-	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+	TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 	// TIM6->SR &= ~TIM_SR_UIF; // Interrupt has been handled
 }
 
@@ -95,6 +95,7 @@ void timer_delay_ms(u32 ms)
 void event_timer_set_period(u32 id, u16 period)
 {
 	__disable_irq();
+	period*= 10;
 	__event_timer_cnt__[id] = period;
 	__event_timer_csr__[id] = period;
 	__event_timer_flag__[id] = 0;
