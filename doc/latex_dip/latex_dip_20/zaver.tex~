@@ -1,0 +1,19 @@
+\chapter*{Záver}
+\addcontentsline{toc}{chapter}{Záver}
+
+V práci sa podarilo realizovať a odtestovať funkčný a použiteľný operačný systém. Zadaním práce bolo implementovať riešenie pre jadro Cortex M3, ukázalo sa však, že nie sú problémy s použitím aj na jadre Cortex M4. Testovanie preto prebiehalo paralelne na dvoch odlišných mikrokontroléroch.
+
+Projekt operačného systému je od začiatku koncipovaný ako open source, preto sa predpokladá jeho ďalšie rozširovanie a vylepšovanie funkcií na mieru aplikácie.
+Uvoľnenie ako open source zjednodušuje vyhľadávanie chýb. Softvér tak komplexný ako operačný systém, prebieha ladením mnoho rokov, preto jeho sprístupnenie čo najväčšiemu počtu užívateľov pomôže vychytať a vyladiť chyby.
+
+Vďaka použitiu štandartného makefile, nie je užívateľ viazaný na konkrétne vývojové prostredie jedného výrobcu, ale má možnosť slobodne si vybrať podľa svojho uváženia. Tento fakt je dôležitý aj pre firmy, kde je už zabehnuté určité vývojové prostredie a nenúti tak prechádzať na iné.
+
+Rovnako oddelené skripty na zápis do flash pamäte, poskytujú väčšiu flexibilitu pri voľbe programovacieho zariadenia. 
+
+Modulárna koncepcia systému umožňuje buď úplne systém okresať len na najnutnejšie moduly alebo ho rozširovať podľa svojho uváženia. Prvá voľba je vhodná pre mikrokontroléry so skutočne obmedzenými pamäťovými zdrojmi. Naopak, jednoduchá rozšíriteľnosť ponúka priestor aj pre výkonnejšie mikrokontroléry.
+
+Najväčší prínos práce, je umožnenie realizácie vlastnej aplikácie, s možnosťami komfortu operačného systému. Taktiež systém poskytuje priestor pre štúdium, nakoľko je riešený veľmi jednoducho. Umožňuje tak odstrániť tajuplné pojmy, ako preempcia alebo kritické sekcie a ukazuje, že ich realizácia je v skutočnosti veľmi jednoduchá.
+
+Táto práca by nevznikla bez existencie GNU Projektu a kompilátora gcc. Práve otvorené nástroje, umožňujú mať plnú kontrolu nad procesom vývoja aplikácie a vidieť dovnútra. Dobre dostupná dokumentácia a široká komunita GNU značne pomohli, najmä pri riešení technických detailov kompilácie.
+
+Veľký prínos na práci majú aj firmy, ktoré v poslednej dobe čoraz viac poskytujú vývojové dosky (STM Discovery, Stellaris Launchpad ...) s mikrokontorlérmi ARM, v cene okolo 10 eur. To umožňuje skutočne každému záujemcovi skúsiť sa s touto arichitektúrou zoznámiť a vyskúšať jej možnosti.

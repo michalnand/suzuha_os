@@ -1,38 +1,5 @@
 #include "lib_low_level.h"
 
-void SystemClock_Config_MSI(void)
-{
-  RCC->ICSCR = (RCC->ICSCR & ~RCC_ICSCR_MSIRANGE) | RCC_ICSCR_MSIRANGE_4;
-  RCC->CFGR =  RCC_CFGR_SW_MSI;
-
-/*
-* Set the recommended flash settings for <= 2MHz clock.
-*
-* The 3 bits must be programmed strictly sequentially, but it
-* is faster not to read-back the value of the ACR register in
-* the middle of the sequence so use a temporary variable.
-*/
-  u32 tmp_acr = FLASH->ACR;
-  /* Flash 0 wait state */
-  tmp_acr &= ~FLASH_ACR_LATENCY;
-  FLASH->ACR = tmp_acr;
-  /* Disable prefetch Buffer */
-  tmp_acr &= ~FLASH_ACR_PRFTEN;
-  FLASH->ACR = tmp_acr;
-  /* Disable 64-bit access */
- // tmp_acr &= ~FLASH_ACR_ACC64;
-  FLASH->ACR = tmp_acr;
-  /* Disable HSI */
-  RCC->CR &= RCC_CR_HSION;
-  /* Enable LPSDSR */
-  PWR->CR |= PWR_CR_LPSDSR;
-
-  u32 loops = 5000;
-  while (loops--)
-    __asm("nop");
-}
-
-
 /**
   * @brief  System Clock Configuration
   *         The system Clock is configured as follow :
@@ -85,14 +52,12 @@ void SystemClock_Config(void)
 
   /* Disable Power Control clock */
   __HAL_RCC_PWR_CLK_DISABLE();
-
 }
 
 
 void lib_low_level_init()
 {
-	SystemInit();
-	SystemClock_Config_MSI();
+  HAL_Init();
   SystemClock_Config();
 
 	#ifdef _GPIO_H_
@@ -104,27 +69,22 @@ void lib_low_level_init()
 	#endif
 
 	#ifdef _TIMER_H_
-	timer_init();
+	// timer_init();
 	#endif
 
 	#ifdef _PWM_H_
-	pwm_init();
+	//pwm_init();
 	#endif
 
 	#ifdef _I2C_H_
-	i2c_0_init();
+	//i2c_0_init();
 	#endif
 
 	#ifdef _ADC_H_
-	adc_init();
+//	adc_init();
 	#endif
 
 /*
-  while(1)
-  {
-    __asm("nop");
-  }*/
-
   u32 loops;
   while (1)
   {
@@ -140,6 +100,12 @@ void lib_low_level_init()
     while (loops--)
       __asm("nop");
 
-    putc_('A');
+    uart_write('a');
+
+    char c = uart_read() + 1;
+    uart_write(c);
+
+  //   putc_('B');
   }
+  */
 }

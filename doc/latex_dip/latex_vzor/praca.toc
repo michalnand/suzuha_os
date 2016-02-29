@@ -1,0 +1,12 @@
+\select@language {english}
+\select@language {slovak}
+\select@language {english}
+\select@language {slovak}
+\contentsline {chapter}{\IeC {\'U}vod}{3}{chapter*.2}
+\contentsline {chapter}{\numberline {1}S\IeC {\'u}\IeC {\v c}asn\IeC {\'y} stav problematiky}{5}{chapter.1}
+\contentsline {chapter}{\numberline {2}Matematick\IeC {\'y} model}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Probl\IeC {\'e}m pa\IeC {\v z}ravej trojhodnotovej stono\IeC {\v z}ky}{9}{section.2.1}
+\contentsline {chapter}{\numberline {3}Met\IeC {\'o}dy rie\IeC {\v s}enia}{12}{chapter.3}
+\contentsline {chapter}{\numberline {4}Po\IeC {\v c}\IeC {\'\i }ta\IeC {\v c}ov\IeC {\'e} experimenty}{13}{chapter.4}
+\contentsline {chapter}{\numberline {5}Z\IeC {\'a}ver}{14}{chapter.5}
+\contentsline {chapter}{Literat\IeC {\'u}ra}{15}{chapter*.3}

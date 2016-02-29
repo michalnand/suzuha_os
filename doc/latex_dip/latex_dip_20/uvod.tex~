@@ -1,0 +1,10 @@
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
+
+Nájsť v dnešnej dobe zariadenie ktoré neobsahuje mikrokontrolér je vzácnosť. Ceny týchto jednoduchých
+počítačov klesli tak prudko, že sa s nimi stretávame na každom kroku. Z mnohých aplikácii sú to napríklad : automobily, riedenie v priemysle, mp3 prehrávače, alebo mobilné telefóny. Výkon dnešných
+mikrokontrolérov je už dostatočne veľký pre beh veľmi zložitých programov. Pre udržanie prehľadnosti riešenia, vysokej modularity a efektívneho využitia zdrojov je dobré zahrnúť do programového vybavenia operačný systém. 
+
+Práca si kladie za cieľ predstaviť koncepciu a realizáciu operačného systému pre jednočipový mikropočítač. Z dostupných mikrokontrolérov bol ako primárna platforma zvolený STM32F100 s jadrom Cortex M3, výrobca ST Microelectronics. Pre budúce použitie a rozšíriteľnosť bol tento systém upravný tak aby bol prenositeľný na mikrokontrolér LM4F120 s jadrom Cortex M4, výrobca Texas Instruments. Operačný systém je napísany veľmi jednoducho, môže tak slúžiť ako ukážkový príklad pre prípadného záujemcu. Koncepcia systému je plne modulárna, najmä vďaka použitiu mikrokernela a umožňuje po prepísaní jadra portovať ho na mnohé iné architektúry. 
+
+Celá práca vznikla využitím open source nástrojov v prostrední Ubuntu Linux a ukazuje tak možnosť robiť plnohodnotný vývoj vstavných systémov v alternatívnom prostredí.

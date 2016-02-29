@@ -1,0 +1,41 @@
+\chapter{Metódy riešenia}
+
+Tu treba výstižne popísať zvolené metódy riešenia. Aj je to možné porovnať ich teoreticky.
+Tu sú uvedené dva príklady listingov:
+
+\begin{lstlisting}[mathescape]{}
+procedure FLOYD(${\mathrm A}$)
+  ${\mathrm D} = {\mathrm A}$
+  for $k \in N$ do 
+    for $i \in N$ do 
+      for $j \in N$ do
+        if $d_{ij} > d_{ik}+d_{kj}$ then
+           $d_{ij} = d_{ik}+d_{kj}$
+$\text{return}~{\mathrm D}$
+\end{lstlisting}
+
+
+\hrule
+
+\lstset{%
+language={[Sharp]C},
+breaklines=true,
+breakindent=0pt,
+tabsize=2,
+showstringspaces=true
+}
+%
+\begin{lstlisting}
+using System;
+public class Foo
+{
+ public static void Main()
+ {
+     Console.WriteLine("I Love LaTeX");//This is a comment.
+ }
+ /*This is a comment too.*/
+}
+\end{lstlisting}
+
+
+

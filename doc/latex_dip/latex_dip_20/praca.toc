@@ -1,0 +1,62 @@
+\select@language {english}
+\select@language {slovak}
+\select@language {english}
+\select@language {slovak}
+\contentsline {chapter}{\IeC {\'U}vod}{6}{chapter*.2}
+\contentsline {chapter}{\numberline {1}Popis jadra cortex M3}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}\IeC {\'U}vod}{7}{section.1.1}
+\contentsline {section}{\numberline {1.2}Popis registrov}{9}{section.1.2}
+\contentsline {section}{\numberline {1.3}Jednotka NVIC}{10}{section.1.3}
+\contentsline {section}{\numberline {1.4}Tabu\IeC {\v l}ka preru\IeC {\v s}en\IeC {\'\i }}{11}{section.1.4}
+\contentsline {section}{\numberline {1.5}Kontext procesora}{13}{section.1.5}
+\contentsline {chapter}{\numberline {2}Anal\IeC {\'y}za funkci\IeC {\'\i } a architekt\IeC {\'u}r opera\IeC {\v c}n\IeC {\'y}ch syst\IeC {\'e}mov}{15}{chapter.2}
+\contentsline {section}{\numberline {2.1}Popis funkci\IeC {\'\i } opera\IeC {\v c}n\IeC {\'e}ho syst\IeC {\'e}mu}{15}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Synchroniz\IeC {\'a}cia \IeC {\'u}loh}{17}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Posielanie spr\IeC {\'a}v}{19}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Architekt\IeC {\'u}ra opera\IeC {\v c}n\IeC {\'y}ch syst\IeC {\'e}mov}{20}{section.2.2}
+\contentsline {section}{\numberline {2.3}Klasifik\IeC {\'a}cia syst\IeC {\'e}mov v z\IeC {\'a}visloti na pric\IeC {\'\i }pe pl\IeC {\'a}novania prep\IeC {\'\i }nania \IeC {\'u}loh}{22}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Udalostne riaden\IeC {\'e} syst\IeC {\'e}my}{22}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Syst\IeC {\'e}my s frontou \IeC {\'u}loh}{24}{subsection.2.3.2}
+\contentsline {chapter}{\numberline {3}N\IeC {\'a}vrh \IeC {\v s}trukt\IeC {\'u}ry a funkci\IeC {\'\i } OS}{27}{chapter.3}
+\contentsline {section}{\numberline {3.1}Spolo\IeC {\v c}n\IeC {\'e} s\IeC {\'u}bory}{28}{section.3.1}
+\contentsline {section}{\numberline {3.2}Jadro}{28}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Atomicita}{29}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Vytvorenie \IeC {\'u}lohy}{31}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Multitasking}{32}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Pl\IeC {\'a}nova\IeC {\v c}}{33}{subsection.3.2.4}
+\contentsline {section}{\numberline {3.3}Z\IeC {\'a}mky}{34}{section.3.3}
+\contentsline {section}{\numberline {3.4}Spr\IeC {\'a}vy}{36}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Prijatie spr\IeC {\'a}vy}{38}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Poslanie spr\IeC {\'a}vy}{40}{subsection.3.4.2}
+\contentsline {section}{\numberline {3.5}\IeC {\v S}tandartn\IeC {\'y} vstup a v\IeC {\'y}stup}{41}{section.3.5}
+\contentsline {section}{\numberline {3.6}S\IeC {\'u}borov\IeC {\'y} syst\IeC {\'e}m}{42}{section.3.6}
+\contentsline {chapter}{\numberline {4}Verifik\IeC {\'a}cia funk\IeC {\v c}nosti}{45}{chapter.4}
+\contentsline {section}{\numberline {4.1}Hardv\IeC {\'e}r}{46}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}STM32}{46}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Stellaris Launchpad}{47}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}Testovanie jadra}{48}{section.4.2}
+\contentsline {section}{\numberline {4.3}Testovanie z\IeC {\'a}mkov}{50}{section.4.3}
+\contentsline {section}{\numberline {4.4}Testovanie spr\IeC {\'a}v}{50}{section.4.4}
+\contentsline {chapter}{\numberline {5}Aplika\IeC {\v c}n\IeC {\'e} pou\IeC {\v z}itie opera\IeC {\v c}n\IeC {\'e}ho syst\IeC {\'e}mu}{52}{chapter.5}
+\contentsline {section}{\numberline {5.1}Kompil\IeC {\'a}cia arm-gcc}{52}{section.5.1}
+\contentsline {section}{\numberline {5.2}\IeC {\v S}trukt\IeC {\'u}ra adres\IeC {\'a}rov opera\IeC {\v c}n\IeC {\'e}ho syst\IeC {\'e}mu}{53}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Kore\IeC {\v n}ov\IeC {\'y} adres\IeC {\'a}r}{54}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Adres\IeC {\'a}r bin}{55}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Adres\IeC {\'a}r startup}{57}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}Adres\IeC {\'a}r common}{57}{subsection.5.2.4}
+\contentsline {subsection}{\numberline {5.2.5}Adres\IeC {\'a}r kernel}{58}{subsection.5.2.5}
+\contentsline {subsection}{\numberline {5.2.6}Adres\IeC {\'a}r lib}{58}{subsection.5.2.6}
+\contentsline {subsection}{\numberline {5.2.7}Adres\IeC {\'a}r usr}{59}{subsection.5.2.7}
+\contentsline {section}{\numberline {5.3}Tvorba aplik\IeC {\'a}cie}{59}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Blikanie led}{59}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}\IeC {\v C}asova\IeC {\v c}e a eprintf}{60}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}Z\IeC {\'a}mky}{61}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Syst\IeC {\'e}m spr\IeC {\'a}v}{62}{subsection.5.3.4}
+\contentsline {section}{\numberline {5.4}\IeC {\v D}al\IeC {\v s}ie pr\IeC {\'\i }klady aplik\IeC {\'a}cie}{64}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Hello\_world}{64}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Timers}{65}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Locks}{65}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Threads}{65}{subsection.5.4.4}
+\contentsline {subsection}{\numberline {5.4.5}Cli}{65}{subsection.5.4.5}
+\contentsline {chapter}{Z\IeC {\'a}ver}{67}{chapter*.3}
+\contentsline {chapter}{Literat\IeC {\'u}ra}{69}{chapter*.4}

@@ -1,0 +1,488 @@
+\chapter{Aplikačné použitie operačného systému}
+
+Táto kapitola popisuje použitie operačného systému koncovým užívateľom (programátorom) vlastnej aplikácie. Snahou je umožniť komfortný, rýchlejší a modulárny vývoj aplikácie. Celý proces je demonštrovaný na sade jednoduchých príkladov, ktoré ukážu vlastnosti operačného systému. Najmä pre menej skúseného užívateľa môže byť kompilácia systému zo zdrojových kódov prekážkou, preto kapitola začína časťou popisujúcou samotnú kompiláciu a nastavenie arm gcc kompilátora.
+
+\section{Kompilácia arm-gcc}
+
+Celý systém je vyvýjaný s použitím balíka \textbf{arm-gcc} v prostredí GNU Linux, ktorý predstavuje sadu nástrojov pre tvorbu binárnych súborov, bežiacich na architektúre arm. Balík je možné stiahnúť, napr. z git repozitárov \cite{arm_summom_git}. Po rozbalení arhívu stačí spustiť skript : 
+{\small
+\begin{verbatim}
+./summon-arm-toolchain
+\end{verbatim}
+}
+
+
+Následne sa spustí kompilácia niekoľkých častí gcc kompilátora. Ďalšie potrebné súbory sa stiahnú automaticky. Po ukončení kompilácie sa vytvorí v domovskom adresári adresár sat, ktorý obsahuje pripravený kompilátor pre ARM jadro.
+ 
+Pre uloženie binárneho súboru do flash pamäte mikrokontroléra, je potrebné stiahnúť \textbf{stlink} \cite{stlink} a \textbf{lm4flash} \cite{lm4_flash}. Stlink spolupracuje s vývojovou doskou STM Discovery Kit a umožňuje programovať mikrokontroléry z radu STM32. Program lm4flash poskytuje rozhranie s doskou TI Stellaris Launchpad a umožňuje programovať mikrokontroléry LM4F120 a príbuzné. Pre kompiláciu oboch stačí spustiť make all a prebehne kompilácia nástrojov. Kvôli urýchleniu práce, je vhodné urobiť jednoduché skripty pre ukladanie do flash pamäte :
+
+{\small
+\begin{verbatim}
+sudo ~/bin/stlink/flash/st-flash write main.bin 0x8000000
+\end{verbatim}
+}
+
+{\small
+\begin{verbatim}
+sudo ~/bin/lm4tools/lm4flash/lm4flash main.bin
+\end{verbatim}
+}
+
+Všetky použité skripty predpokladajú, že sú uložené v adresári bin, ktorý je umiestnený v domovskom adresári :
+{\small
+\begin{verbatim}
+ $(HOME)/bin
+\end{verbatim}
+}
+
+Do tohto adresára je vhodné umiestniť aj kompilátor a premenovať ho na arm-none-eabi. Na komfortný vývoj sa pre mikrokontroléry Stellaris odporúča použitie knižnice Stellaris Ware. Po bezplatnej registrácií, je možné ju stiahnúť na tejto adrese \cite{stellaris_ware}.
+
+
+\section{Štruktúra adresárov operačného systému}
+
+Systém je organizovaný do niekoľkých adresárov. Pomenovanie je prevzaté z prostredia Linux a majú aj podobný význam. Adresárová štruktúra systému je nasledujúca :
+
+\begin{figure}[ht]
+
+
+\dirtree{%
+.1 /.
+.2 \textcolor{cyan}{bin}.
+.2 \textcolor{red}{common}.
+.3 \textcolor{black}{stellaris}.
+.3 \textcolor{black}{stm32}.
+.3 \textcolor{black}{stmdiscovery}.
+.2 \textcolor{red}{kernel}.
+.2 \textcolor{blue}{lib}.
+.2 \textcolor{red}{startup}.
+.2 \textcolor{green}{usr}.
+.3 cli.
+.3 discovery\_kit\_demo.
+.3 hello\_world.
+.3 locks.
+.3 messages.
+.3 threads.
+}
+
+\end{figure}
+
+Pre sprístupnenie systému čo najširšiemu počtu záujemcov sú zdrojové kódy k dispozícií na servery SourceForge. Odkaz pre stiahnutie zdrojových súborov je tu \cite{suzuha_source}.
+
+\subsection{Koreňový adresár}
+
+
+
+
+Obsahuje samotné makefiles pre kompiláciu systému. Podľa voľby architektúry sa vyberie jeden z dvoch dostupných :
+{\small
+\begin{verbatim}
+make -f stm32_make -B
+\end{verbatim}
+}
+
+{\small
+\begin{verbatim}
+make -f lm4f_make -B
+\end{verbatim}
+}
+
+Ak sú správne nastavené cesty ku kompilátoru a knižniciam prebehne kompletné skompilovanie celého systému. Parameter -f uvádza názov makefile, nakoľko sú použité neštandartné názvy. Parameter -B informuje program make, že má vykonať kompletnú kompiláciu bez ohľadu na to, či sú objektové binárne súbory už aktuálne.
+Cesty ku knižniciam a kompilátoru sú uvedené v prvých riadkoch makefile, aby bolo možné jednoducho meniť umiestnenie kompilačných nástrojov na disku :
+
+{\small
+\begin{verbatim}
+STELLARIS_WARE_PATH = $(HOME)/bin/stellarisware
+COMPILER_PATH = $(HOME)/bin/arm-none-eabi/bin
+\end{verbatim}
+}
+
+V koreňovom adresári sa ďalej nachádza konfiguračný súbor systému : \textbf{configure.h}. V ňom prebieha základná konfigurácia systému. Najdôležitejšia je voľba architektúry mikrokontroléra. Slúžia k tomu nasledujúce dva riadky. Len jeden z nich môže byť nezakomentovaný. Podľa tejto voľby sa vyberajú príslušné knižnice a moduly systému.
+
+{\small
+\begin{verbatim}
+#define CPU_LM4F		1	/*choose cpu LM4F*/
+#define CPU_STM32		1	/*choose cpu STM2*/
+\end{verbatim}
+}
+
+Ďalší parameter špecifikuje frekvenciu systémového časovača : 
+\begin{verbatim}SYS_TICK_PERIOD\end{verbatim} 
+je závislý od taktovacej frekvecie a ovplyvňuje periódu spúšťania časovača systick - perióda volania prepínania úloh.
+
+Maximálny počet definovaných úloh v systéme je možné špecifikovať nasledujúcim parametrom.
+\begin{verbatim}TASK_MAX_COUNT N\end{verbatim}
+
+Pre režim zníženej spotreby je možné povoliť parameter : 
+\begin{verbatim}LOW_POWER_MODE\end{verbatim}
+Samotná funkcia režimu zníženej spotreby je však hardvérovo aj aplikačne závislá, jej implementácia zostáva preto na užívateľovi. V systéme je definovná volaním inštrukcie "wfe" (viac súbor kernel/kernel.c).
+
+Experimentovať je možné voľbou rôznych plánovacích algoritmov. Súčasná verzia má dva, pričom testovanie sa najviac zameriava na prioritný plánovač a round robin algoritmus je uvažovaný len ako núdzové riešenie. V systéme sa preto odporúča nechať prioritný plánovač.
+{\small
+\begin{verbatim}
+#define SCHED_PRIORITY		1
+\end{verbatim}
+}
+
+
+Súbor \textbf{common.h} obsahuje odkazy na všetky potrebné hlavičkové súbory. Zjednodušuje tak vývoj aplikácie, v ktorej potom stačí vložiť len tento jeden súbor, ktorý vyrieši všetky systémové závislosti.
+
+Súbor \textbf{main.c} obsahuje vstupný bod do programu. Je možné v ňom definovať dodatočnú inicializáciu, pokiaľ systém ešte nebeží. Prebieha v ňom inicializácia vytvorenia hlavného systémového vlákna : 
+{\small
+\begin{verbatim}
+main_thread
+\end{verbatim}
+}
+
+Ak sa to nepodarí, končí systém zastavením a vypísaním chybového hlásenia - nula vláknový systém nemá zmysel spúšťať. Ak sa to podarí, systém začne vykonávať program hlavného vlákna. Na toto vlákno je kladená jediná odlišná požiadavka : nesmie byť ukončené. Po jeho ukončení (a/alebo ukončení všetkyçh ostatných vlákien - záleží od plánovača), nie je správanie sa sytému definované.
+
+V hlavnom adresári sa ďalej nachádza súbor s licenciou a súbor TODO, ktorý obsahuje body, ktoré častí systému je vhodné upraviť, prípadne odstrániť chyby.
+
+\subsection{Adresár bin}
+
+Tento adresár obsahuje výsledný binárny súbor, pripravený na nahratie do mikrokontroléra. Tento súbor je z dôvodu automatizácie skriptom pomenovaný \textbf{main.bin}. Na nahratie slúžia skripty :
+{\small
+\begin{verbatim}
+write_lm4
+write_stm32
+\end{verbatim}
+}
+
+Treba poznamenať, že skripty nevedia rozlíšiť správnosť súboru \textbf{main.bin}, najmä to, pre ktorú architektúru bol kompilovaný. Je na užívateľovi aby spustil správny skript, pre konkrétny mikrokontrolér. Väčšinou to npredstavuje problém a program jednoducho napôjde. Závažnejšia situácia nastane, ak pre chybnú interpretáciu programu dôjde k cyklickému prepisovaniu flash pamäte (čo môže viesť k jej zničeniu).
+
+Pre účely ladenia je v tomto adresári obsiahnutý súbor \textbf{\textbf{assembler.lss}}. Obsahuje extrahovaný strojový kód preložený do jazyka symbolických adries, doplnený komentármi zo zdrojových súborov. Umožňuje tak vidieť výsledok prekladu a v prípade závažného problému pomôcť pri odlaďovaní.
+
+Linker potrebuje pre správne prepočítanie adries, tzv. linkovací skript. Je závislý najmä od veĺkosti a usporiadania pamäte kontrétneho mikokontroléra. Skript obsahuje informácie o veľkostiach pamäte a kde pamäť začína. Ďalej sa v ňom nachádzajú informácie o poziícií a vlastnosti pamäte - flash je len na čítanie a ram má atribút pre čítanie aj zápis.
+Tieto skripty sú v nasledujúcich dvoch súboroch :
+{\small
+\begin{verbatim}
+lm4f.ld
+stm32.ld
+\end{verbatim}
+}
+
+Celý program je rozdelený z pohĺadu linkera na tzv. sekcie. Vykonateľný program a konštantné premenné sú uložené v sekcií text. V skripte jej začiatok a koniec označujú symbolické názvy :
+{\small
+\begin{verbatim}
+_text
+_etext
+\end{verbatim}
+}
+Túto skutočnosť je možné využiť, napr. pri tvorbe bootloadera.
+
+Oblasť data zahŕňa všekty inicializované premenné.
+Pre systémového programátora je najdôležitejšia sekcia bss. Symbolické názvy
+{\small
+\begin{verbatim}
+_bss
+_ebss
+\end{verbatim}
+}
+Je možné použiť na alokáciu vlastnej pozície zásobníka. Prípadne pre vytvorenie vlastnej funkcie malloc.
+
+\subsection{Adresár startup}
+
+V tomto adresári sú obsiahnuté štartovacie sekvencie mikrokontroléra. Je to hardvérovo závislá časť, preto sa nachádzajú v oddelených súboroch.
+{\small
+\begin{verbatim}
+startup_lm4f.c
+startup_stm32.c
+\end{verbatim}
+}
+
+Z pohľadu užívateľa je zaujímavá najmä definícia obslúh prerušení. Súbor obsahuje pole konštánt, predstavujúce adresy funkcií obslúh prerušení. Všetky prerušenia po SysTick vrátane, sú spoločné pre jadrá Cortex. Oatatné prerušenia sú závislé na voľbe výrobcu a akými perifériami je mikrokontrolér vybavený. Väčšina prerušení je definovaná ako IntDefaultHandler, čo pri nesprávne vyvolanom prerušení (programátorska chyba, nedefinovaný skok ...), spôsobí zastavenie v nekonečnej slučke.
+
+Po resete mikokontroléra, sa začne vykonávať program od funkcie ResetISR. Tá predstavuje vstupný bod do celého programu. Obvykle v nej prebieha inicializácia premenných : skopírovanie nenulových hodnôt do ram a nulovanie sekcie bss. Ďalej sa môže vykonať inicializácia koprocesora, prípadne inej, kritickej periférie.
+
+Po ukončení inicializácie sa volá funkcia \textbf{int main()} a riadenie je ponechané aplikácií.
+
+\subsection{Adresár common}
+
+Pre zabezpečenie jednoduchej prenositeľnosti, je k dispozícií tento adresár. Obsahuje hardvérovo závislé knižnice - najmä definície registrov. Umožňuje definovať hardvér vývojovej dosky (pomocou súboru common.c) a vytvoriť tak najnižšiu formu abstrakcie. Kvôli nejednoznačnej definícií typu int sa tu nachádzajú súbory, ktoré definujú typy, ako u32 alebo i32 a odstraňujú závislosť na kompilátore. Tieto typu sú používané v celom systéme.
+
+Súbor \textbf{common.h} vkladá súbor podľa použitej dosky a preriférií :
+{\small
+\begin{verbatim}
+stm32.h
+stellaris_aunchpad.h
+\end{verbatim}
+}
+
+Oba obsahujú odkazy na knižnice a ovládanie periérií (led a tlačítka).
+Funkcie najnižšej úrovne sú :
+{\small
+\begin{verbatim}
+void common_init();
+void delay_loops(u32 loops);
+void led_on(u32 led);
+void led_off(u32 led);
+u32 get_key();
+\end{verbatim}
+}
+
+\subsection{Adresár kernel}
+
+V tomto adresári sa nachádza samotné jadro operačného systému. Súbor \textbf{kernel.h} obsahuje definície systémových konštánt a najdôležitejších sytémových funkcií. Tie sú nevyhnutné najmä pre tvorbu vlastnej knižnice. Z funkcií, ktoré priamo ovplyvňujú systém, sú to :
+{\small
+\begin{verbatim}
+void sched_off();	/*zakázanie prerušení*/
+void sched_on();	/*povolenie prerušení*/
+void sched_next();	/*okamžité prepnutie na ďalšiu úlohu*/
+void low_power_mode();	/*vstúpenie do režimu spánku*/
+void set_wait_state();  /*uspí aktuálne vlákno*/
+void wake_up_threads(); /*zobudí všetky vlákna*/
+\end{verbatim}
+}
+
+Použitie funkcií, zakazujúce a povoľujúce prerušenie, je treba dôkladne zvážiť a používať len v nevyhnutných prípadoch. Funkcia pre okamžité prepnutie umožňuje urýchliť reakciu systému a nezaťažovať jadro zbytočným čakaním. Vo funkcii pre vstup do režimu zníženej spotreby, je možné definovať aplikačne závislý režim šetrenia energie.
+
+Najdôležitejšia funkcia jadra je :
+{\small
+\begin{verbatim}
+u32 create_task(void *task_ptr, u32 *s_ptr, u32 stack_size, u16 priority);
+\end{verbatim}
+}
+
+Umožňujúca vytvorenie nového vlákna.
+
+\subsection{Adresár lib}
+
+Všetky zdieľané knižnice je vhodné uložiť do tohto adresára. Väčšina knižníc je na sebe nezávislá. Prioritné postavenie má knižnica lib.c, ktorá vykonáva inicializáciu všetkých ostatných knižníc (ak ju treba) volaním \textbf{kniznica\_init()}. 
+
+\begin{itemize}
+	\item lock.h : knižnica zabezpečuje vstup do kritických sekcií pomocou zámkov (mutex).
+	\item mesages.h : systém predávania správ medzi vláknami (bez fronty).
+	\item messages\_f.h : systém predávania správ (s frontou správ).
+	\item sw\_timer.h : knižnica softvérových časovačov.
+	\item uart.h : nízkoúroňové riadenie uart jednoty (prečítanie/poslanie znaku).
+	\item std\_io.h : knižnica štandartného vstupu/výstupu.
+\end{itemize}
+
+\subsection{Adresár usr}
+
+Do tohto adresára sa umiesťuje samotná implementácia aplikácie. V súbore usr.h je definované pole pre zásobník hlavnej úlohy a referencia na ňu. Veľkosť zásobníka je možné podľa potreby pozmeniť. V súbore \textbf{usr.c} je vložený odkaz na hlavný program aplikácie (napr. hello\_world/threads.c). V samotnom súbore threads je potom definícia funkcie \textbf{main\_thread()}. 
+Obsah adresára usr je možné modifikovať podľa potreby aplikácie. Podmienkou je len prítomnosť hlavného vlákna a definícia jeho zásobníka. Pre väčšie projekty je vhodné vytvoriť samostatný makefile pre aplikačnú casť.
+
+\section{Tvorba aplikácie}
+
+\subsection{Blikanie led}
+Ukážková aplikácia vytvorí dve vlákna. Každé vlákno ovláda svoju led. Periodicky ju zapína a vypína. Vďaka rôznym čakacím intervalom pôsobi blikanie dvoch led zdanlivo chaoticky. Tento program nevyžaduje žiadne knižnice systému, využíva sa len obsah z \textbf{common/common.h}. Vo funkcii \textbf{int main()} je možné zakomentovať výpisy do terminálu a vyhnúť sa tak použitiu \textbf{std\_io.h} aj \textbf{uart.h} knižníc.
+{\small
+\begin{verbatim}
+void task2()
+u32 task2_stack[32];
+
+void main_thread() {
+ create_task(task2, task2_stack, sizeof(task2_stack), PRIORITY_MAX);
+
+ while (1) {
+   led_on(1);	/*zapne led 1*/
+   delay_loops(1000000);
+   led_off(1);	/*vypne led 1*/
+   delay_loops(10000000);
+ }
+}
+
+void task2() {
+ while (1) {
+   led_on(2);	/*zapne led 2 */
+   delay_loops(6000000);
+   led_off(2);	/*vypne led 2*/
+   delay_loops(10000000);
+  }
+}
+\end{verbatim}
+}
+
+Hlavné vlákno \textbf{main\_thread}vytvorí druhé vlákno volaním funkcie jadra \textbf{create\_task}. Parametrami je ukazovateľ na hlavnú funkciu vlákna, ukazovateľ na zásobník vlákna, veľkosť zásobníka a priorita procesu. Dôležitým faktom je nutnosť použiť na zásobník pole ako globálnu premennú - kompilátor ma inak snahu realizovať pole lokálne a relatívne adresované. To sposobí nefunkčnosť systému.
+
+
+\subsection{Časovače a eprintf}
+S malou úpravou a vložením knižníc je možné využiť programový časovač \textbf{sw\_timer.h}. Časovač sa inicializuje na 250ms a spustí sa odpočet. Po dosiahnutí nuly, funkcia \textbf{wait\_for\_timer()} skončí. Vlákno zároveň pomocou funkcie eprintf vypisuje na terminál správu o svojej existencií. Knižnica eprintf využíva možnosti mutexov a uart, treba preto použiť aj knižnicu \textbf{lock.h} a \textbf{uart.h}. Treba poznamenať, že časovač má maximálny časový interval daný 32 bitovou hodnotou. Pri volaní 1000-krát za sekundu je maximálna doba čakania 49.7 dňa.
+
+{\small
+\begin{verbatim}
+ while (1) {
+   eprintf("thread 01\n");
+
+   led_on(1);	/*zapne led 1*/
+   timer_start(250, SW_TIMER1);	/*nastavenie časovača*/
+   wait_for_timer(SW_TIMER1);   /*čakanie na časovač*/
+
+   led_off(1);	/*vypne led 1*/
+   timer_start(250, SW_TIMER1);	/*nastavenie časovača*/
+   wait_for_timer(SW_TIMER1);  /*čakanie na časovač*/
+ }
+\end{verbatim}
+}
+
+Knižnica \textbf{sw\_timer.h} poskytuje osem softvérových časovačov. K presnému časovaniu používa jeden hardvérový časovač, nastavený na periodické vyvolávanie prerušenia - 1ms. Preto funkcia  wait\_for\_timer nebude nikdy presnejšia ako 1ms a pre malé časové intervaly môźe byť chyba neúnosná. Knižnica je preto vhodná najmä na dlhšie časové intervaly, ktoré nie sú kritické na presnosť.
+
+Funkcia eprintf poskytuje možnosti formátovaného výstupu na terminál. Z dôvodu šetrenia zdrojov mikrokontroléra, v nej nie je implementovaná možnosť výpisu čísel v pohyblivej rádovej čiarke. Podporované formáty sú \%i \%u \%x \%c \%s.
+
+
+\subsection{Zámky}
+
+V prípade viacvláknovej aplikácie sa často vyskytuje situácia riešenia vyhradeného prístupu k určitej periférií, prípadne časti programu. Je kladená požiadavka, aby druhé vlákno do tejto kritickej sekcie nemohlo vstúpiť, kým druhé vlákno sekciu neopustí. Pre veľmi jednoduché prípady je možné použiť zakázanie a povolenie prerušenia :
+{\small
+\begin{verbatim}
+void sched_off();	/*zakázanie prerušenia*/
+void sched_on();	/*povolenie prerušenia*/
+\end{verbatim}
+}
+Toto riešenie je však veľmi nebezpečné a ťažkopádne : pokým sú zakázané prerušenia je systém zastavený, vlákna nie sú prepínané a môže dôjsť k narušeniu splnenia podmienok reálneho času. Je preto vhodné len na veľmi rýchle sekcie programu. Príkladom sú napr. prístupy ku globálnym premmenným.
+
+Všetky ostné prípady je potrebné riešiť knižnicou \textbf{lock.h}. Použité pojmy lock sú bližšie skutočnej úlohe, ako často uvádzané pojmy mutex alebo semafór. Knižnica používa dve funkcie, pre zamykanie a odomykanie prístupu k zariadeniu :
+{\small
+\begin{verbatim}
+void lock_dev(u32 dev_flags);		/*vstup do kritickej sekcie/
+void ulock_dev(u32 dev_flags);		/*odchod z kritickej sekcie*/
+\end{verbatim}
+}
+Premenná \textbf{dev\_flags} obsahuje bitovú masku pre zamykanú perifériu/časť programu. Je možné použiť 32 rôznych sekcií, vrátane ich kombinácií - naraz je možné zamknúť viac zdrojov. Situáciu je dobré ilustrovať na príklade :
+{\small
+\begin{verbatim}
+lock_dev(LOCK_UART_TX); /*LOCK_UART_TX == (1<<0)*/
+send_uart(c);		/*pošle byte*/
+ulock_dev(LOCK_UART_TX);/*uvoľnenie kritickej sekcie*/
+\end{verbatim}
+}
+V tomto prípade sa zamyká len 1 bit, pre zariadenie vysielača sériovej linky. Niekedy je vŠak vhodné uzamknúť viac zariadení naraz, umožní to vyhnúť sa deadlocku spôsobeného nesprávnym volaním zámkov. Zamknutie prístupu k viacerým zariadeniam naraz vyzerá nasledovne :
+{\small
+\begin{verbatim}
+lock_dev(LOCK_UART_TX|LOCK_UART_RX); /*uzamknutie prístupu*/
+c = get_uart();			     /*prečítanie znaku z uart*/
+send_uart(c);			     /*poslanie znaku späť*/
+ulock_dev(LOCK_UART_TX|LOCK_UART_RX);/*odomknutie prístupu*/
+\end{verbatim}
+}
+
+
+
+
+\subsection{Systém správ}
+
+Architektúra klient-server, poskytuje robustné modulárne riešenie. Pre správnu funkciu vyžaduje použitie systému správ, poskytujúci primeranú mieru abstrakcie komunikácie medzi vláknami. Túto možnosť ponúka knižnica \textbf{messages.h}m, prípadne novšia verzia s frontou \textbf{messages\_f.h}. Pre bezpečné funkcie systému sa odporúča používať systém správ s frontou. 
+
+Najprv sa vlákno registruje na prácu so správami, pod symbolickým menom MSG\_SERVER. Toto meno musí byť známe aj všetkým klientom. Následne sa vytvorí druhé vlákno - predstavujúce napr. klienta.
+
+{\small
+\begin{verbatim}
+ msg_register(MSG_SERVER);
+ create_task((void*)task2, task2_stack, sizeof(task2_stack),PRIORITY_MAX);
+\end{verbatim}
+}
+
+Server v hlavnej slučka čaká na správu :
+{\small
+\begin{verbatim}
+ while (1) {
+  msg_get(&msg);		/*čakanie na správu*/
+  msg.data+= 2;		       /*zmena dát*/
+  msg.destination= msg.source; /*príprava na odpoveď*/
+  msg.source = MSG_SERVER;     /*označenie odosielateľa*/
+  /* msg.size = msg.size;	veľkosť bez zmeny*/
+  msg_raise_async(&msg);       /*poslanie odpovede*/
+ }
+\end{verbatim}
+}
+
+Funkcia \textbf{msg\_get()} čaká na príjem správy. Po príjme správy, sa naplní štruktúra správy. Server ju teraz môže ľubovoľne vyhodnotiť. V ukážkovom príklade sa hodnota data zväčší o dva. Meno príjemcu sa naplní menom odosielateľa. Meno odosielateľa sa aktualizuje na meno servera. Veľkosť správy sa necháva bez zmeny. Následne sa volaním funkcie \textbf{msg\_raise(\&msg)} odošle odpoveď klientovi.
+Dôležitým faktom je, že funkcia \textbf{msg\_raise()} čaká, pokiaľ klientské vlákno správu neprevezme. Naproti tomu, funkcia \textbf{msg\_raise\_async()} správu vloží do fronty a ihneď končí. Jej použitie je preto vhodné pre serverovú časť - predpokladá sa nespoľahlivosť klienta, ktorý z rôznych príčin nemusí prevziať správu. Naopak, synchrónne volanie msg\_raise je vhodné pre klienta, kde sa predpokladá plne funkčný server a záruka prijatia správy.
+
+Vlákno klienta je realizované veľmi podobne ako server :
+{\small
+\begin{verbatim}
+ struct sMsg msg;
+ msg_register(MSG_CLIENT_A);  /*registrácia na prácu so správami*/
+ msg.data=0;		      /*inicializácia dát*/	
+ while (1) {
+  msg.size=4;		     /*veľkosť správy 4byty*/
+  msg.source=MSG_CLIENT_A;   /*vyplnenie zdroja*/
+  msg.destination=MSG_SERVER;/*cieľ správy - server*/
+
+			     /*výpis stavu správy*/
+  eprintf("client id %u  server id %u | data : %u\n", 
+	   msg.source, msg.destination, msg.data);
+  delay_loops(1000000);
+	 
+  msg_raise(&msg); 	    /*poslanie požiadavky na server*/
+  msg_get(&msg); 	    /*čakanie na odpoveď*/
+ }
+ }
+\end{verbatim}
+}
+
+Opäť je použitá registrácia pod symbolickým menom, v tomto prípade stačí, aby bolo odlišné od mena servera. Pre väčší počet klientov sa však vyžaduje, aby meno bolo v systéme jedinečné. Klientské vlákno pošle správu serveru. Ten inkrementuje hodnotu msg.data o dva a pošle späť. Klient vypíše na terminál stav správy : odosielateľ, príjemca a obsah položky data.
+
+Dôležitým faktom, je možnosť položku data pretypovať na ľubovoľný iný dátový typ. Podľa jeho veľkosti treba upraviť položku size. Systémom správ je tak možné pomocou ukazovateľov prenášať ľuboboľné dátové typy. Mimoriadnu pozornosť je potrebné venovať atomicite operácií : odosielaná dátová štruktúra nesmie byť menená, pokým nepríde odpoveď od servera.
+
+
+\section{Ďalšie príklady aplikácie}
+
+V adresári usr sa nachádzajú rôzne testovacie príklady pre použitie operačného systému.
+
+\subsection{Hello\_world}
+Ukážka jednoduchého trojvláknového programu. Aplikácia postupne bliká troma led, každá led je riadená svojím vláknom. Nevyžaduje sa žiadna knižnca zo sekcie lib.
+
+\subsection{Timers}
+Podobne ako v predošlom prípade, na riedenie časových intervalov je však použitá knižnica \textbf{sw\_timer.h}. Frekvenciu blikania je teda možné nastaviť s milisekundovým rozlíšením.
+
+\subsection{Locks}
+Vlákna vypisujú správy do terminálu s použitím funkcie eprintf (knižnica std\_io.h). Funkcia eprintf prebehne atomicky, text je teda vypísaný korektne, bez prerušenia iným vláknom.
+
+\subsection{Threads}
+Testovacia aplikácia, vytvára a ukončuje vlákna. Hlavné vlákno sa registruje na príjem správ a vytvorí štyri ďalšie vlákna. O úspechu operácií vypisuje správy na terminál. Po vytvorení všetkých vlákien, štyrikrát čaká na správu. Vytvorené vlákna počkajú 500ms. Potom pošlu správu s dátami nastavenými na svoje číslo. Po odoslaní vypíšu na terminál správu o tom, že sa ukončujú. Samotné ukončenie realizuje jadro systému korektným uprataním. Po ukončení všetkých štyroch vlákien, hlavné vlákno počká 1s a cyklus začne odznova. Aplikácia tak testuje možnosti posielania správ a korektné ukončovanie vlákien.
+
+\subsection{Cli}
+Ukážka rozhrania príkazového riadku a implementácia súborového systému. Najmä pre účely diagnostiky, je vhodné mať k dispozícií príkazový riadok. Adresár cli obsahuje veľmi jednoduchú implementáciu príkazového riadka so štyrmi príkazmi. 
+
+\begin{itemize}
+	\item ledon [NUMBER]	- zapne led
+	\item ledoff [NUMBER]	- vypne led
+	\item ls [DIRNAME]	- výpis obsahu adresára
+	\item cat [FILENAME]	- výpis obsahu súbora
+\end{itemize}
+
+Zapínanie/vypínanie led na doske :
+{\small
+\begin{verbatim}
+ledon 1
+ledoff 1
+\end{verbatim}
+}
+
+Príklad výpisu obsahu koreňového adresára alebo adresára binc :
+{\small
+\begin{verbatim}
+ls /.
+ls /binc
+\end{verbatim}
+}
+
+Príkaz cat umožňuje vypísať obsah súboru z disku na terminál:
+{\small
+\begin{verbatim}
+cat /subor.txt
+\end{verbatim}
+}
+
+Ako súborový systém, je pre jednoduchosť a dostupnosť dokumentácie použitý romfs. Pre vytvorenie obrazu disku je potrebný nástroj genromfs. Jeho použitie je veľmi jednoduché :
+{\small
+\begin{verbatim}
+genromfs -f my_disk.bin -d testdisk
+\end{verbatim}
+}
+
+Obsah adresára testdisk je použitý ako vzor na vytvorenie obrazu disku. Ten sa uloží do súboru my\_disk.bin. Jeho obsah je možné pozrieť, napr. pomocou mcedit. Tento súbor je možné uložiť, napr. do EEPROM alebo FRAM pamäte, pomocou vhodného programátora. Pre väčšie obsahy je možné použiť SD kartu. Príkaz na uloženie potom vyzerá nasledovne :
+{\small
+\begin{verbatim}
+sudo cat my_disk.bin > /dev/mmcblk0
+\end{verbatim}
+}
+
+Je to jednoduché presmerovanie obsahu súboru na zariadenie karty. Príkaz je potrebné vykonávať ako superužívateľ. Pre prípadnú kontrolu je možné pripojiť obsah disku a prezerať jeho obsah :
+{\small
+\begin{verbatim}
+sudo mount -o loop my_disk.bin /media/testdisk/
+\end{verbatim}
+}

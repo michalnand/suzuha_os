@@ -1,0 +1,104 @@
+\chapter{Matematický model}
+
+Tu je vhodné uviesť ďalej používané základné pojmy a tvrdenia. 
+Čitetel ocení ak sú tieto demonštrované na výstižných ilustračných príkladoch. 
+Opäť nezabudnúť dôsledne citovať autorov. 
+U vlastných výsledov sa zse nehambiť na túto skutočnosť upozorniť -- napríklad názvom podkapitoly.
+
+
+\section{Problém pažravej trojhodnotovej stonožky}
+
+Nech $m,n,a,b$ prirodzené čísla $n,m \ge 2$ a $0<a<b$. 
+Sú dané $n$-tice prirodzených čísel ${\mathrm a}=(a_1,\dots,a_j,\dots,a_n)$
+a ${\mathrm b}=(b_1,\dots,b_j,\dots,b_n)$ také, že $a_j+b_j \le m$.
+Hľadá sa taká matica ${\mathrm A}=(a_{ij})_{m\times n}$, ktorá v každom
+stĺpci $j$ obsahuje aspoň $a_j$ prvkov rovných $a$ a aspoň $b_j$ prvkov rovných $b$,
+pričom rozdiel medzi najväčším a najmenším  riadkovým súčtom prvkov matice ${\mathrm A}$ 
+je čo najmenší.
+
+Označme $M=\{1,2,\dots,m\}$ a $N=\{1,2,\dots,n\}$. 
+Uvažujme premenné matice 
+${\mathrm X} = (x_{ij})_{m\times n}$, ${\mathrm Y}=(y_{ij})_{m\times n}$ s prvkami
+
+$$
+x_{ij}=\left\{\begin{array}{ll}
+	 1, &\mbox{ak } a_{ij}=a \\
+	 0, &\text{inak}         \end{array}\right.
+\quad 
+y_{ij}=\Bigg\{\bigg\{\Big\{\big\{\begin{array}{ll}
+	 1, &\mbox{ak } a_{ij}=b \\
+	 0, &\mbox{inak}.        \end{array}
+\quad 
+y_{ij}=\Big\{\begin{array}{ll}
+	 1, &\mbox{ak } a_{ij}=b \\[-.5em]
+	 0, &\mbox{inak}.        \end{array}
+$$
+
+Zátvorka \verb|\left\{| musí mať pravý pár,  napr. \verb|\right\}|  alebo,  ak nechceme mať na
+druhej strane nič, použijeme príkaz s bodkou \verb|\right.|
+
+Nech $m,n,a,b$ prirodzené čísla $n,m \ge 2$ a $0<a<b$. 
+Sú dané $n$-tice prirodzených čísel ${\mathrm a}=(a_1,\dots,a_j,\dots,a_n)$
+a ${\mathrm b}=(b_1,\dots,b_j,\dots,b_n)$ také, že $a_j+b_j \le m$.
+Hľadá sa taká matica ${\mathrm A}=(a_{ij})_{m\times n}$, ktorá v každom
+stĺpci $j$ obsahuje aspoň $a_j$ prvkov rovných $a$ a aspoň $b_j$ prvkov rovných $b$,
+pričom rozdiel medzi najväčším a najmenším  riadkovým súčtom prvkov matice ${\mathrm A}$ 
+je čo najmenší.
+
+
+
+Problém možno riešiť ako nasledujúcu úlohu matematického programovania:
+
+\begin{alignat}{2} \label{u_1}
+& z_2-z_1 \rightarrow \min             &                  &             \\
+& \sum_{i\in M} x_{ij} \ge a_j,        &j\in N,           & \label{u_2} \\
+& \sum_{i\in M} y_{ij} \ge b_j,        &j\in N,           & \label{u_3} \\
+& x_{ij} + y_{ij} \le 1,               &i\in M, j\in N,   & \label{u_4} \\
+& \sum_{i\in M} x_{ij}+ y_{ij} \le m,  &j\in N,           & \label{u_5} \\
+& z_1 \le \sum_{j\in N} a\cdot x_{ij}+b\cdot y_{ij} \le z_2,  
+                                       &i\in M,           & \label{u_6} \\
+& x_{ij}, y_{ij} \in \{0,1\},          &i\in M, j\in N,   & \label{u_7} \\
+& z_1, z_2 \ge 0.                      &                  & \label{u_8}
+\end{alignat}
+
+alebo ináč usporiadané a niektoré sumy ináč zobrazené:
+
+\begin{alignat}{2} \label{u_1}
+& z_2-z_1 \rightarrow \min             &&                               \allowdisplaybreaks\\
+& \sum_{i\in M} x_{ij} \ge a_j,        &&j\in N,            \label{v_2} \allowdisplaybreaks\\
+&\textstyle \sum_{i\in M} x_{ij} \ge a_j,          
+                                       &&j\in N,            \nonumber   \allowdisplaybreaks\\
+&\textstyle \sum\limits_{i\in M} x_{ij} \ge a_j,
+                                       &&j\in N,            \nonumber   \allowdisplaybreaks\\
+& \sum_{i\in M} y_{ij} \ge b_j,        &&j\in N,            \label{v_3} \allowdisplaybreaks\\
+& x_{ij} + y_{ij} \le 1,               &&i\in M, j\in N,    \label{v_4} \allowdisplaybreaks\\
+& \sum_{i\in M} x_{ij}+ y_{ij} \le m,  &&j\in N,            \label{v_5} \allowdisplaybreaks\\
+z_1 \le &\sum_{j\in N} a\cdot x_{ij}+b\cdot y_{ij} \le z_2,\qquad  
+                                       &&i\in M,            \label{v_6} \allowdisplaybreaks\\
+& x_{ij}, y_{ij} \in \{0,1\},          &&i\in M, j\in N,    \label{v_7} \allowdisplaybreaks\\
+& z_1, z_2 \ge 0.                      &&                   \label{v_8}
+\end{alignat}
+
+
+
+Jednotkové hodnoty premenných $x_{ij}$ resp. $y_{ij}$ zodpovedajú umiestneniu
+hodnoty $a$ resp. $b$ v $i$-tom riadku a v $j$-tom stĺpci hľadanej matice.
+Optimálnym riešením je potom matica ${\mathrm A} = (a_{ij})_{m\times n}$  s prvkami
+%
+$$ a_{ij} = a\cdot x_{ij}+b\cdot y_{ij}.$$
+
+V cieľovej funkcii~\eqref{u_1} je hodnota premennej $z_2$ rovná najväčšiemu
+riadkovému súčtu prvkov matice a hodnota premennej $z_1$ zas najmenšiemu
+riadkovému súčtu. Podmienky~\eqref{u_2} a~\eqref{u_3} zabezpečujú, že bude
+vybraných najmenej $a_j$ hodnôt $a$ a najmenej $b_j$ hodnôt $b$ v každom
+stĺpci $j$. 
+Podmienka~\eqref{u_4} zabráni umiestneniu oboch nenulových hodnôt
+$a,b$ do jediného prvku $a_{ij}$ matice. 
+Podmienka~\eqref{u_5}
+obmedzuje zhora celkový počet nenulových prvkov v každom stĺpci počtom $m$
+-- riadkov matice. Podmienkou~\eqref{u_6}
+sú definované horná $z_2$ a dolná $z_1$ hranica riadkových súčtov. 
+Obmedzenia premených~\eqref{u_7} a~\eqref{u_8} sú obligatorné.
+
+
+

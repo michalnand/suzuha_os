@@ -1,0 +1,84 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[slovak,english]{babel}
+\usepackage[T1]{fontenc}             
+\usepackage[utf8]{inputenc}    
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,amscd}
+\usepackage{array,hhline}
+\usepackage{makeidx}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+    %%\usepackage{titlepage}
+    %%\usepackage{multicol}
+\usepackage{eurosym}
+\usepackage{url,mathptmx} 
+\usepackage[pdftex,unicode,bookmarks=false]{hyperref}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
+
+
+
+
+\renewcommand{\baselinestretch}{1.5}  % pre zvascenie riadkovania
+
+\addtolength{\oddsidemargin}{-.5cm}
+\addtolength{\evensidemargin}{-2.9cm}   
+\addtolength{\topmargin}{0cm}
+\addtolength{\textheight}{0pt}
+\addtolength{\textwidth}{2.cm}
+\addtolength{\textheight}{2.cm}
+\newlength{\verbcorr}
+\setlength{\verbcorr}{0ex}
+
+
+\begin{document}
+\selectlanguage{slovak}
+
+
+\pagestyle{empty}
+\pagenumbering{arabic}
+
+\include{title}		% Titulna strana, Abstrakt, Prehlasenie, Predhovor
+
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%% obsah
+
+{\setlength{\parskip}{1pt plus 1pt}
+
+\markboth{}{}
+
+\tableofcontents
+}
+
+\markboth{}{}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%% obsah - koniec
+
+
+%%%%%%%%%%%%%%%%%% kapitoly
+
+\include{uvod}		%  Úvod
+\include{popis_jadra}	%  Jadro CM3
+\include{analyza_os}	%  Analýza OS
+\include{navrh_struktur_os} % Návrh sruktúr OS
+\include{testovanie_os} % testovanie OS
+\include{pouzitie_os}	%  Príručka pre programátora
+\include{zaver}		%  Zaver
+
+
+
+%%%%%%%%%%%%%%%%%% literatura
+
+
+\include{lit}	%  Literatura
+
+\end{document}
+
+

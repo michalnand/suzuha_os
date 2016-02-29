@@ -1,0 +1,31 @@
+\chapter{Popis jadra cortex M3}
+\section{Úvod}
+
+
+Prvé mikroprocesory úspešne napredovali vo zvyšovaní výkonu vďaka zvyšovaniu počtu inštrukcií a zrýchľovaniu taktovacej frekvencie. V 80tych rokoch sa však ukázalo, že to nie je najlepšia cesta - radič mikroprocesora bol so vzrastajúcim počtom inštrukcii čoraz zložitejší. Páni Steve Furber a Sophie Wilson \cite{root_arm} si po preštudovaní dotupných publikácií a dôkladnej analýze uvedomili silné možnosti architektúry RISC 1, ktorá ponúkala pozoruhodný výpočtový výkon len so 44000 tranzistormi a 31 inštrukciami. Kľúčova myšlienka bol fakt, že ani progrmátor ani kompilátor nedokážu optimálne využiť komplexné sady inštrukcií. 
+
+Ich práca a vznik firmy Acorn vydláždili cestu k architektúre ARM 1. Prvé ARM jadro malo troj stupňovú pipeline - načítanie, dekódovanie a vykonanie inštrukcie bolo v idéalnom prípade vykonávané pre tri inštrukcie naraz, každá v inom štádiu. Problém predstavovali a do dnes predstavujú inštrukcie podmienených skokov. Redukovaním počtu inŠtrukcií a prístupom do pamäte len pomocou inštrukcií load store tento neduh veľmi dobre redukuje. Ďalším prínosom ARM 1 jadra je veľký počet registorv (pôvodne 37), všetky sú rovnocenné a dokonca programový čítač je namapovaný k týmto registorm, čo opäť umožňuje znížiť počet inštrukcií. Túto techniky využíva aj jadro msp430 \cite{msp430_mcu} .
+
+Netrvalo dlho a vývojáry si osvojili výhody jadra ARM. Dnes je známich mnoho verzií. Pre ilustráciu sú to napríklad popuĺarne ARM7TDMI, ARM11, ARM Cortex M, ARM Cortex R a veľmi výkonná rada ARM Cortex A \cite{arm_list} . Séria jadier Cortex A je populárna najmä v aplikačnej oblasti : smart phones, tablety, dvd a blue ray prehrávače. Dá sa očakávať ich postupné nasadenie v osobných počtačoch. Výhodou je najmä spotreba a cena, ktorú tlačí dole silná konkurencia.
+
+Práca je zameraná na jadro cortex m3 a cortex m4. Je to rada so širkým spektrom použitia, najmä pre priemyselné aplikácie, aplikácie s nízkou spotrebou a citlivé na cenu. Najlepším príkladom ich porovnania, z pohľadu inštrukčnej sady je nasledujúci obrázok.
+
+\begin{figure}[ht]
+\begin{center}
+\begin{minipage}{1.1\linewidth}
+\begin{center}
+\includegraphics[width=.8\textwidth]{images/cm_instructions.png}
+\caption{Porovnanie jadier Cortex Mx }
+\label{obr1}
+\end{center}
+\end{minipage}
+\end{center}
+\end{figure}
+
+Z obrázku je zrejmé, že jadrá sú navzájom kompatibilné, smerom k nižším modelom. Z konkrétnych typov mikrokontrolérov boli zvolené stm32f100 a lm4f120. Najmä pre ich bezproblémovú dostuponosť a cenu. Ako programátor pre stm32 bola použitá doska stm32 discovery kit a pre lm4f120 doska stellaris launchpad. Cena oboch dosiek je vzhľadom na možnosti použitia veľmi nízka. S doskami je možné programovať aj mikrokontroléry v extérnej aplikácií, stačí počítač s USB rozhraním.
+
+Pre samotné pochopenie a analýzu operačného systému je ael treba najprv rozobrať ich vnútornú, najmä registrovú štruktúru a trochu siahnúť na inštrukčnú sadu. Nasledujúca stať sa bude zaoberať práve touto problematikou.
+
+\section{V cortexe}
+asdfg
+

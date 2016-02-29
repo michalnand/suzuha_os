@@ -1,0 +1,519 @@
+\chapter{Návrh štruktúry a funkcií OS}
+ 
+Zohľadnením požiadavok pre implementáciu operačného systému v jednočipovom mikropočítači je možné vytvoriť základnú predstavu o architektúre systému. Vzľadom na obmedzenú pamäť ram, je vhodné celý systém vrátane aplikačnej časti implementovať do flash pamäte. V prípade väčšieho projektu s vysokou kapacitou ram pamäte (napr. od 1MB) je však vhodné do flash pamäte umiestniť len zavádzač systému. Tento malý program prekopíruje z externého pamäťového média systém do ram pamäte a spustí ho. Vo vstavaných systémoch môže byť týmto externým médiom napr. SD karta. Najmä v hromadnej automatizácií je možné na distribúciu systému použiť sieť.
+
+Operačný systém je navrhnutý s čo najväčším dôrazom na flexibilitu - je možné ho použiť na jednoduché udalostné systémy, aj na systémy s podporou reálneho času. Štruktúra pozostáva z tychto častí :
+
+\begin{itemize}      
+ \item spoločné súbory
+ \item jadro
+ \item zámky (mutexy)
+ \item správy
+ \item knižnice - štandartný vstup/výstup, ovládače ...
+ \item súborový systém
+\end{itemize}
+
+\section{Spoločné súbory}
+
+Pre uľahčenie kompilácie a prenostiteľnosti sú vyhradené spoločné súbory. Umiestnené sú v adresári commom. Hlavičkový súbor, ktorý ich zastrešuje je common.h, v hlavnom adresári systému. Vhodnou voľbou týchto hlavičkových súborov je možné systém portovať na ľubovoľné jadro triedy Cortex M3 a vyššie. V adresári common sa nachádza súbor common.h, ktorý podľa voľby mikrokontroléra vyberá konkrétne hlavičkové súbory. Jeho obsah je možné prispôsobovať použitému harvéru - mikrokontrolér, periférie na doske ale vlastná vrstva abstrakcie hardvéru.
+V prípade tohto systému je možné vybrať medzi troma vývojovými doskami.
+\begin{itemize}  
+ \item stm32 - vlastná experimentálna doska
+ \item stmdiscovery - STM Discovery vývojová doska
+ \item stellaris - stellaris launchpad
+\end{itemize}
+
+Všetky uvedené adresáre majú rovnakú štruktúru. Napr. obsah súboru stm32.h, zahŕňa všetky hardvérovo závislé časti a zabezpečuje aj ovládanie periférií na doske :
+\begin{itemize} 
+ \item void common\_init() - inicilizácia dosky : nastavenie vstupov a výstupov, inicializácia hodín
+ \item void delay\_loops(u32 loops); - jednoduchá čakacia slučka
+ \item void led\_on(u32 led); - zapne led, typ led je definovaný v common.h
+ \item void led\_off(u32 led); - vypne led
+ \item u32 get\_key(); - vráti bitovú masku stlačených tlačidiel
+\end{itemize}
+
+\section{Jadro}
+
+Systém je navrhovaný s koncepciou mikrojadra. Jadro preto zabezpečuje len základné funkcie : vytváranie a rušenie vlákien, správa multitaskingu, plánovanie procesov. Jadro ďalej zabezpečuje prechod vlákna do režimu čakania a zobúdzanie vlákien. Dôležitou funkciou je aj elementárne zabezpečenie atomicity. Stavový diagram úlohy je možné znázorniť nasledujúcim grafom :
+
+
+
+\begin{figure}[ht]
+\begin{center}
+\begin{minipage}{1.1\linewidth}
+\begin{center}
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.9 cm,
+                    semithick]
+
+  \tikzstyle{every state}=[fill=cyan,draw=none,text=black]
+
+  \node[state] (A) {vytvorená};
+  \node[state] (B) [right of=A] {beží};
+  \node[state] (C) [right of=B] {ukončená};
+  \node[state] (E) [above of=B]       {spí};
+ \node[state]  (D)  [below of=B] {pozastavená};
+
+  \path (A) edge              node {prvé spustenie} (B) 
+  	(B) edge              node {ukončenie} (C)
+	(B) edge  [bend left]            node {uspanie} (E)  
+	(E) edge  [bend left]           node {zobudenie} (B)
+
+	(D) edge  [bend left]           node {opätovné pridelenie procesora} (B)
+	(B) edge  [bend left]            node {prepnutie kontextu na ďalšiu úlohu} (D)  
+	;
+\end{tikzpicture}
+
+
+\caption {Stavový diagram úlohy}
+\label{obr1}
+\end{center}
+\end{minipage}
+\end{center}
+\end{figure}
+
+Graf znázorňuje životný cyklus úlohy. Stav \textbf{vytvorená} informuje plánovač jadra, že je k dispozicií nová úloha, a pri ďalšom plánovaní bude tento fakt zohľadnený. Najvhodnejšia úloha na pridelnie proceosrového času prejde do stavu \textbf{beží}. Bežiaca úloha môže byť ukčená, prechodom do stavu \textbf{ukončená}. Tento prechod môže teoreticky nastať v ľubovolnom zo stavov úlohy. Pre stabilitu systému je však vhodné nežiadúce situácie ošetriť, napr. dodatočným uvoľnením zdrojov ktoré si úloha vyžiadala.
+Stav \textbf{spí} znamená, že úloha dobrovoľne prešla do stavu čakanie - obvykle na správu alebo iný prostriedok, ktorý práve nie je dostupný. Na druhej strane, stav \textbf{pozastavená}, znamená že plánovač prepol kontext na inú úlohu. Pozastvená úloha teda čaká na procesor.
+
+\subsection{Atomicita}
+
+Atomicita zabezpečuje nedeliteľnosť operácie. Ak k prostriedku (premenná, periféria) pristupuje paralelne viac vlákien, je nutné zabezpečiť vyhradený prístup. Ak má byť nezdieľatený prostriedok použitý viacerými vláknami, musí byť zabezpečné aby maximálne jedno vlákno mohlo s týmto prostriedkom narábať.
+Pre zabezpečenie triviálnej atomicity operácií sú k dipozícií dve funkcie jadra :
+{\small
+\begin{verbatim}
+sched_on();
+sched_off();
+\end{verbatim}
+}
+
+V konečnom dôsledku je to zakázanie a povolenie prerušení. Je dôležité, aby čas kedy sú prerušenia zakázané, bol čo najkratší. Príkladom je nastavenie globálnej premennej, využívanej vo viacerých vláknach. Nastavenie hodnoty v prvom vlákne :
+{\small
+\begin{verbatim}
+volatile u32 global;
+...
+sched_off();
+global = 0xCAFE3210;
+sched_on();
+\end{verbatim}
+}
+
+Čítanie v druhom vlákne :
+
+{\small
+\begin{verbatim}
+volatile u32 tmp;
+sched_off();
+tmp = global;
+sched_on();
+\end{verbatim}
+}
+
+Treba poznamenať, že v prípade ARM architektúry je prístup k 32 bitovej premennej atomický - čítanie alebo zápis je riešený jedinou nedeliteľnou inštrukciou (príklad má teda ilustračný charakter). Mimoriadnu pozornosť však treba venovať konštrukcií :
+
+{\small
+\begin{verbatim}
+global|=(1<<7)
+\end{verbatim}
+}
+
+Nastavenie, alebo nulovanie bitu už nemusí prebiehať atomicky. Z dôvodu zabezpečenia prenositeľnosti na iné architektúry aj čitateľnosti programu, je vhodné pristupovať ku všetkým globálnym premenným pomocou zákazu a povolenia prerušenia. 
+
+\subsection{Vytvorenie úlohy}
+
+Riadiacou štruktúrou úlohy je TCB (task/thread controll block). Jej konkrétna podoba je realizovaná nasledovne :
+{\small
+\begin{verbatim}
+struct sTask
+	{
+	 u16 cnt, icnt; /*počitadlá pre prioritný plánovač*/
+	 u32 flag;      /*stav vlákna*/
+	 u32 *sp;       /*ukazovateľ na zásobník*/
+	};
+\end{verbatim}
+}
+
+Pre korektné vytvorenie úlohy je potrebné štruktúru vhodne naplniť. Najdôležitejším faktorom je ukazovateľ zásobníka, jeho počiatočný stav a obsah. V systéme je prítomné pole týchto štruktúr - \_\_task\_\_. Jeho veľkosť je uložená v konštante TASK\_MAX\_COUNT. Na vytvorenie úlohy slúži funkcia jadra \textbf{u32 create\_task(void *task\_ptr, u32 *s\_ptr, u32 stack\_size, u16 priority)}.
+
+Tá najprv zastaví jadro - vytvorenie prebieha atomicky. Potom prehľadáva pole \_\_task\_\_ kým nenájde voľnú položku. Tento fakt je poznačený v položke flag. Ak nie je prítomný príznak TF\_CREATED, položka je voľná.
+
+Po dôkladnej úvahe je zrejmá nasledujúca forma inicializácie zásobníka :
+{\small
+\begin{verbatim}
+ /*sp na koniec - počet registrov*/
+ __task__[task_id].sp= s_ptr+stack_size-CONTEXT_REGS_COUNT;
+ 
+ *(s_ptr+stack_size-3)= (u32)thread_ending;  /*LR terminačná funkcia vlákna*/
+ *(s_ptr+stack_size-2)= (u32)task_ptr;       /*PC hlavná funkcia vlákna*/
+ *(s_ptr+stack_size-1)= (u32)0x21000000;     /*stavový register*/
+\end{verbatim}
+}
+
+Ukazovateľ sp riadiacej štruktúry sa presununie na koniec poľa pre zásobník. Je však potrebné odpočítať registre, ktoré budú na zásobníku uložené, aby proces obnovy kontextu vyberal správne položky.
+Na konkrétne hodnoty stačí inicializovať tri registre. Register LR je možné naplni nulou, ale to by vlákno nesmelo nikdy skončiť. Vhodné je preto naplniť ho ukazovateľom na ukončovaciu funkciu vlákna. Táto funkcia vynuluje príznak TF\_CREATED a skončí v nekonečnej slučke. Po prepnutí kontextu plánovač túto úlohu už nikdy nevyberie a položka je voľná pre vytvorenie ďalšej úlohy.
+Register PC musí ukazovať na hlavnú funkciu vlákna. Stavový register sa nastaví na hodnotu po restovaní procesora s tým, že sú povolené prerušenia.
+
+
+\subsection{Multitasking}
+
+Na realizáciu preemptívneho multitaskingu je nevyhnutná existencia prerušovacieho systému. Principiálne nie je potrebé, aby bol zdroj prerušenia periodický. Pre jednoduché modelovanie správania sa sytému, je vhodné použiť periodický časovač SYS\_Tick. Touto prerifériou sú vybavené všetky jadra Cortex M3. Na iných mikrokontroléroch je možné použiť ľubovoľný časovač. Konkrétna implementácia obsluhy prerušenia vyzerá nasledovne :
+
+{\small
+\begin{verbatim}
+void SYS_TICK_INT()__attribute__( ( naked ) ); 
+void SYS_TICK_INT() {
+ __asm volatile("push {r4-r11}");  /*uloženie kontextu*/
+ u32 *sp = (u32*)__get_MSP_();     /*prečítanie ukazovateľa zásobníka*/
+
+ /*prvé spustenie - ignorovať uloženie stavu procesu*/
+ if (__current_task__ != SYSTEM_INIT)  
+   __task__[__current_task__].sp = (u32*)sp; /*uloženie ukazovateĺa zásobníka do TCB*/
+ else
+   __current_task__ = 0;               /*ukončenie prvého spustenia*/
+ scheduler();                          /*vybratie vhodnej úlohy na spustenie*/
+ sp = __task__[__current_task__].sp;   /*nastavenie zásobníka*/
+
+ __asm volatile("msr msp, %0\n\t" : : "r" (sp) ); /*obnova kontextu*/
+ __asm volatile("mvn lr,#6");
+ __asm volatile("pop {r4-r11}");
+ __asm volatile("bx lr");                        /*návrat z prerušenia*/
+}
+\end{verbatim}
+}
+
+Hardvér mikrokontroléra automaticky ukladá niektoré registre. Je to z dôvodu urýchlenia reakcie na prerušenie. Neukladá však všetky, zvyšné treba uložiť programovo. Ihneď potom treba prečítať stav hardvérového ukazovateľa zásobníka do pomocnej premennej sp. Ak nie je systém v štádiu inicializácie (prvé vyvolanie prerušenia), premenná sp sa uloží do kontrolného bloku vlákna. Spustí sa plánovač, ktorý vhodným algoritmom vyberie úlohu vhodnú na spustenie a naplní globálnu premennú \_\_current\_task\_\_ číslom úlohy.
+Hardvérovi zásobník sa nastaví podľa nového stavu TCB. Následne sa do registra LR uloží hodnota \#6 (negované), čo informuje jadro procesora o návrate z prerušenia, a že má zo zásobníka vybrať automaticky uložené registre. Programovo sa vyberú registre, ktoré nie sú vyberané hardvérovo a dôjde k návratu z prerušenia. Procesor pokračuje vykonávaním ďalšej úlohy.
+
+
+\subsection{Plánovač}
+
+V systéme boli zvolené dve možnosti plánovacích algoritmov. Prvým je jednoduchý round-robin, ktorý slúži skôr na zoznámenie sa so systémom a testovanie. Primárnym plánovacím algoritmom je prioritný plánovač s ohľadom na deadline úloh. Plánovač cyklicky prepína úlohy a každej prideľuje pevné časové kvantum. Úloha s najkritickejším deadline je vybraná pre pridelenie ďalšieho časového kvanta. Dĺžka trvania časového kvanta závisí od periódy systémového časovača. Pre prioritné prideľovanie času procesora slúžia čítacie premenné u16 cnt, icnt; Hodnota icnt je zadaná pri vytváraní úlohy. Menšia hodnota znamená vyššiu prioritu. Minimálna hodnota je určená konštantou PRIORITY\_MAX. Naopak, najnižšia priorita je určená konštantou PRIORITY\_MIN. Hodnota PRIORITY\_MAX je určená maximálnym počtom úloh. Je to z dôvodu zabezpečenia splnenia podmienok pre plánovač.
+
+Plnánovací algoritmus je implementovaný nasledovne :
+{\small
+\begin{verbatim}
+ u32 i, min_i = 0;
+ for (i=0; i<TASK_MAX_COUNT; i++)		
+ {
+  /*nájdenie úlohy s najmenšou hondotou čítača*/
+  if ( ((__task__[i].flag&TF_WAITING) ==0) && 
+       ((__task__[i].flag&TF_CREATED) !=0) && 
+       (__task__[i].cnt < __task__[min_i].cnt) )
+   min_i=i;
+
+  /*dekrementácia čítača*/
+  if (__task__[i].cnt != 0)
+    __task__[i].cnt--;
+ }
+
+ /*pre vybranú úlohu opäť inicilizácia čítača*/
+ __task__[min_i].cnt = __task__[min_i].icnt;
+ /*nastavenie vybranej úlohy*/
+ __current_task__ = min_i;
+\end{verbatim}
+}
+
+Na začiatku vyberie úlohu 0. Táto úloha musí vždy existovať, nesmie byť nikdy ukončená. Preto ju môže implicitne vybrať. Následne v cykle hľadá vhodnejšiu úlohu. Tá musí mať nastavený príznak RF\_CREATED a nesmie byť v stave TF\_WAITING. Vybranej úlohe bude nastavený prioritný čítač na počiatočnú hodnotu. Premenná  \_\_current\_task\_\_ sa nastaví na ID vybranej úlohy.
+
+\section{Zámky}
+
+Nevyhnutnou súčasťou viacúlohového operačného systému, je zabezpečenie medziprocesorovej synchronizácie. V oblasti mikrokontrolérov je taktiež nevyhnuté riešenie problému prístupu k periférií viacerými vláknami. Objekt umožňujúci túto funkcionalitu je známy ako mutex - zámok. Volaním zámku \textbf{lock(dev\_name)} vlákno čaká na uvoľnenie periférie dev\_name. V premennej dev\_name je uložená bitová maska zdrojov, na ktoré sa má čakať. Je teda možné čakať na ľubovoľný príznak, nie len spojený s perifériou. Po zbehnutí kritckej sekcie je nevyhnutné volať \textbf{ulock(dev\_name)}. Táto funkcia uvoľní nezdieľateľný prostriedok pre ďalšie úlohy.
+
+Konktrétna implementácia je obsiahnutá v súbore \textbf{lib/lock.c}. V systéme je prítomná globálna premenná \_\_dev\_locks\_\_, ktorá udržiava stav obsadených periférií.
+
+Čakanie na uvoľnenie príznakov nie je úplne triviálne. Konštrukcia typu 
+
+\newpage
+{\small
+\begin{verbatim}
+sched_on(); 
+while ((__dev_locks__&dev_flags) != 0) next_task();
+sched_off(); 
+__dev_locks__|= dev_flags;
+sched_on(); 
+\end{verbatim}
+}
+
+Je hrubou chybou. Vo veľkej väčšine prípadov to bude fungovať. Raz za čas (dnes alebo aj za rok) však dôjde k neoprávnenému nastaveniu príznakov.
+
+Cyklus \textbf{while ((\_\_dev\_locks\_\_\&dev\_flags) != 0) next\_task()}; je úplne v poriadku. V dobe čakania nie je vhodné plytvať procesorovým časom, dobré je preto prepnúť na ďalšiu úlohu. Nasledujúca časť sa snaží o atomické nastavenie príznaku. Medzi ukončením čakacieho cyklu a nastavením príznaku, môže dôjsť k prepnutiu kontextu na druhé vlákno, ktoré je v presne tej istej situácií. Druhé vlákno si nastaví príznak a vstúpi do kritickej sekcie. Po ďalšom prepnutí kontextu aj prvé vlákno nastaví príznak a vstúpi do tej istej kritickej sekcie. Systém sa dostane do neprijateľnej situácie.
+
+
+Správna implementácia je realizovateľná nasledovne :
+{\small
+\begin{verbatim}
+void lock_dev(u32 dev_flags)
+{
+ do
+  {
+   sched_on(); 
+   #if LOW_POWER_MODE==1
+    while ((__dev_locks__&dev_flags) != 0) low_power_mode();	/*čakaj na uvoľenie zámku*/
+   #else
+    while ((__dev_locks__&dev_flags) != 0) set_wait_state();	/*čakaj na uvoľenie zámku*/
+   #endif
+   sched_off();							/*zakázanie prerušení*/
+  }
+   while ((__dev_locks__&dev_flags) != 0);			/*znovu testovanie príznaku*/
+	
+ __dev_locks__|= dev_flags;					/*atomicky nastaviť príznak*/
+
+ sched_on(); 							/*povolenie prerušení*/
+}
+\end{verbatim}
+}
+
+Opäť je základom while cyklus, čakajúci na vynulovanie príznakov. Po jeho ukončení sa zastaví systém volaním \textbf{sched\_off()}. Nasleduje opätovná kontrola príznaku - kernel je pozastavený, takže k prepnutiu kontextu nemôže dôjsť. Ak je príznak stále vynulovaný, je možné ho bez obáv nastaviť a opäť spustiť jadro systému.
+Z dôvodu šetrenia výpočtového výkonu je využité nastavenie príznaku \textbf{set\_wait\_state()}, ktorý pozastaví práve vykonávaný proces. Prípadne je možné zvoliť vstup do režimu zníženej spotreby volaním \textbf{low\_power\_mode()}.
+
+Odomknutie zdroja (výstup z kritickej sekcie) je triviálny problém :
+{\small
+\begin{verbatim}
+/*opustenie kritickej sekcie*/
+void ulock_dev(u32 dev_flags)
+{
+ sched_off();
+ __dev_locks__&= ~dev_flags;	/*atomické vynulovanie príznaku*/
+ sched_on();
+ wake_up_threads();		/*zobudenie všetkých spiacich vlákien*/
+}
+\end{verbatim}
+}
+
+Za zmienku stojí volanie jadra \textbf{wake\_up\_threads()}. Toto volanie zobudí všetky vlákna - vynuluje príznaky TF\_WAIT. Vlákna si tak postupne môžu spracovať nové údaje o stave premennej \_\_dev\_locks\_\_.
+
+\section{Správy}
+
+Správy umožňujú medzivláknovú komunikáciu. Najmä v komplexnejších projektoch je vhodné úlohu rozdeliť na jednotlivé moduly, ktoré medzi sebou komunikujú. Iný prípad je realizácia ovládačov (alebo poskytovateľov ľubovoľnej inej služby) ako serverové vlákna. Klienti pomocou zaslania spravy - požiadavky využívajú poskytovanú službu. 
+
+Z hľadiska synchronizácie, môže byť posielanie/prijímanie správ synchrónne alebo asynchrónne. V asynchrónnej operácií sa nečaká na doručenie, ani prijatie správy. Funkcia zbehne a podľa návratovej hodnoty je možné určiť stav správy - či bola prijatá alebo úspešne odoslaná. Na druhej strane sú tu synchrónne operácie - vždy sa čaká na ukončenie a úspešné prevzatie správy.
+
+Z pohľadu dobre navrhnutého systému sa môže zdať vhodné použitie len synchrónnych operácií. V praxi sa však môže stať, že príjemca správy zhavaruje a odosielateľ by do nekonečna čakal na ukončenie operácie.
+
+Najlepším príkladom je klient server aplikácia. Klient pošle serveru správu ako požiadavok na službu. Posiela ju synchrónne, pretože chce mať istotu, že server požiadavku prijal. Server synchrónne príjme správu (ak nie je správa vo fronte, čaká a zbytočne nezaťažuje procesor). Vyhodnotí požiadavku a pošle odpoveď. Tentoraz však asynchrónne. Existuje predpoklad, že klientská časť je nespoľahlivá a nemusí správu korektne spracovať. Ak by bola správa synchrónne posielaná, server by mohol zamrznúť a ostatné vlákna by nemohli využívať jeho služby.
+
+Príklad asynchrónnej spolupráce :
+{\small
+\begin{verbatim}
+     vlákno server              vlákno klient
+     get_message();                ...
+     prijatie                      send_message()
+     ...                           ...
+     spracovanie                   vlákno je niečim zamestnané
+     ...                           ...
+     send_message();               ...
+     ...                           ...
+     server nie je                 ...
+     blokovaný                     ...
+     pokračuje ďalšou              vlákno je stále zamestnané
+     činnosťou                     ...
+     ...                           ...
+     ...                           get message()
+\end{verbatim}
+} 
+
+Pomocou správ je možné realizovať aj synchronizáciu operácií, ak je využié synchrónne posielanie správ :
+{\small
+\begin{verbatim}
+     vlákno server              vlákno klient
+     get_message();                ...
+     ...                           send_message();
+     prijatie                      get_message();  --čakanie
+     ...                           
+     spracovanie   
+     ...                
+     send_message()                prijatie
+     ...                           ...
+\end{verbatim}
+} 
+
+Samotná implementácia je obsiahnutá v súbore \textbf{lib/messages\_f.c}. Druhý subor je messages.c, ktorý nevyužíva frontu správ, je preto vhodnejší skôr v štádiu ladenia alebo akútneho nedostatku pamäte ram. Pre podrobný princíp funkcie tohto modulu, stačí popísať štruktúru sMsg.
+{\small
+\begin{verbatim}
+struct sMsg
+{
+ u32 destination, source;
+ u32 size;
+ u32 data;
+}
+\end{verbatim}
+}
+
+Parameter destination obsahuje symbolické meno príjemcu. Podobne source obsahuje symbolické meno odosielateľa. Tieto mená musia byť prístupné pre obe komunikujúce strany a v systéme jedinečné. Ďalším parametrom sú samotné dáta. V mnohých prípadoch stačí 32 bitová informácia. Pre čo najväčšiu univerzálnosť je však možné pretypovať premennú \textbf{u32 data} na ukazovateľ na ľubovoľnú dátovú štruktúru, napr. pole. Podľa toho je potrebné upraviť položku \textbf{u32 size}.
+
+\subsection {Prijatie správy}
+Implementácia funkcie na prijatie správy zohľadňuje požiadavky na minimalizáciu aktívneho čakania. Najprv je potrebné zistiť, ktorá úloha sa uchádza o príjem správy - funkcie jadra \textbf{get\_task\_id()}.
+
+{\small
+\begin{verbatim}
+  u32 tid = get_task_id();
+\end{verbatim}
+}
+ 
+Potom je potrebné v slučke čakať na príchod správy. Treba poznamenať, že analýza stavu správy musí prebehnúť atomicky.
+
+{\small
+\begin{verbatim}
+ sched_off();
+
+ /*zistenie, či je vo fronte správa s korektným symbolickým menom*/
+ if ( __msg__[i].destination == __msg_names__[tid] ) {
+      /*prenos z fronty na výstup*/
+      msg->source = __msg__[i].source;
+      msg->destination = __msg__[i].destination;
+      msg->data   = __msg__[i].data;
+      msg->size   = __msg__[i].size;
+  
+      /*nulovanie položky vo fronte*/
+      __msg__[i].source      = MSG_NULL;
+      __msg__[i].destination = MSG_NULL;
+      __msg__[i].data        = MSG_NULL;
+      __msg__[i].size        = MSG_NULL;
+
+     sched_on();
+     return;
+    }
+\end{verbatim}
+}
+ 
+Ak sa nenájde položka na aktuálnej pozícií fronty, posunie sa ukazovateľ na ďalšiu. Ak je ukazovateľ na konci prehľadávanej fronty, nezostáva nieč iné, ako začať odznova. Pre šetrenie zdrojov procesora sa však nastaví príznak TF\_WAIT. Toto vlákno nebude spustené plánovačom, kým niektoré ďalšie vlákno nezavolá \textbf{ulock()}, \textbf{msg\_raise()} alebo \textbf{msg\_raise\_async()}. Pre mobilné aplikácie je tu možnosť implementovať režim zníženej spotreby v dobe čakania volaním \textbf{low\_power\_mode()}.
+{\small
+\begin{verbatim}
+ sched_off();
+ i++;
+ /*nový cyklus hľadania položky vo fifo fronte -> uvoľnenie procesora 
+   pre ďalšiu úlohu a prepnutie do režimu spánku */
+ if (i >= MSG_FIFO_SIZE) {
+   i = 0;
+   sched_on();	
+   #if LOW_POWER_MODE==1
+     low_power_mode();	/*správa nenájdená, uspi procesor*/
+     #else
+     set_wait_state();	/*správa nenájdená, uspi vlákno*/
+     #endif
+    }  
+  }
+}
+\end{verbatim}
+}
+
+\subsection {Poslanie správy}
+
+Jadrom posielania spŕav je funkcia \textbf{u32 msg\_raise\_async(struct sMsg *msg)}. Vráti hodnotu MSG\_SUCESS ak sa správu podarilo zaradiť do fronty. S využitím tohto faktu je možné realizovať aj jej synchrónnu variantu \textbf{u32 msg\_raise(struct sMsg *msg)}. Princíp je veľmi jednoduchý. Prehľadáva sa fronta dovtedy, kým sa nenájde voľná položka.
+{\small
+\begin{verbatim}
+  sched_off();  /*musí byť atomické*/
+  for (i = 0; i < MSG_FIFO_SIZE; i++)
+     /*nájdenie prvej voľnej položky*/
+     if (__msg__[i].source == MSG_NULL) 
+      {
+       /*naplnenie položky obsahom správy*/
+       __msg__[i].source = msg->source;
+       __msg__[i].destination = msg->destination;
+       __msg__[i].data = msg->data;
+       __msg__[i].size = msg->size;
+
+       sched_on();
+
+       /*zobudenie spiacich vlákien*/
+       wake_up_threads();
+       /*úspešný návrat z funkcie*/
+       return MSG_SUCESS;	
+      }
+\end{verbatim}
+}
+
+Treba poznamenať, že funkcia dodatačne kontroluje aj registráciu príjemcu. Neregistrovanému príjemcovi nemá zmysel posielať správu. Rovnako je dôležitá návratová hodnota MSG\_FIFO\_FULL. Informuje odosielateľa o plnej fronte.
+
+
+\section {Štandartný vstup a výstup}
+
+Operačný systém by mal byť vybavený jednoduchou možnosťou rozširovania podľa aplikácie. Všetky knižnice a rozširujúce moduly sú v adresári lib. Okrem už uvedených modulov, je najdôležitejšia knižnica \textbf{lib/std\_io.h}. Zabezpečuje funkcionalitu štandartného vstupu a výstupu. Podľa konkrétnej implementácie funkcií \textbf{put\_c()} a \textbf{get\_c()}, je fyzicky určená použitá periféria. V súčastnosti systém používa na tento účel jednotku UART. Tá je implementovaná v súbore \textbf{lib/uart.c}.
+Táto knižnica nájde uplatnenie nielen pri ladení programu, ale zapúzdrením do paketovej komunikácie je možné využiť výhody vzdialeného prístupu. Najdôležitejším prvkom tejto knižnice je funkcia \textbf{void eprintf(const char *s, ...)}. Je ekvivalentná s volaním printf. Podpora výpisu čísel v pohyblivej rádovej čiarke, však bola z úsporných dôvodov vypustená. Funkcia je implementovaná s premenným počtom parametrov. K tomu slúži hlavičkový súbor \textbf{stdarg.h}.
+
+Premenný počet parametrov je uložený na zásobníku. Začatie práce so zásobníkom je spravádzané volaniami :
+{\small
+\begin{verbatim}
+ va_list args;
+ va_start(args,s);
+\end{verbatim}
+}
+
+Volanie \textbf{va\_start(args,s)}; nastaví vnútorné ukazovatele za prvý parameter - ten jediný je povinný. Vyberanie jednotlivých položiek realizuje volanie 
+{\small
+\begin{verbatim}
+va_arg(args, int)
+\end{verbatim}
+}
+
+Parametrom je ukazovateľ na štruktúru argumentov a veľkosť vyberaného typu. Po skončení práce so zásobníkom je potrebné zavolať
+{\small
+\begin{verbatim}
+va_end(args);
+\end{verbatim}
+}
+
+Takto je možné pomocou formátovacieho znaku "\%" korektne spracovať všetky parametre a volať triviálne pomocné funkcie na ich výpis.
+
+\section {Súborový systém}
+
+Ako súborový systém je pre jednoduchosť a dostupnosť dokumentácie použitý romfs \cite{rom_fs}. Je to extrémne minimalistický súborový systém. Primárne je určený pre vstavané systémy s veľmi obmedzenými zdrojmi. Je to systém určený len na čitanie. Pre vytvorenie obrazu disku je potrebný nástroj genromfs. 
+
+Samotný súborový systém je realizovaný ako lineárny spojovaný zoznam. Základnou jednotkou je hlavička súboru. Prvá položka hlavičky je odkaz na ďalšiu hlavičku. Dolné štyri bity tohto odkazu sú využité na označenie typu súboru :
+
+\begin{itemize}      
+ \item 0 hard link
+ \item 1 directory
+ \item 2 regular file
+ \item 3 symbolic link
+ \item 4 block device
+ \item 5 char device
+ \item 6 socket
+ \item 7 fifo
+\end{itemize}
+
+Bit č. 3 nastavený na 1 označuje spustiteľnosť súboru. Celková štruktúra hlavičky súboru je realizovaná nasledovne :
+{\small
+\begin{verbatim}
+ offset      content
+ 
+            +---+---+---+---+
+      0     | next filehdr|X|       Pozícia ďalšej hlavičky
+            +---+---+---+---+         (nula, ak nie sú ďalšie)
+      4     |   spec.info   |       Informačná časť
+            +---+---+---+---+
+      8     |     size      |       Veľkosť súboru v bytoch
+            +---+---+---+---+
+     12     |   checksum    |       Kontrolný súčet 
+            +---+---+---+---+        
+     16     | file name     |       Nulou ukončený názov súboru,
+            :               :       zarovnaný na 16bytov
+            +---+---+---+---+
+     xx     | file data     |       Obsah súboru
+            :               :
+\end{verbatim}
+}
+
+Tento jednoduchý súborový systém nájde uplatnenie napr. pre uloženie konštánt, zvukových súborov, máp, alebo pri zavádzaní jadra Linuxu. V komprimovanej podobe možno nájsť jeho variantu (cramfs) v mnohých čitačkách elektronických kníh a smerovačoch.
+
+Jeho implementáciu do operačného systému zabezpečuje knižnica \textbf{lib/romfs.c}. Tá obsahuje najdôležitejšie funkcie na prácu s diskom :
+{\small
+\begin{verbatim}
+u8 rrd(u32 adr);
+u32 rffs_mount();
+void f_open(struct sRfile *file, char *file_name);
+void f_seek(struct sRfile *file, u32 pos);
+unsigned int f_getc(struct sRfile *file);
+\end{verbatim}
+}
+
+Funkcia u8 rrd() slúži na fyzické čítanie bytu z disku. Konkrétna implementácia závisí od pamäťového média. Je však potrebné zabezpečiť, aby sa disk javil ako lineárny pamäťový priestor. Súčasná verzia systému má súborový systém priamo v pamäti flash, preto je implementácia triviálna.
+
+
+Funkcia \textbf{rffs\_mount()} slúži na pripojenie zväzku. Vráti nenulovú hodnotu, ak je k dispozícií súborový systém v romfs formáte.
+
+Funkcia void \textbf{f\_open()} otvorí súbor. Súbor je otvorený v režime čítania - na disk sa nedá zapisovať.
+
+Funkcia void \textbf{f\_seek()} umožňuje ľubovoľný presnun ukazovateľa pozície v súbore.
+
+Funkcia unsigned int \textbf{f\_getc()} prečíta znak z aktuálnej pozície a presunie sa na ďalšiu. Vráti F\_EOF ak je už na konci súboru.

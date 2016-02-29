@@ -1,0 +1,103 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}                                \label{literatura}
+%\addcontentsline{toc}{section}{Literatúra}
+\addcontentsline{toc}{chapter}{Literatúra}
+
+\bibitem{root_arm}
+Mikroprocesory s architekturou ARM
+\url{http://www.root.cz/clanky/mikroprocesory-s-architekturou-arm/}
+
+\bibitem{msp430_mcu}
+Popis mikrokontroléra msp430
+\url{www.ti.com/lit/ug/slau049f/slau049f.pdf}
+
+\bibitem{arm_list}
+zoznam ARM jadier
+\url{http://en.wikipedia.org/wiki/List_of_ARM_microprocessor_cores}
+
+\bibitem{68HC11}
+jadro 68HC11
+\url{http://www.clear.rice.edu/elec201/Book/6811_asm.html}
+
+
+\bibitem{inside_cortex}
+inside Cortex príručka
+\url{http://www.hitex.com/fileadmin/pdf/insiders-guides/stm32/isg-stm32-v18d-scr.pdf}
+
+
+
+\bibitem{context_switch}
+prepínanie kontextu
+\url{http://www.eetimes.com/General/PrintView/4370755}
+
+\bibitem{operacni_systemi}
+Doc. Ing. František Plášil, CSc., Doc. Ing. Jan Staudek, CSc., 
+{\it Operační systémi}, 
+Knižnice výpočetní techniky, 
+Nakladatelství technické literatury (1992), 
+SNTL, ISBN 80-03-00269-9.
+
+
+\bibitem{linux_gui}
+zoznam grafických rozhraní
+\url{http://www.cyberciti.biz/faq/does-the-unix-or-linux-has-gui/}
+
+\bibitem{ti_msp430}
+nízkospotrebná rada mcu msp430
+\url{http://www.ti.com/lsds/ti/microcontroller/16-bit_msp430/overview.page?DCMP=MCU_other&HQS=msp430}
+
+\bibitem{qp_project}
+platforma qp
+\url{http://www.state-machine.com/}
+
+\bibitem{android_event} 
+udalosťami riadené programovanie na Androide
+\url{http://independentlyemployed.co.uk/2010/12/03/android-event-driven-programming/}
+
+\bibitem{apollo_agc} 
+navigačný počítač lode Apollo
+\url{http://www.apolloguidancecomputer.com/}
+
+
+\bibitem{rom_fs} 
+súborový systém romfs
+\url{http://romfs.sourceforge.net/}
+
+
+\bibitem{discovery_kit} 
+vývojová doska Stm32 Discovery
+\url{http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF250863}
+
+\bibitem{usb_uart} 
+prevodník usb na uart
+\url{http://www.ftdichip.com/Products/ICs/FT232BM.htm}
+
+\bibitem{stellaris_kit} 
+vývojová doska Stellaris Launchpad
+\url{http://www.ti.com/tool/ek-lm4f120xl}
+
+
+
+
+\bibitem{arm_summom_git} 
+summon arm toolchain
+\url{https://github.com/esden/summon-arm-toolchain}
+
+\bibitem{stlink} 
+nástroj stlink flash
+\url{https://github.com/texane/stlink}
+
+\bibitem{lm4_flash} 
+nástroj lm4 flash
+\url{https://github.com/utzig/lm4tools/tree/master/lm4flash}
+
+\bibitem{stellaris_ware} 
+knižnica Stellarisware
+\url{http://www.ti.com/tool/sw-grl}
+
+\bibitem{suzuha_source} 
+zdrpjové súbory operačného systému
+\url{http://sourceforge.net/projects/suzuhaos/files/}
+
+
+\end{thebibliography}

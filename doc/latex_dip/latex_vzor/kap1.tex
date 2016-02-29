@@ -1,0 +1,83 @@
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
+
+
+Hviezdičková konvencia funguje ako normálna kapitola,  ale nie je číslovaná 
+a nezobrazuje sa v obsahu.
+To znamená,  že sa číslovanie nasledujúcich kapitol posunie ---  to isté sa stane aj 
+s~obsahom --- ale súbor treba preložiť minimálne dva razy.
+Aby sa kapitola (sekcia, \dots) zobrazila do obsahu je potrebné zadať príkaz:
+
+\verb|\addcontentsline{toc}{chapter}{Úvod}|
+
+resp.
+
+\verb|\addcontentsline{toc}{section}{Sekcia}|
+
+
+Súbor treba prekladať pomocou \verb|pdflatex praca|  \fbox{pdflatex praca}.
+
+E-mail adresa a WWW stránka (interaktívne) sa píšu:
+
+\verb|\href{mailto:beerb@frcatel.fri.uniza.sk}{beerb@frcatel.fri.uniza.sk}|
+
+\verb|\url{http://frcatel.fri.uniza.sk/~beerb}|
+
+a výsledok je:
+
+\href{mailto:beerb@frcatel.fri.uniza.sk}{beerb@frcatel.fri.uniza.sk}
+
+\url{http://frcatel.fri.uniza.sk/~beerb}
+
+
+
+
+Tu by bolo dobré zoznámiť a zaradiť problematiku práce. 
+Je dobré mať na pamäti, na základe akých kriterii bude oponent hodnotit túto prácu. 
+Náročnosť zadania sa hodnotí slovne ako  malá, stredná, veľká na základe nasledujúcich kritérii:
+
+\begin{itemize}
+
+\item[$\heartsuit$]{teoretické znalosti,}
+
+\item[$\ast$]{invenčnosť, tvorivosť,}
+
+\item{experimenálna činnosť}
+
+\item{technické práce vrátane programovania,}
+
+\item{návrh algoritmu, datových štruktúr,}
+
+\item{informačno rešeržný prieskum a syntéza.}
+
+\end{itemize}
+
+Dôležitejšie pre záverečné hodnotenie je však je bodové hodnotenie 
+na základe nasledujúcich kritérii:
+
+\begin{enumerate}
+
+\item{Hĺbka analýzy vo vzťahu k téme [10b]}
+
+\item[1b)]{Adekvátnosť použitých metód [15b]}
+
+\item{Splnenie cieľov zadania [20b]}
+
+\item{Kvalita riešenia [15b]}
+
+\item{Logická stavba, nadvúznosť, úplnosť, zrozumiteľnosť [10b]}
+
+\item{Formálna gramatická úroveň práce, dokumentácie a prezentácie 10b}
+
+\end{enumerate}
+
+Ak by oponent robil toto hodnotenie v Exelovskej tabuľke a v bunke $D21$ by mal
+súčet bodov, potom výsledná známka bude
+
+{\scriptsize
+\begin{verbatim}
+=if(D21>=90;"A";if(D21>=80;"B";if(D21>=70;"C";if(D21>=60;"D";if(D21>=50;"E";"Fx"))))).
+\end{verbatim}
+}
+
+
