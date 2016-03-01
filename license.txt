@@ -1,8 +1,8 @@
     SuzuhaOS - operating system for arm cortex mcu, with new idea priority scheduler
 		focused on stm32 ARM (other ARMs cortex also working well)
 
-    Copyright (C) 2014  Authors 
-	Michal Chovanec - project leader
+    Copyright (C) 2014  Authors
+	Michal Chovanec - project leader michal.nand@gmai.com
 	Jana Hikanikova - romfs driver
 
     This program is free software: you can redistribute it and/or modify
