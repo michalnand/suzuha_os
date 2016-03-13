@@ -111,7 +111,7 @@
    In this case, these drivers will not be included and the application code will
    be based on direct access to peripherals registers
    */
-  /*#define USE_HAL_DRIVER */
+  #define USE_HAL_DRIVER
 #endif /* USE_HAL_DRIVER */
 
 /**
@@ -222,7 +222,7 @@ typedef enum
   */
 
 #if defined (USE_HAL_DRIVER)
- #include "stm32l0xx_hal.h"
+ #include "STM32L0xx_HAL_Driver/stm32l0xx_hal.h"
 #endif /* USE_HAL_DRIVER */
 
 #ifdef __cplusplus

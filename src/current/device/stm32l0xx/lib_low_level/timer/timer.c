@@ -1,25 +1,28 @@
 #include "timer.h"
 #include "../../../../os/kernel/kernel.h"
 
-#define RTC_CLOCK_SOURCE_LSI
-/*#define RTC_CLOCK_SOURCE_LSE*/
-
-#ifdef RTC_CLOCK_SOURCE_LSI
-#define RTC_ASYNCH_PREDIV    0x7F
-#define RTC_SYNCH_PREDIV     0x0130
-#endif
-
-#ifdef RTC_CLOCK_SOURCE_LSE
-#define RTC_ASYNCH_PREDIV  0x7F
-#define RTC_SYNCH_PREDIV   0x00FF
-#endif
-
-
 volatile time_t __system_time__;
 
 volatile u16 __event_timer_cnt__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_csr__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_flag__[EVENT_TIMER_COUNT];
+
+LPTIM_HandleTypeDef             LptimHandle;
+
+static void LSI_ClockEnable(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct;
+
+  /* Enable LSI clock */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+}
+
+
+
 
 
 void timer_init()
@@ -34,10 +37,60 @@ void timer_init()
 
 	__system_time__ = 0;
 
+  LSI_ClockEnable();
+
+  RCC_PeriphCLKInitTypeDef        RCC_PeriphCLKInitStruct;
+  RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPTIM1;
+  RCC_PeriphCLKInitStruct.LptimClockSelection = RCC_LPTIM1CLKSOURCE_LSI;
+  HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
+
+  LptimHandle.Instance = LPTIM1;
+
+  LptimHandle.Init.Clock.Source       = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
+  LptimHandle.Init.Clock.Prescaler    = LPTIM_PRESCALER_DIV1;
+  LptimHandle.Init.Trigger.Source     = LPTIM_TRIGSOURCE_0;
+  LptimHandle.Init.Trigger.ActiveEdge = LPTIM_ACTIVEEDGE_RISING;
+  LptimHandle.Init.CounterSource      = LPTIM_COUNTERSOURCE_INTERNAL;
+
+  HAL_LPTIM_Init(&LptimHandle);
+
+  #define Period               (uint32_t) 65535
+  #define Timeout              (uint32_t) (32768 - 1)
+
+  HAL_LPTIM_TimeOut_Start_IT(&LptimHandle, Period, Timeout);
+
+
+  // HAL_NVIC_SetPriority(LPTIM1_IRQn, 0 ,0);
+  //HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
+
+  led_on(LED_1);
+
+  while (1)
+  {
+    timer_delay_loops(1000);
+  }
 }
 
-void RTC_IRQHandler()
+volatile u32 tmp = 0;
+
+//void HAL_LPTIM_CompareMatchCallback(LPTIM_HandleTypeDef *hlptim)
+void LPTIM1_IRQHandler()
 {
+  led_off(LED_1);
+/*
+  if ((tmp%8) == 0)
+    led_on(LED_1);
+  else
+    led_off(LED_1);
+*/
+  tmp++;
+
+    LPTIM1->ICR = LPTIM_FLAG_CMPM;
+//  __HAL_LPTIM_CLEAR_FLAG(&LptimHandle, LPTIM_FLAG_CMPM);
+}
+
+
+/*
 	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
@@ -52,10 +105,9 @@ void RTC_IRQHandler()
 
 	__system_time__+= 10;
 
-
-	RTC->ISR &=~ RTC_ISR_WUTF; /* Reset Wake up flag */
-  EXTI->PR |= ((uint32_t)0x00100000); /* clear exti line 20 flag */
+  // __HAL_LPTIM_CLEAR_FLAG(&LptimHandle, LPTIM_FLAG_CMPM);
 }
+*/
 
 void timer_delay_loops(u32 loops)
 {

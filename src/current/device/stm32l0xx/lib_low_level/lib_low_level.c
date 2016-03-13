@@ -57,7 +57,6 @@ void SystemClock_Config(void)
 
 void lib_low_level_init()
 {
-  HAL_Init();
   SystemClock_Config();
 
 	#ifdef _GPIO_H_
@@ -69,7 +68,7 @@ void lib_low_level_init()
 	#endif
 
 	#ifdef _TIMER_H_
-	// timer_init();
+	timer_init();
 	#endif
 
 	#ifdef _PWM_H_
@@ -84,7 +83,22 @@ void lib_low_level_init()
 //	adc_init();
 	#endif
 
-/*
+
+  while (1)
+  {
+    led_on(LED_1);
+
+    timer_delay_ms(100);
+
+    led_off(LED_1);
+
+    timer_delay_ms(100);
+
+
+    uart_write('a');
+  }
+
+
   u32 loops;
   while (1)
   {
@@ -101,11 +115,5 @@ void lib_low_level_init()
       __asm("nop");
 
     uart_write('a');
-
-    char c = uart_read() + 1;
-    uart_write(c);
-
-  //   putc_('B');
   }
-  */
 }

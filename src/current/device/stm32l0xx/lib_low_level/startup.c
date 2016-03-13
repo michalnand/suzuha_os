@@ -10,7 +10,7 @@ extern uint32_t __bss_start__[], __bss_end__[];
 extern uint32_t __etext[];                // End of code/flash
 
 void _reset_init(void)    __attribute__((naked, aligned(2)));
-extern int main(void);       
+extern int main(void);
 
 
 //  Default interrupt handler
@@ -22,19 +22,19 @@ void __attribute__((interrupt("IRQ"))) Default_Handler()
 
 
 // Handle hard faults
-static void __attribute__((naked)) HardFault_Handler(void) 
+static void __attribute__((naked)) HardFault_Handler(void)
 {
     u32 loops;
     while (1)
     {
         led_on(LED_1);
-        loops = 10000000;
+        loops = 100000;
         while (loops--)
             __asm("nop");
-        
+
 
         led_off(LED_1);
-        loops = 10000000;
+        loops = 100000;
         while (loops--)
             __asm("nop");
     }
@@ -43,6 +43,7 @@ static void __attribute__((naked)) HardFault_Handler(void)
         __asm("nop");
 }
 
+
 /* Weak definitions of handlers point to Default_Handler if not implemented */
     void NMI_Handler() __attribute__((weak, alias("Default_Handler")));
     //    void HardFault_Handler() __attribute__((weak, alias("Default_Handler")));
@@ -50,7 +51,7 @@ static void __attribute__((naked)) HardFault_Handler(void)
     void DebugMon_Handler() __attribute__((weak, alias("Default_Handler")));
     void PendSV_Handler() __attribute__((weak, alias("Default_Handler")));
     void SysTick_Handler() __attribute__((weak, alias("Default_Handler")));
-    
+
     void WWDG_IRQHandler() __attribute__((weak, alias("Default_Handler")));
     void PVD_IRQHandler() __attribute__((weak, alias("Default_Handler")));
     void RTC_IRQHandler() __attribute__((weak, alias("Default_Handler")));
@@ -77,7 +78,7 @@ static void __attribute__((naked)) HardFault_Handler(void)
     void USART2_IRQHandler() __attribute__((weak, alias("Default_Handler")));
     void RNG_LPUART1_IRQHandler() __attribute__((weak, alias("Default_Handler")));
     void LCD_IRQHandler() __attribute__((weak, alias("Default_Handler")));
-    void USB_IRQHandler() __attribute__((weak, alias("Default_Handler")));           
+    void USB_IRQHandler() __attribute__((weak, alias("Default_Handler")));
 
 
 
@@ -141,7 +142,7 @@ void (* const InterruptVector[])() __attribute__ ((section(".isr_vector"), align
 
 
 void _reset_init(void)
-{   
+{
     // Copy values to initialize data segment
     uint32_t *fr = __etext;
     uint32_t *to = __data_start__;
