@@ -7,8 +7,8 @@ u32 hmc5883_init()
   g_hmc5883.mz = 0;
 
   i2c_write_reg(HMC5883_ADDRESS, HMC5883_CRA, (1<<4)|(1<<3));	  /*75Hz output rate*/
-//  i2c_write_reg(HMC5883_ADDRESS, HMC5883_CRB, 0);				       /*0.88 Gauss sensitivity*/
-  i2c_write_reg(HMC5883_ADDRESS, HMC5883_CRB, (1<<7));				       /*4.0 Gauss sensitivity*/
+  i2c_write_reg(HMC5883_ADDRESS, HMC5883_CRB, 0);				       /*0.88 Gauss sensitivity*/
+//  i2c_write_reg(HMC5883_ADDRESS, HMC5883_CRB, (1<<7));				       /*4.0 Gauss sensitivity*/
   i2c_write_reg(HMC5883_ADDRESS, HMC5883_MODE, 0);			       /*continuos mode*/
 
   if (i2c_read_reg(HMC5883_ADDRESS, HMC5883_ID_A) != HMC5883_ID_A_VALUE)

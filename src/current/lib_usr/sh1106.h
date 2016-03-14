@@ -4,11 +4,12 @@
 
 #include "../device/device.h"
 
+#define FONT_SIZE
+
 #define LCD_SH1106_WIDTH	((u32)128)
 #define LCD_SH1106_HEIGHT	((u32)64)
 
 
-//#define SH1106_ADDRESS		(0x78 >> 1)
 #define SH1106_ADDRESS		(0x78)
 
 #define SSD1306_SETCONTRAST 0x81
@@ -41,16 +42,13 @@ void LCD_SH1106_set_cursor(u32 x, u32 y);
 void LCD_SH1106_clear_buffer(u8 value);
 
 void LCD_SH1106_flush_buffer();
+u32 LCD_SH1106_flush_buffer_partial();
 
 void LCD_SH1106_set_pixel(u32 x, u32 y, u8 value);
 u8 LCD_SH1106_get_pixel(u32 x, u32 y);
 
 void lcd_put_char_xy(u32 x, u32 y, u8 c);
 void lcd_put_s(char *s);
-
-
-void LCD_SH1106_fractal_demo();
-
 
 
 #endif

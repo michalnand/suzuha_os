@@ -5,8 +5,6 @@
 #include "messages_f.h"
 #include "stdio.h"
 
-#include "../suzuha_os.h"
-
 
 void lib_os_init();
 

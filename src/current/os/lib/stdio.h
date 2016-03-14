@@ -4,6 +4,8 @@
 
 #include "../suzuha_os.h"
 
+
+
 void putc_(char c);
 char getc_();
 void puts_(char *s);

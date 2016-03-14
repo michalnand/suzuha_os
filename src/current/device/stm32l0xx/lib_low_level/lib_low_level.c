@@ -18,15 +18,15 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
-  /* Enable MSI Oscillator */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
   RCC_OscInitStruct.MSICalibrationValue=0x00;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
   {
-    /* Initialization Error */
     while(1);
   }
 
@@ -57,8 +57,6 @@ void SystemClock_Config(void)
 
 void lib_low_level_init()
 {
-  SystemClock_Config();
-
 	#ifdef _GPIO_H_
 	gpio_init();
 	#endif
@@ -76,7 +74,7 @@ void lib_low_level_init()
 	#endif
 
 	#ifdef _I2C_H_
-	//i2c_0_init();
+	i2c_init();
 	#endif
 
 	#ifdef _ADC_H_

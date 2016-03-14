@@ -24,12 +24,14 @@ void stdio_init()
 
 	for (i = 0; i < 8; i++)
 		putc_(' ');
-	
+
 	for (i = 0; i < 32; i++)
 		putc_('\n');
 
+
 	printf_("stdio init done\n");
 }
+
 
 unsigned int strlen_(char *s)
 {
@@ -70,7 +72,7 @@ char getc_()
 void puts_(char *s)
 {
 	u32 ptr = 0;
-	
+
 	#ifdef LIB_MUTEX
 	mutex_lock(&mutex_puts_);
 	#endif
@@ -101,14 +103,14 @@ void puti_(i32 n)
 
 	s[11] = '\0';
 	ptr = 10;
-	
+
 	do
 	{
     	s[ptr] = '0' + (n%10);
     	n/= 10;
-    	ptr--;	
-	} 
-    while (n != 0); 
+    	ptr--;
+	}
+    while (n != 0);
 
 	if (flag)
 		s[ptr] = '-';
@@ -132,9 +134,9 @@ void putui_(u32 n)
 	{
     	s[ptr] = '0' + (n%10);
     	n/= 10;
-    	ptr--;	
-	} 
-    while (n != 0); 
+    	ptr--;
+	}
+    while (n != 0);
 
 	ptr++;
 	puts_(s + ptr);
@@ -151,20 +153,20 @@ void putx_(u32 n)
 
 	s[11] = '\0';
 	ptr = 10;
- 
+
 	do
 	{
     	tmp=n&0x0F;		/*modulo 16*/
-    	if (tmp < 10)	
+    	if (tmp < 10)
      		s[ptr] = '0' + tmp;
     	else
      		s[ptr] = 'a' + tmp - 10;
 
     	n>>= 4;		/*div 16*/
-    	ptr--;	
-   	} 
-    while (n != 0); 
-	
+    	ptr--;
+   	}
+    while (n != 0);
+
 	ptr++;
  	puts_(s + ptr);
 }
@@ -197,18 +199,18 @@ void printf_(char *s, ...)
 		{					/*switch %? argumet*/
 	    	s_ptr++;
 							/*print correct argument, get value from stack : va_arg*/
-	    
+
 	    	switch (s[s_ptr])
-	    	{					
-	     		case 'i': puti_(va_arg(args, int)); break;	
+	    	{
+	     		case 'i': puti_(va_arg(args, int)); break;
 	     		case 'u': putui_(va_arg(args, int)); break;
 	     		case 'x': putx_(va_arg(args, int)); break;
 	     		case 'c': putc_(va_arg(args, int)); break;		/*yeah, stack is 32bit alligment, dont take char or u16*/
-	     		case 's': puts_((char*)va_arg(args, int)); break; 
+	     		case 's': puts_((char*)va_arg(args, int)); break;
 	     		case '%': putc_('%'); break;
 	    	}
-		
-			s_ptr++;	
+
+			s_ptr++;
 	   	}
 	}
 

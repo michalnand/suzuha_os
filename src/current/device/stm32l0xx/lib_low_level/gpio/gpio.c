@@ -21,12 +21,12 @@ void gpio_init()
 
 void led_on(u32 led)
 {
-	GPIOB->BSRR = led;
+	GPIOB->BRR = led;
 }
 
 void led_off(u32 led)
 {
-	GPIOB->BRR = led;
+	GPIOB->BSRR = led;
 }
 
 u32 get_key()
