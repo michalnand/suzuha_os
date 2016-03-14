@@ -4,6 +4,8 @@
 
 void main_thread()
 {
+	led_on(LED_1);
+
 	printf_(OS_WELCOME_MESSAGE);
 
 	u32 res = hmc5883_init();

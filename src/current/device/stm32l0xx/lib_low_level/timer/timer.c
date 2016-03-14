@@ -7,23 +7,23 @@ volatile u16 __event_timer_cnt__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_csr__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_flag__[EVENT_TIMER_COUNT];
 
+/*
 LPTIM_HandleTypeDef             LptimHandle;
 
 static void LSI_ClockEnable(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct;
 
-  /* Enable LSI clock */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 }
+*/
 
 
-
-
+TIM_HandleTypeDef    TimHandle;
 
 void timer_init()
 {
@@ -37,7 +37,34 @@ void timer_init()
 
 	__system_time__ = 0;
 
+  __HAL_RCC_TIM2_CLK_ENABLE();
+
+
+   /* Set TIMx instance */
+   TimHandle.Instance = TIM2;
+
+   /* Initialize TIMx peripheral as follows:
+        + Period = 2500 - 1
+        + Prescaler = (SystemCoreClock/2500) - 1
+        + ClockDivision = 0
+        + Counter direction = Up
+   */
+   TimHandle.Init.Period            = 250-1;
+   TimHandle.Init.Prescaler         = 8;
+   TimHandle.Init.ClockDivision     = 0;
+   TimHandle.Init.CounterMode       = TIM_COUNTERMODE_UP;
+
+   HAL_TIM_Base_Init(&TimHandle);
+
+   /*##-2- Start the TIM Base generation in interrupt mode ####################*/
+   /* Start Channel1 */
+   HAL_TIM_Base_Start_IT(&TimHandle);
+
+   HAL_NVIC_EnableIRQ(TIM2_IRQn);
+
+/*
   LSI_ClockEnable();
+  __HAL_RCC_LPTIM1_CLK_ENABLE
 
   RCC_PeriphCLKInitTypeDef        RCC_PeriphCLKInitStruct;
   RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPTIM1;
@@ -63,34 +90,15 @@ void timer_init()
   // HAL_NVIC_SetPriority(LPTIM1_IRQn, 0 ,0);
   //HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
 
-  led_on(LED_1);
-
-  while (1)
-  {
-    timer_delay_loops(1000);
-  }
+  */
 }
 
 volatile u32 tmp = 0;
 
-//void HAL_LPTIM_CompareMatchCallback(LPTIM_HandleTypeDef *hlptim)
-void LPTIM1_IRQHandler()
+
+//void LPTIM1_IRQHandler()
+void TIM2_IRQHandler()
 {
-  led_off(LED_1);
-/*
-  if ((tmp%8) == 0)
-    led_on(LED_1);
-  else
-    led_off(LED_1);
-*/
-  tmp++;
-
-    LPTIM1->ICR = LPTIM_FLAG_CMPM;
-//  __HAL_LPTIM_CLEAR_FLAG(&LptimHandle, LPTIM_FLAG_CMPM);
-}
-
-
-/*
 	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
@@ -103,11 +111,10 @@ void LPTIM1_IRQHandler()
 		}
 	}
 
-	__system_time__+= 10;
+	__system_time__+= 1;
 
-  // __HAL_LPTIM_CLEAR_FLAG(&LptimHandle, LPTIM_FLAG_CMPM);
+  TIM2->SR = ~(TIM_IT_UPDATE);
 }
-*/
 
 void timer_delay_loops(u32 loops)
 {

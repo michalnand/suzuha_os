@@ -26,11 +26,6 @@ int main(void)
 	lib_os_init();
 	mem_info_print();
 
-	while (1)
-	{
-		led_on(LED_1);
-	}
-
 
 	create_thread(main_thread, main_thread_stack, sizeof(main_thread_stack), PRIORITY_MAX);
 	kernel_start();

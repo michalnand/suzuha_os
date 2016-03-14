@@ -83,7 +83,7 @@ void lib_low_level_init()
 //	adc_init();
 	#endif
 
-
+/*
   while (1)
   {
     led_on(LED_1);
@@ -97,23 +97,6 @@ void lib_low_level_init()
 
     uart_write('a');
   }
+*/
 
-
-  u32 loops;
-  while (1)
-  {
-    led_off(LED_1);
-
-    loops = 100000;
-    while (loops--)
-      __asm("nop");
-
-    led_on(LED_1);
-
-    loops = 10000;
-    while (loops--)
-      __asm("nop");
-
-    uart_write('a');
-  }
 }
