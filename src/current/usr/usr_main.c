@@ -48,7 +48,7 @@ void child_thread()
 {
 	while(1)
 	{
-		led_on(LED_1);
+		led_on(LED_1); 
 
 		printf_("%u : \n", timer_get_time());
 		printf_("[%i %i %i] ", g_mpu6050.ax, g_mpu6050.ay, g_mpu6050.az);
@@ -75,7 +75,6 @@ void main_thread()
 
 	create_thread(child_thread, child_thread_stack, sizeof(child_thread_stack), PRIORITY_MAX);
 
-
 	while (1)
 	{
 		hmc5883_read();
@@ -95,5 +94,7 @@ void main_thread()
 			u32 time = timer_get_time();
 			lcd_put_int(time, 0, 48);
 		}
+
+		timer_delay_ms(100);
 	}
 }

@@ -7,8 +7,6 @@ volatile u16 __event_timer_cnt__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_csr__[EVENT_TIMER_COUNT];
 volatile u16 __event_timer_flag__[EVENT_TIMER_COUNT];
 
-/*
-LPTIM_HandleTypeDef             LptimHandle;
 
 static void LSI_ClockEnable(void)
 {
@@ -20,7 +18,6 @@ static void LSI_ClockEnable(void)
 
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 }
-*/
 
 
 TIM_HandleTypeDef    TimHandle;
@@ -37,40 +34,52 @@ void timer_init()
 
 	__system_time__ = 0;
 
+
   __HAL_RCC_TIM2_CLK_ENABLE();
 
 
-   /* Set TIMx instance */
    TimHandle.Instance = TIM2;
-
-   /* Initialize TIMx peripheral as follows:
-        + Period = 2500 - 1
-        + Prescaler = (SystemCoreClock/2500) - 1
-        + ClockDivision = 0
-        + Counter direction = Up
-   */
    TimHandle.Init.Period            = 250-1;
-   TimHandle.Init.Prescaler         = 8;
+   TimHandle.Init.Prescaler         = 8*16;
    TimHandle.Init.ClockDivision     = 0;
    TimHandle.Init.CounterMode       = TIM_COUNTERMODE_UP;
 
    HAL_TIM_Base_Init(&TimHandle);
 
-   /*##-2- Start the TIM Base generation in interrupt mode ####################*/
-   /* Start Channel1 */
    HAL_TIM_Base_Start_IT(&TimHandle);
 
    HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
-/*
-  LSI_ClockEnable();
-  __HAL_RCC_LPTIM1_CLK_ENABLE
+   return;
 
-  RCC_PeriphCLKInitTypeDef        RCC_PeriphCLKInitStruct;
+   /* Private typedef -----------------------------------------------------------*/
+   /* Private define ------------------------------------------------------------*/
+   /* Set the Maximum value of the counter (Auto-Reload) that defines the Period */
+   #define Period               (uint32_t) 65535
+
+   /* Set the Timeout value */
+   #define Timeout              (uint32_t) (32768 - 1)
+
+
+   LSI_ClockEnable();
+
+   RCC_PeriphCLKInitTypeDef        RCC_PeriphCLKInitStruct;
+    /* ### - 1 - Re-target the LSI to Clock the LPTIM Counter ################# */
+  /* Select the LSI clock as LPTIM peripheral clock */
   RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPTIM1;
   RCC_PeriphCLKInitStruct.LptimClockSelection = RCC_LPTIM1CLKSOURCE_LSI;
   HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
 
+  /* ### - 2 - Initialize LPTIM peripheral ################################## */
+  /*
+   *  Instance        = LPTIM1.
+   *  Clock Source    = APB or LowPowerOSCillator
+   *  Counter source  = Internal event.
+   *  Clock prescaler = 1 (No division).
+   *  Counter Trigger = Trigger1: PC3 or PB6 (PC3 in this example).
+   *  Active Edge     = Rising edge.
+   */
+LPTIM_HandleTypeDef             LptimHandle;
   LptimHandle.Instance = LPTIM1;
 
   LptimHandle.Init.Clock.Source       = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
@@ -79,26 +88,29 @@ void timer_init()
   LptimHandle.Init.Trigger.ActiveEdge = LPTIM_ACTIVEEDGE_RISING;
   LptimHandle.Init.CounterSource      = LPTIM_COUNTERSOURCE_INTERNAL;
 
+  /* Initialize LPTIM peripheral according to the passed parameters */
   HAL_LPTIM_Init(&LptimHandle);
-
-  #define Period               (uint32_t) 65535
-  #define Timeout              (uint32_t) (32768 - 1)
-
   HAL_LPTIM_TimeOut_Start_IT(&LptimHandle, Period, Timeout);
 
+  HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
 
-  // HAL_NVIC_SetPriority(LPTIM1_IRQn, 0 ,0);
-  //HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
 
-  */
 }
 
 volatile u32 tmp = 0;
 
+void LPTIM1_IRQHandler()
+{
+  led_on(LED_1);
 
-//void LPTIM1_IRQHandler()
+  LPTIM1->ICR = LPTIM_FLAG_CMPM;
+}
+
+
 void TIM2_IRQHandler()
 {
+  led_on(LED_1);
+
 	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
@@ -112,6 +124,9 @@ void TIM2_IRQHandler()
 	}
 
 	__system_time__+= 1;
+
+  led_off(LED_1);
+
 
   TIM2->SR = ~(TIM_IT_UPDATE);
 }

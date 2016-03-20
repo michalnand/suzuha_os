@@ -17,8 +17,8 @@ void lib_low_level_init()
 	#endif
 
 	#ifdef _UART_H_
-	uart_init(); 
-	#endif 
+	uart_init();
+	#endif
 
 	#ifdef _TIMER_H_
 	timer_init();
@@ -38,13 +38,5 @@ void lib_low_level_init()
 
 	#ifdef _ADC_H_
 	adc_init();
-	#endif
-
-	#ifdef _LCD_H_
-	lcd_init();
-	#endif
-
-	#ifdef _LCD_SHARP96_H_
-	lcd_sharp96_init();
 	#endif
 }

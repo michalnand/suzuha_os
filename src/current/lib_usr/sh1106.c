@@ -114,12 +114,20 @@ u32 LCD_SH1106_flush_buffer_partial()
 					u32 ptr = 0;
 					for(j = 0; j < 8; j++)
 					{
+
 						i2cStart();
-							i2cWrite(SH1106_ADDRESS);
+						i2cWrite(SH1106_ADDRESS);
 						i2cWrite(0x40);
 						for (k = 0; k < (LCD_SH1106_WIDTH>>3); k++)
 							i2cWrite(LCD_SH1106_frame_buffer[i][ptr++]);
 						i2cStop();
+						
+						/*
+						u8 *tmp;
+						tmp = (u8*)&(LCD_SH1106_frame_buffer[i][ptr]);
+						i2c_write_block(SH1106_ADDRESS, 0x40, tmp, (LCD_SH1106_WIDTH>>3));
+						ptr+= (LCD_SH1106_WIDTH>>3);
+						*/
 					}
 
 					LCD_SH1106_h_ptr++;

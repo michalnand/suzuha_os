@@ -28,13 +28,13 @@ static void __attribute__((naked)) HardFault_Handler(void)
     while (1)
     {
         led_on(LED_1);
-        loops = 100000;
+        loops = 1000000;
         while (loops--)
             __asm("nop");
 
 
         led_off(LED_1);
-        loops = 100000;
+        loops = 1000000;
         while (loops--)
             __asm("nop");
     }

@@ -17,12 +17,20 @@
 #define USARTx_RX_GPIO_PORT              GPIOA
 #define USARTx_RX_AF                     GPIO_AF4_USART2
 
+UART_HandleTypeDef UartHandle;
 
 void uart_write(char c)
 {
+  return;
+  
   USARTx->TDR = c;
    while((USARTx->ISR & USART_ISR_TC) != USART_ISR_TC)
     __asm("nop");
+}
+
+void USART2_IRQHandler()
+{
+
 }
 
 
@@ -52,7 +60,8 @@ void uart_init()
   USARTx_RX_GPIO_CLK_ENABLE();
 
   /* Enable USARTx clock */
-  USARTx_CLK_ENABLE();
+  //USARTx_CLK_ENABLE();
+
 
   /*##-2- Configure peripheral GPIO ##########################################*/
   /* UART TX GPIO pin configuration  */
@@ -68,21 +77,33 @@ void uart_init()
   GPIO_InitStruct.Alternate = USARTx_RX_AF;
   HAL_GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStruct);
 
+  /*
+  USARTx->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
+  USARTx->CR2 = 0;
+  USARTx->CR3 = 0;
+  USARTx->BRR = 32000000/9600;
 
-  /* Configure USART1 */
-  /* (1) oversampling by 16, 9600 baud */
-  USARTx->BRR =  20000 / 96; /* (1) */
+  // USARTx->ICR |= USART_ICR_TCCF;
+  */
 
-  /* (2) 8 data bit, 1 start bit, 1 stop bit, no parity */
-  USARTx->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; /* (2) */
 
-//  USARTx->CR1 |= USART_CR1_TCIE;/* Enable TC interrupt */
+  /*##-1- Configure the UART peripheral ######################################*/
+  /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
+  /* UART configured as follows:
+      - Word Length = 8 Bits
+      - Stop Bit = One Stop bit
+      - Parity = None
+      - BaudRate = 9600 baud
+      - Hardware flow control disabled (RTS and CTS signals) */
+  UartHandle.Instance        = USARTx;
 
-  /* polling idle frame Transmission */
-  while((USARTx->ISR & USART_ISR_TC) != USART_ISR_TC)
-  {
-    /* add time out here for a robust application */
-  }
+  UartHandle.Init.BaudRate   = 9600;
+  UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
+  UartHandle.Init.StopBits   = UART_STOPBITS_1;
+  UartHandle.Init.Parity     = UART_PARITY_NONE;
+  UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
+  UartHandle.Init.Mode       = UART_MODE_TX_RX;
+  HAL_UART_DeInit(&UartHandle);
+  HAL_UART_Init(&UartHandle);
 
-  USARTx->ICR |= USART_ICR_TCCF;/* clear TC flag */
 }

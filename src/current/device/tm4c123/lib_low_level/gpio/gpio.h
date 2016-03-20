@@ -6,13 +6,11 @@
 #define CORE_CLOCK			80000000
 
 #define LED_1	(1<<0)
-#define LED_2	(1<<1) 
+#define LED_2	(1<<1)
 #define LED_3	(1<<2)
 
-
-#define LED_0	LED_1
-#define LED_R LED_1
-#define LED_G LED_2
+#define LED_G LED_1
+#define LED_R LED_2
 #define LED_B LED_3
 
 

@@ -1,7 +1,6 @@
 #ifndef LIB_LOW_LEVEL_H_
 #define LIB_LOW_LEVEL_H_
 
-#include "../../../usr/robot_config.h"
 #include "int_def.h"
 #include "core/stm32f30x.h"
 #include "core/cortex_cpu.h"
