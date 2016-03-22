@@ -1244,10 +1244,10 @@ Disassembly of section .text:
  8000b56:	f7ff fe87 	bl	8000868 <LCD_SH1106_init>
  8000b5a:	20ff      	movs	r0, #255	; 0xff
  8000b5c:	f7ff fdb0 	bl	80006c0 <LCD_SH1106_clear_buffer>
- 8000b60:	22c8      	movs	r2, #200	; 0xc8
+ 8000b60:	2280      	movs	r2, #128	; 0x80
  8000b62:	4925      	ldr	r1, [pc, #148]	; (8000bf8 <main_thread+0xb8>)
  8000b64:	4825      	ldr	r0, [pc, #148]	; (8000bfc <main_thread+0xbc>)
- 8000b66:	0092      	lsls	r2, r2, #2
+ 8000b66:	0052      	lsls	r2, r2, #1
  8000b68:	2308      	movs	r3, #8
  8000b6a:	f7ff fb3b 	bl	80001e4 <create_thread>
  8000b6e:	2000      	movs	r0, #0
@@ -1339,9 +1339,9 @@ Disassembly of section .text:
  8000c50:	08002394 	.word	0x08002394
  8000c54:	20001000 	.word	0x20001000
  8000c58:	080023a3 	.word	0x080023a3
- 8000c5c:	20000bd8 	.word	0x20000bd8
+ 8000c5c:	20000798 	.word	0x20000798
  8000c60:	080023b1 	.word	0x080023b1
- 8000c64:	20000bd8 	.word	0x20000bd8
+ 8000c64:	20000798 	.word	0x20000798
  8000c68:	080023bf 	.word	0x080023bf
  8000c6c:	080023cf 	.word	0x080023cf
 
@@ -1350,16 +1350,16 @@ Disassembly of section .text:
  8000c72:	f000 fa6d 	bl	8001150 <lib_low_level_init>
  8000c76:	f7ff fc59 	bl	800052c <lib_os_init>
  8000c7a:	f7ff ffc5 	bl	8000c08 <mem_info_print>
- 8000c7e:	22c8      	movs	r2, #200	; 0xc8
+ 8000c7e:	2280      	movs	r2, #128	; 0x80
  8000c80:	4904      	ldr	r1, [pc, #16]	; (8000c94 <main+0x24>)
- 8000c82:	0092      	lsls	r2, r2, #2
+ 8000c82:	0052      	lsls	r2, r2, #1
  8000c84:	2308      	movs	r3, #8
  8000c86:	4804      	ldr	r0, [pc, #16]	; (8000c98 <main+0x28>)
  8000c88:	f7ff faac 	bl	80001e4 <create_thread>
  8000c8c:	f7ff faa4 	bl	80001d8 <kernel_start>
  8000c90:	2000      	movs	r0, #0
  8000c92:	bd08      	pop	{r3, pc}
- 8000c94:	2000089c 	.word	0x2000089c
+ 8000c94:	2000067c 	.word	0x2000067c
  8000c98:	08000b41 	.word	0x08000b41
 
 08000c9c <timer_init>:
@@ -1416,10 +1416,10 @@ Disassembly of section .text:
  8000d0a:	b005      	add	sp, #20
  8000d0c:	bd30      	pop	{r4, r5, pc}
  8000d0e:	46c0      	nop			; (mov r8, r8)
- 8000d10:	20000bd0 	.word	0x20000bd0
- 8000d14:	20000bc4 	.word	0x20000bc4
- 8000d18:	20000bbc 	.word	0x20000bbc
- 8000d1c:	20000bcc 	.word	0x20000bcc
+ 8000d10:	20000790 	.word	0x20000790
+ 8000d14:	20000784 	.word	0x20000784
+ 8000d18:	2000077c 	.word	0x2000077c
+ 8000d1c:	2000078c 	.word	0x2000078c
 
 08000d20 <TIM2_IRQHandler>:
  8000d20:	2200      	movs	r2, #0
@@ -1452,10 +1452,10 @@ Disassembly of section .text:
  8000d56:	821a      	strh	r2, [r3, #16]
  8000d58:	4770      	bx	lr
  8000d5a:	46c0      	nop			; (mov r8, r8)
- 8000d5c:	20000bd0 	.word	0x20000bd0
- 8000d60:	20000bc4 	.word	0x20000bc4
- 8000d64:	20000bbc 	.word	0x20000bbc
- 8000d68:	20000bcc 	.word	0x20000bcc
+ 8000d5c:	20000790 	.word	0x20000790
+ 8000d60:	20000784 	.word	0x20000784
+ 8000d64:	2000077c 	.word	0x2000077c
+ 8000d68:	2000078c 	.word	0x2000078c
 
 08000d6c <timer_get_time>:
  8000d6c:	b082      	sub	sp, #8
@@ -1468,7 +1468,7 @@ Disassembly of section .text:
  8000d7a:	b002      	add	sp, #8
  8000d7c:	4770      	bx	lr
  8000d7e:	46c0      	nop			; (mov r8, r8)
- 8000d80:	20000bcc 	.word	0x20000bcc
+ 8000d80:	2000078c 	.word	0x2000078c
 
 08000d84 <timer_delay_ms>:
  8000d84:	b513      	push	{r0, r1, r4, lr}
@@ -1498,9 +1498,9 @@ Disassembly of section .text:
  8000db6:	b662      	cpsie	i
  8000db8:	4770      	bx	lr
  8000dba:	46c0      	nop			; (mov r8, r8)
- 8000dbc:	20000bd0 	.word	0x20000bd0
- 8000dc0:	20000bc4 	.word	0x20000bc4
- 8000dc4:	20000bbc 	.word	0x20000bbc
+ 8000dbc:	20000790 	.word	0x20000790
+ 8000dc0:	20000784 	.word	0x20000784
+ 8000dc4:	2000077c 	.word	0x2000077c
 
 08000dc8 <event_timer_get_flag>:
  8000dc8:	b082      	sub	sp, #8
@@ -1515,7 +1515,7 @@ Disassembly of section .text:
  8000dda:	b002      	add	sp, #8
  8000ddc:	4770      	bx	lr
  8000dde:	46c0      	nop			; (mov r8, r8)
- 8000de0:	20000bbc 	.word	0x20000bbc
+ 8000de0:	2000077c 	.word	0x2000077c
 
 08000de4 <event_timer_clear_flag>:
  8000de4:	b672      	cpsid	i
@@ -1526,7 +1526,7 @@ Disassembly of section .text:
  8000dee:	b662      	cpsie	i
  8000df0:	4770      	bx	lr
  8000df2:	46c0      	nop			; (mov r8, r8)
- 8000df4:	20000bbc 	.word	0x20000bbc
+ 8000df4:	2000077c 	.word	0x2000077c
 
 08000df8 <uart_write>:
  8000df8:	4b03      	ldr	r3, [pc, #12]	; (8000e08 <uart_write+0x10>)
@@ -3431,7 +3431,7 @@ Disassembly of section .text:
  8002345:	0a00205d 636c6577 20656d6f 53206f74     ] ..welcome to S
  8002355:	68757a75 20534f61 205e5f5e 2e322e32     uzuhaOS ^_^ 2.2.
  8002365:	55420a30 20444c49 2072614d 32203232     0.BUILD Mar 22 2
- 8002375:	20363130 343a3032 33303a30 6f62000a     016 20:40:03..bo
+ 8002375:	20363130 343a3032 37343a39 6f62000a     016 20:49:47..bo
  8002385:	6e69746f 72662067 25206d6f 72000a75     oting from %u..r
  8002395:	73206d61 74726174 20752520 6172000a     am start %u ..ra
  80023a5:	6973206d 2520657a 000a2075 206d6172     m size %u ..ram 

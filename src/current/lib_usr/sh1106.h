@@ -4,8 +4,6 @@
 
 #include "../device/device.h"
 
-#define FONT_SIZE
-
 #define LCD_SH1106_WIDTH	((u32)128)
 #define LCD_SH1106_HEIGHT	((u32)64)
 

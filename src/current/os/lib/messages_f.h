@@ -7,7 +7,7 @@
  library for message communication using fifo\n
  each communication node must be registred by calling msg_register(name); name is\n
  symbolic name know for all communication sides\n
- \n 
+ \n
  to send message call msg_raise(msg) or msg_raise_async(msg);\n
  msg_raise(msg) - send and wait unatil receiver process message\n
  msg_raise_async(msg) - send and end, no blocking operation
@@ -37,7 +37,7 @@
 
 /**
  @brief messages fifo size
- 
+
  each record takes sizeof struct sMsg
 */
 #define MSG_FIFO_SIZE 4
@@ -84,7 +84,7 @@
 */
 struct sMsg
 {
-	u32 destination, source;	
+	u32 destination, source;
 	u32 size;
 	u32 data;
 };
@@ -109,7 +109,7 @@ void msg_unregister();
  @brief wait for message
 
  switch thread into waiting state until message captured
- 
+
  @return struct sMsg *msg extracted from message fifo
 */
 void msg_get(struct sMsg *msg);
