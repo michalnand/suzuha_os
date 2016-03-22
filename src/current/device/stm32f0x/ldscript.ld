@@ -4,12 +4,12 @@
 
 MEMORY
 {
-    FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 64K
-    RAM (rwx)       : ORIGIN = 0x20000000, LENGTH = 16K
+    FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 32K
+    RAM (rwx)       : ORIGIN = 0x20000000, LENGTH = 4K
 }
 
 /* Highest address of the user mode stack */
-_estack = 0x20004000;    /* end of 16K RAM on AHB bus*/
+_estack = 0x20001000;    /* end of 4K RAM on AHB bus*/
 
 /* Linker script to place sections and symbol values. Should be used together
  * with other linker script that defines memory regions FLASH and RAM.

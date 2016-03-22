@@ -48,7 +48,7 @@ void child_thread()
 {
 	while(1)
 	{
-		led_on(LED_1); 
+		led_on(LED_1);
 
 		printf_("%u : \n", timer_get_time());
 		printf_("[%i %i %i] ", g_mpu6050.ax, g_mpu6050.ay, g_mpu6050.az);
@@ -57,7 +57,8 @@ void child_thread()
 		printf_("\n");
 
 		led_off(LED_1);
-		timer_delay_ms(300);
+
+		timer_delay_ms(1000);
 	}
 }
 
@@ -75,10 +76,17 @@ void main_thread()
 
 	create_thread(child_thread, child_thread_stack, sizeof(child_thread_stack), PRIORITY_MAX);
 
+	event_timer_set_period(EVENT_TIMER_0_ID, 50);
+
+
 	while (1)
 	{
-		hmc5883_read();
-		mpu6050_read();
+		if (event_timer_get_flag(EVENT_TIMER_0_ID))
+		{
+			event_timer_clear_flag(EVENT_TIMER_0_ID);
+			hmc5883_read();
+			mpu6050_read();
+		}
 
 		if (LCD_SH1106_flush_buffer_partial() == 0)
 		{
@@ -94,7 +102,5 @@ void main_thread()
 			u32 time = timer_get_time();
 			lcd_put_int(time, 0, 48);
 		}
-
-		timer_delay_ms(100);
 	}
 }

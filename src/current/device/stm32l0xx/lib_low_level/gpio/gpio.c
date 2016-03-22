@@ -17,7 +17,7 @@ void gpio_init()
 		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 		led_off(LED_1);
-}
+} 
 
 void led_on(u32 led)
 {

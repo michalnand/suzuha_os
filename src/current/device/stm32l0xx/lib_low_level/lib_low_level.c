@@ -119,7 +119,7 @@ void SystemClock_Config32(void)
 
 void lib_low_level_init()
 {
-	SystemClock_Config32();
+	// SystemClock_Config32();
 
 	#ifdef _GPIO_H_
 	gpio_init();

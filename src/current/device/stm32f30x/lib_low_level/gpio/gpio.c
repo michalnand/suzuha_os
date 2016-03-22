@@ -26,8 +26,6 @@ void gpio_init()
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 
 	GPIO_Init(GPIO_BASE, &GPIO_InitStructure);
-
-	led_on(LED_1);
 }
 
 void led_on(u32 led)

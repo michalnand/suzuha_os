@@ -28,7 +28,7 @@ void sleep()
    -- SystemInit()
    ---------------------------------------------------------------------------- */
 
-void sytem_clock_init(void) 
+void sytem_clock_init(void)
 {
   SystemInit();
  // SystemCoreClockUpdate();

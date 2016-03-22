@@ -9,9 +9,10 @@
 #device="mkl25z4"
 
 #device="stm32l0xx"
+device="stm32f0x"
 #device="stm32f10x"
 #device="stm32l152"
-device="stm32f30x"
+#device="stm32f30x"
 #device="stm32f4"
 #device="stm32f746"
 
@@ -121,6 +122,33 @@ if [ "$device" == "mkl25z4" ] ; then
 	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
 	echo " " >> device/device.h
 	echo "#include \"mkl25z4/lib_low_level/lib_low_level.h\" " >> device/device.h
+	echo " " >> device/device.h
+	echo "#endif" >> device/device.h
+fi
+
+
+if [ "$device" == "stm32f0x" ] ; then
+
+	#create makefile
+
+	echo "TARGET = -mcpu=cortex-m0 -mthumb -mfloat-abi=soft" > Makefile
+
+	echo "DEVICE_LIBS = device/stm32f0x" >> Makefile
+	echo "THIRD_PARTY_LIBS =" >>Makefile
+	echo >> Makefile
+
+	cat Makefile_ >> Makefile
+
+	#create device/device.h to include correct libs
+
+	echo "#ifndef _DEVICE_H_" > device/device.h
+	echo "#define _DEVICE_H_" >> device/device.h
+	echo " " >> device/device.h
+	echo "#define CPU_STM32F0xx		1" >> device/device.h
+	echo "#define CPU_CORE_CORTEX_M0	1" >> device/device.h
+	echo "#define __FPU_PRESENT 0" >> device/device.h
+	echo " " >> device/device.h
+	echo "#include \"stm32f0x/lib_low_level/lib_low_level.h\" " >> device/device.h
 	echo " " >> device/device.h
 	echo "#endif" >> device/device.h
 fi

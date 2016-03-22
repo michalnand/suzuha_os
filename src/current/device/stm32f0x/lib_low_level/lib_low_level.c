@@ -3,7 +3,7 @@
 
 void lib_low_level_init()
 {
-	sytem_clock_init();
+  SystemInit();
 
 	#ifdef _GPIO_H_
 	gpio_init();
@@ -17,19 +17,17 @@ void lib_low_level_init()
 	timer_init();
 	#endif
 
-	#ifdef _PWM_H_
-	pwm_init();
-	#endif
-
-	#ifdef _DRV8834_H_
-	drv8834_init();
-	#endif
-
 	#ifdef _I2C_H_
 	i2c_0_init();
 	#endif
 
-	#ifdef _ADC_H_
-	// adc_init();
-	#endif
+/*
+  while (11)
+  {
+    led_on(LED_1);
+    timer_delay_ms(100);
+    led_off(LED_1);
+    timer_delay_ms(900);
+  }
+  */
 }
