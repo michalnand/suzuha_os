@@ -54,7 +54,7 @@ void child_thread()
 
 		printf_("%u : \n", timer_get_time());
 		printf_("[%i %i %i] ", g_mpu6050.ax, g_mpu6050.ay, g_mpu6050.az);
-		printf_("[%i %i %i] ", g_mpu6050.gx - g_mpu6050.gx_ofs, g_mpu6050.gy - g_mpu6050.gy_ofs, g_mpu6050.gz - g_mpu6050.gz_ofs);
+		printf_("[%i %i %i] ", g_mpu6050.gx, g_mpu6050.gy, g_mpu6050.gz);
 		printf_("[%i %i %i] ", g_hmc5883.mx, g_hmc5883.my, g_hmc5883.mz);
 		printf_("\n");
 
@@ -96,12 +96,6 @@ void main_thread()
 
 	event_timer_set_period(EVENT_TIMER_0_ID, 50);
 
-
-	i32 gx = 0, gy = 0, gz = 0;
-	i32 gx_sum = 0;
-	i32 gy_sum = 0;
-	i32 gz_sum = 0;
-
 	while (1)
 	{
 		if (event_timer_get_flag(EVENT_TIMER_0_ID))
@@ -109,14 +103,6 @@ void main_thread()
 			event_timer_clear_flag(EVENT_TIMER_0_ID);
 			hmc5883_read();
 			mpu6050_read();
-
-			gx = g_mpu6050.gx - g_mpu6050.gx_ofs;
-			gy = g_mpu6050.gy - g_mpu6050.gy_ofs;
-			gz = g_mpu6050.gz - g_mpu6050.gz_ofs;
-
-			gx_sum+= gx;
-			gy_sum+= gy;
-			gz_sum+= gz;
 		}
 
 		if (LCD_SH1106_flush_buffer_partial() == 0)
@@ -124,13 +110,13 @@ void main_thread()
 			LCD_SH1106_clear_buffer(0);
 
 
-			lcd_put_int(gx, 0, 0);
-			lcd_put_int(gy, 0, 16);
-			lcd_put_int(gz, 0, 32);
+			lcd_put_int(g_mpu6050.gx, 0, 0);
+			lcd_put_int(g_mpu6050.gy, 0, 16);
+			lcd_put_int(g_mpu6050.gz, 0, 32);
 
-			lcd_put_int(gx_sum/10, 64, 0);
-			lcd_put_int(gy_sum/10, 64, 16);
-			lcd_put_int(gz_sum/10, 64, 32);
+			lcd_put_int(g_mpu6050.gx_sum, 64, 0);
+			lcd_put_int(g_mpu6050.gy_sum, 64, 16);
+			lcd_put_int(g_mpu6050.gz_sum, 64, 32);
 
 			u32 time = timer_get_time();
 			lcd_put_int(time, 0, 48);

@@ -28,4 +28,6 @@ void assert_param(u32 param);
 void sys_tick_init();
 void sleep();
 
+void sys_tick_trigger();
+
 #endif

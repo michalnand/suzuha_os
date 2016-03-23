@@ -4,7 +4,7 @@
 void assert_param(u32 param)
 {
   (void)param;
-} 
+}
 
 void sys_tick_init()
 {
@@ -20,4 +20,18 @@ void sys_tick_init()
 void sleep()
 {
   __asm volatile("wfi");
+}
+
+
+void sys_tick_trigger()
+{
+  /*
+  __disable_irq();
+  SCB->ICSR|= (1<<26);
+  __enable_irq();
+  __asm("nop");
+  __asm("nop");
+  __asm("nop");
+  __asm("nop");
+  */
 }

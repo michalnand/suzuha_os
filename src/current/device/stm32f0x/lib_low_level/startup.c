@@ -13,8 +13,7 @@ extern int main(void);
 //  Default interrupt handler
 void __attribute__((interrupt("IRQ"))) Default_Handler()
 {
-	while (1)
-		__asm("nop");
+
 }
 
 // Handle hard faults

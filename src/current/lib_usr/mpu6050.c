@@ -34,9 +34,13 @@ void mpu6050_init()
   g_mpu6050.gx_ofs = gx_ofs;
   g_mpu6050.gy_ofs = gy_ofs;
   g_mpu6050.gz_ofs = gz_ofs;
+
+  g_mpu6050.gx_sum = 0;
+  g_mpu6050.gy_sum = 0;
+  g_mpu6050.gz_sum = 0;
 }
 
-void mpu6050_read()
+void mpu6050_read() 
 {
   g_mpu6050.ax = ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x3B))<<8;
 	g_mpu6050.ax|= ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x3C));
@@ -59,4 +63,10 @@ void mpu6050_read()
 
   g_mpu6050.gz = ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x47))<<8;
   g_mpu6050.gz|= ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x48));
+
+
+  g_mpu6050.gx_sum+= g_mpu6050.gx - g_mpu6050.gx_ofs;
+  g_mpu6050.gy_sum+= g_mpu6050.gy - g_mpu6050.gy_ofs;
+  g_mpu6050.gz_sum+= g_mpu6050.gz - g_mpu6050.gz_ofs;
+
 }
