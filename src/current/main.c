@@ -7,7 +7,7 @@ void mem_info_print()
 	extern char _text;
 	extern char _data;
 	extern char __StackTop;
-	extern char _ebss;
+	extern char _ebss; 
 	extern char _heap;
 
 	printf_("booting from %u\n", &_text);

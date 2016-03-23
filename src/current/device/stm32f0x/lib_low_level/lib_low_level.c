@@ -20,14 +20,4 @@ void lib_low_level_init()
 	#ifdef _I2C_H_
 	i2c_0_init();
 	#endif
-
-/*
-  while (11)
-  {
-    led_on(LED_1);
-    timer_delay_ms(100);
-    led_off(LED_1);
-    timer_delay_ms(900);
-  }
-  */
 }

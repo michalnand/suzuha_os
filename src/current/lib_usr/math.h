@@ -7,6 +7,7 @@
 
 
 mint m_abs(mint value);
+signed int mint_abs(signed int value);
 mint m_sgn(mint value);
 mint m_saturate(mint value, mint min, mint max);
 mint m_min(mint value_a, mint value_b);
@@ -17,7 +18,7 @@ float m_atan2(float y, float x);
 float m_sqrt(float x);
 
 void m_srand(unsigned int seed);
-mint m_rnd();
+unsigned int  m_rnd();
 
 
 #endif

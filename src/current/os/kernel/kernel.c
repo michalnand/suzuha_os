@@ -120,8 +120,6 @@ void SysTick_Handler()
   else
     __current_thread__ = 0;				           /*init done, we dont return here again, start with 1st thread*/
 
-  led_on(LED_1);
-
   scheduler();						                /*choose next thread*/
 
   sp = __thread__[__current_thread__].sp;			/*set it stackpointer*/

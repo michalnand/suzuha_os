@@ -8,6 +8,7 @@ struct sMPU6050
 {
   i16 ax, ay, az;
   i16 gx, gy, gz;
+  i16 gx_ofs, gy_ofs, gz_ofs;
   i16 temperature;
 };
 

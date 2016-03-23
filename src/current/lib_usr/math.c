@@ -8,6 +8,14 @@ mint m_abs(mint value)
 	return value;
 }
 
+signed int mint_abs(signed int value)
+{
+	if (value < 0)
+		value = -value;
+
+	return value;
+}
+
 mint m_sgn(mint value)
 {
 	if (value < 0)
@@ -120,7 +128,7 @@ void m_srand(unsigned int seed)
 	__rndb__ = (unsigned int)123;
 }
 
-mint m_rnd()
+unsigned int m_rnd()
 {
 	__rnda__ = __rnda__ *(unsigned int)1103515245 + (unsigned int)12345;
 	__rndb__ = (__rndb__ >> 1) ^ (-(__rndb__ & 1u) & 0xD0000001u);
