@@ -10,7 +10,8 @@
 #include "timer/timer.h"
 #include "uart/uart.h"
 #include "i2c/i2c.h"
-
+#include "pwm/pwm.h"
+#include "adc/adc.h"
 
 #include "../../../options.h"
 

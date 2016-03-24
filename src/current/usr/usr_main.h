@@ -5,10 +5,11 @@
 #include "../os/suzuha_os.h"
 
 
-#define THREAD_STACK_SIZE	64 
+#define THREAD_STACK_SIZE	64
 
 thread_stack_t main_thread_stack[THREAD_STACK_SIZE];
-thread_stack_t child_thread_stack[THREAD_STACK_SIZE];
+thread_stack_t terminal_thread_stack[THREAD_STACK_SIZE];
+thread_stack_t adc_thread_stack[THREAD_STACK_SIZE];
 
 void main_thread();
 

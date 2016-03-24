@@ -20,4 +20,10 @@ void lib_low_level_init()
 	#ifdef _I2C_H_
 	i2c_0_init();
 	#endif
+
+
+    #ifdef _ADC_H_
+    adc_init();
+    #endif
+
 }
