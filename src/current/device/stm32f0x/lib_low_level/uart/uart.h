@@ -3,9 +3,6 @@
 
 #include "../lib_low_level.h"
 
-//#define UART_BAUD_RATE    9600
-//#define UART_BAUD_RATE 		57600
-
 #define UART_BAUD_RATE 		115200
 
 

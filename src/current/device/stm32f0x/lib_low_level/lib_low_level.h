@@ -12,6 +12,8 @@
 #include "i2c/i2c.h"
 #include "pwm/pwm.h"
 #include "adc/adc.h"
+#include "ir_comm/ir_comm.h"
+#include "ir_comm/ir_packet.h"
 
 #include "../../../options.h"
 

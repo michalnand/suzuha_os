@@ -8,7 +8,6 @@
 
 void uart_write(char c)
 {
-
   while( !(USART->ISR & USART_FLAG_TXE) )
 		__asm("nop");
 
@@ -44,8 +43,6 @@ void uart_init()
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = 1<<10;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
   */
 
 
@@ -67,7 +64,7 @@ void uart_init()
 	  - Parity = No Parity
 	  - Hardware flow control disabled (RTS and CTS signals)
 	  - Receive and transmit enabled
-	*/ 
+	*/
 	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;

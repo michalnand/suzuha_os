@@ -121,7 +121,7 @@ u32 LCD_SH1106_flush_buffer_partial()
 						for (k = 0; k < (LCD_SH1106_WIDTH>>3); k++)
 							i2cWrite(LCD_SH1106_frame_buffer[i][ptr++]);
 						i2cStop();
-						
+
 						/*
 						u8 *tmp;
 						tmp = (u8*)&(LCD_SH1106_frame_buffer[i][ptr]);
@@ -269,5 +269,43 @@ void lcd_put_s(char *s)
 			x = 0;
 			y+= FONT_WIDTH;
 		}
+	}
+}
+
+
+void lcd_put_int(i32 n, u32 x, u32 y)
+{
+	char flag = 0, s[12];
+	u32 ptr;
+
+	if (n < 0)
+	{
+			n = -n;
+		flag = 1;
+	}
+
+	s[11] = '\0';
+	ptr = 10;
+
+	do
+	{
+			s[ptr] = '0' + (n%10);
+			n/= 10;
+			ptr--;
+	}
+		while (n != 0);
+
+	if (flag)
+		s[ptr] = '-';
+	else
+		ptr++;
+
+	//puts_(s + ptr);
+	u32 i;
+	for (i = 0; i < 12; i++)
+	{
+		lcd_put_char_xy(x + i*8, y, s[ptr + i]);
+		if (s[ptr + i] == '\0')
+			break;
 	}
 }

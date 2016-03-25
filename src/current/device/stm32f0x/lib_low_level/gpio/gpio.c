@@ -44,7 +44,7 @@ void gpio_init()
   led_off(LED_B);
 
 
-} 
+}
 
 void led_on(u32 led)
 {

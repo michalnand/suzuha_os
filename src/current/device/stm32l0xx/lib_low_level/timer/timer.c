@@ -20,7 +20,6 @@ static void LSI_ClockEnable(void)
 }
 
 
-TIM_HandleTypeDef    TimHandle;
 
 void timer_init()
 {
@@ -35,8 +34,9 @@ void timer_init()
 	__system_time__ = 0;
 
 
-  __HAL_RCC_TIM2_CLK_ENABLE();
+  TIM_HandleTypeDef    TimHandle;
 
+  __HAL_RCC_TIM2_CLK_ENABLE();
 
    TimHandle.Instance = TIM2;
    TimHandle.Init.Period            = 250-1;
@@ -48,17 +48,17 @@ void timer_init()
 
    HAL_TIM_Base_Start_IT(&TimHandle);
 
+   HAL_NVIC_SetPriority(TIM2_IRQn, 4, 0);
+
    HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
    return;
 
-   /* Private typedef -----------------------------------------------------------*/
-   /* Private define ------------------------------------------------------------*/
-   /* Set the Maximum value of the counter (Auto-Reload) that defines the Period */
-   #define Period               (uint32_t) 65535
 
+   /* Set the Maximum value of the counter (Auto-Reload) that defines the Period */
+   #define Period               (uint32_t) 1000
    /* Set the Timeout value */
-   #define Timeout              (uint32_t) (32768 - 1)
+   #define Timeout              (uint32_t) (50 - 1)
 
 
    LSI_ClockEnable();
@@ -94,14 +94,31 @@ LPTIM_HandleTypeDef             LptimHandle;
 
   HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
 
+  while (1)
+  {
+    __asm("nop");
+  }
 
 }
 
-volatile u32 tmp = 0;
 
 void LPTIM1_IRQHandler()
 {
   led_on(LED_1);
+  u32 i;
+  for (i = 0; i < EVENT_TIMER_COUNT; i++)
+  {
+    if (__event_timer_cnt__[i])
+      __event_timer_cnt__[i]--;
+    else
+    {
+      __event_timer_cnt__[i] = __event_timer_csr__[i];
+      __event_timer_flag__[i] = 1;
+    }
+  }
+
+  //led_off(LED_1);
+  __system_time__+= 10;
 
   LPTIM1->ICR = LPTIM_FLAG_CMPM;
 }
@@ -109,8 +126,6 @@ void LPTIM1_IRQHandler()
 
 void TIM2_IRQHandler()
 {
-  led_on(LED_1);
-
 	u32 i;
 	for (i = 0; i < EVENT_TIMER_COUNT; i++)
 	{
@@ -123,12 +138,9 @@ void TIM2_IRQHandler()
 		}
 	}
 
-	__system_time__+= 1;
+	__system_time__+= 10;
 
-  led_off(LED_1);
-
-
-  TIM2->SR = ~(TIM_IT_UPDATE);
+  TIM2->SR = 0;
 }
 
 void timer_delay_loops(u32 loops)
@@ -161,8 +173,8 @@ void timer_delay_ms(u32 ms)
 void event_timer_set_period(u32 id, u16 period)
 {
 	__disable_irq();
-	__event_timer_cnt__[id] = period;
-	__event_timer_csr__[id] = period;
+	__event_timer_cnt__[id] = period/10;
+	__event_timer_csr__[id] = period/10;
 	__event_timer_flag__[id] = 0;
 	__enable_irq();
 }

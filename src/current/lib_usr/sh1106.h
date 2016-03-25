@@ -48,5 +48,7 @@ u8 LCD_SH1106_get_pixel(u32 x, u32 y);
 void lcd_put_char_xy(u32 x, u32 y, u8 c);
 void lcd_put_s(char *s);
 
+void lcd_put_int(i32 n, u32 x, u32 y);
+
 
 #endif

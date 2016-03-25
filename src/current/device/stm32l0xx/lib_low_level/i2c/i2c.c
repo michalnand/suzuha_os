@@ -1,15 +1,15 @@
 #include "i2c.h"
 
-//#define i2c_delay() __asm("nop")
+#define i2c_delay() __asm("nop")
 
-
+/*
 void i2c_delay()
 {
     u32 loops = 0;
     while (loops--)
         __asm("nop");
 }
-
+*/
 
 void SetLowSDA()
 {

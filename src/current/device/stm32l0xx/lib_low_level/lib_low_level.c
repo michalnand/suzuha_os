@@ -119,7 +119,7 @@ void SystemClock_Config32(void)
 
 void lib_low_level_init()
 {
-	// SystemClock_Config32();
+  //SystemClock_Config2();
 
 	#ifdef _GPIO_H_
 	gpio_init();
@@ -129,32 +129,11 @@ void lib_low_level_init()
 	uart_init();
 	#endif
 
-/*
-	while (1)
-	{
-		led_on(LED_1);
-		timer_delay_loops(10000);
-
-		led_off(LED_1);
-		timer_delay_loops(100000);
-
-    //uart_write('A');
-	}
-*/
-
 	#ifdef _TIMER_H_
 	timer_init();
 	#endif
 
-	#ifdef _PWM_H_
-	//pwm_init();
-	#endif
-
 	#ifdef _I2C_H_
 	i2c_init();
-	#endif
-
-	#ifdef _ADC_H_
-//	adc_init();
 	#endif
 }

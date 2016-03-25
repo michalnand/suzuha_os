@@ -197,7 +197,6 @@ void sched_on()
 */
 void yield()
 {
-  sys_tick_trigger();
   //__asm volatile("svc #0");
   //__asm volatile("nop");
 }

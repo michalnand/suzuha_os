@@ -21,8 +21,6 @@ UART_HandleTypeDef UartHandle;
 
 void uart_write(char c)
 {
-  return;
-  
   USARTx->TDR = c;
    while((USARTx->ISR & USART_ISR_TC) != USART_ISR_TC)
     __asm("nop");
@@ -36,18 +34,14 @@ void USART2_IRQHandler()
 
 char uart_read()
 {
-  /*
    while((USARTx->ISR & UART_FLAG_RXNE) == 0)
     __asm("nop");
 
   char res = USARTx->RDR;
 
-//  USARTx->ISR&=~UART_FLAG_RXNE;
+  USARTx->ISR&=~UART_FLAG_RXNE;
 
 	return res;
-  */
-
-  return 0;
 }
 
 void uart_init()
@@ -60,7 +54,7 @@ void uart_init()
   USARTx_RX_GPIO_CLK_ENABLE();
 
   /* Enable USARTx clock */
-  //USARTx_CLK_ENABLE();
+  USARTx_CLK_ENABLE();
 
 
   /*##-2- Configure peripheral GPIO ##########################################*/
@@ -77,14 +71,15 @@ void uart_init()
   GPIO_InitStruct.Alternate = USARTx_RX_AF;
   HAL_GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStruct);
 
-  /*
+
   USARTx->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
   USARTx->CR2 = 0;
   USARTx->CR3 = 0;
-  USARTx->BRR = 32000000/9600;
+  USARTx->BRR = 2000000/9600;
 
-  // USARTx->ICR |= USART_ICR_TCCF;
-  */
+   USARTx->ICR |= USART_ICR_TCCF;
+
+  return;
 
 
   /*##-1- Configure the UART peripheral ######################################*/
