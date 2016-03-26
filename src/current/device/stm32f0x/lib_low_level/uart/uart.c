@@ -5,6 +5,10 @@
 #define USART_GPIO    GPIOA
 #define USART_CLOCK   RCC_APB2Periph_USART1
 
+#define UART_RX_BUFFER_SIZE  (u32)16
+
+volatile u16 g_uart_wr_ptr, g_uart_rd_ptr;
+volatile u8 g_uart_rx_buffer[UART_RX_BUFFER_SIZE];
 
 void uart_write(char c)
 {
@@ -17,16 +21,45 @@ void uart_write(char c)
 
 char uart_read()
 {
-	u16 res = 0;
+  while (g_uart_wr_ptr == g_uart_rd_ptr)
+    __asm("nop");
 
+	u16 res = g_uart_rx_buffer[g_uart_rd_ptr];
+  g_uart_rd_ptr++;
+
+  if (g_uart_rd_ptr >= UART_RX_BUFFER_SIZE)
+    g_uart_rd_ptr = 0;
 
   return res;
 }
 
 
 
+void USART1_IRQHandler(void)
+{
+  if (USART_GetITStatus(USART, USART_IT_RXNE) != RESET) // Received character?
+  {
+    char rx =  USART_ReceiveData(USART);
+
+    //add into ring buffer
+    g_uart_rx_buffer[g_uart_wr_ptr] = rx;
+      g_uart_wr_ptr++;
+    if (g_uart_wr_ptr >= UART_RX_BUFFER_SIZE)
+      g_uart_wr_ptr = 0;
+  }
+
+  USART_ClearITPendingBit(USART, USART_IT_RXNE);
+}
+
 void uart_init()
 {
+  g_uart_wr_ptr = 0;
+  g_uart_rd_ptr = 0;
+
+  u32 i;
+  for (i = 0; i < UART_RX_BUFFER_SIZE; i++)
+    g_uart_rx_buffer[i] = 0;
+
 	GPIO_InitTypeDef        GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
 
@@ -77,20 +110,4 @@ void uart_init()
 
 	/* Enable USART */
 	USART_Cmd(USART, ENABLE);
-}
-
-void USART1_IRQHandler(void)
-{
-  /*
-  if (USART_GetITStatus(USART, USART_IT_RXNE) != RESET) // Received character?
-  {
-    char rx =  USART_ReceiveData(USART);
-
-    g_uart_rx_buffer[g_uart_wr_ptr] = rx;
-      g_uart_wr_ptr++;
-    if (g_uart_wr_ptr >= UART_RX_BUFFER_SIZE)
-      g_uart_wr_ptr = 0;
-  }
-  */
-  USART_ClearITPendingBit(USART, USART_IT_RXNE);
 }

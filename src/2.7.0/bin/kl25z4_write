@@ -1,0 +1,2 @@
+cp main.bin /media/michal/MBED/.
+echo "file copy done"
