@@ -26,7 +26,7 @@ void ir_comm_thread()
 		{
 			led_on(LED_1);
 
-			printf_("OK : ", res);
+			printf_("OK : signal %u > ", rx_packet.signal_strength, res);
 			u32 i;
 			for (i = 0; i < IR_PACKET_PAYLOAD_SIZE; i++)
 				printf_("%c", tx_packet.payload[i]);
@@ -95,31 +95,14 @@ void main_thread()
 
 	create_thread(ir_comm_thread, ir_comm_thread_stack, sizeof(ir_comm_thread_stack), PRIORITY_MAX);
 
-	event_timer_set_period(EVENT_TIMER_0_ID, 50);
-
-	LCD_SH1106_init();
-	LCD_SH1106_clear_buffer(0x00);
 
 	while (1)
 	{
-		if (LCD_SH1106_flush_buffer_partial() == 0)
-		{
-			LCD_SH1106_clear_buffer(0x00);
+		led_on(LED_1);
+		timer_delay_ms(100);
 
-      /*
-			lcd_put_int(g_mpu6050.gx_sum, 0, 0);
-			lcd_put_int(g_mpu6050.gy_sum, 0, 16);
-			lcd_put_int(g_mpu6050.gz_sum, 0, 32);
-
-			lcd_put_int(g_hmc5883.mx, 64, 0);
-			lcd_put_int(g_hmc5883.my, 64, 16);
-			lcd_put_int(g_hmc5883.mz, 64, 32);
-
-			lcd_put_int(g_apds9950.ambient, 0, 48);
-      */
-
-			lcd_put_int(get_received_signal_level(), 64, 48);
-		}
+		led_off(LED_1);
+		timer_delay_ms(900);
 	}
 }
 

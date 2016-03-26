@@ -8,8 +8,10 @@ void ir_packet_init(struct sIRPacket *ir_packet)
   ir_packet->payload[1] = 0;
   ir_packet->payload[2] = 0;
   ir_packet->payload[3] = 0;
+
+  ir_packet->signal_strength = 0;
 }
- 
+
 // Fletcher16 CRC
 u8 ir_packet_crc(u8 *buffer, u32 size)
  {
@@ -71,6 +73,7 @@ u8 ir_receive_packet(struct sIRPacket *ir_packet)
     for (i = 0; i < IR_PACKET_PAYLOAD_SIZE; i++)
       ir_packet->payload[i] = rx_buffer[5 + i];
 
+    ir_packet->signal_strength = ir_comm_received_signal_strength();
 
     if (rx_buffer[0] != IR_PACKET_START_BYTE)
       res = IR_PACKET_RX_START_ERROR;

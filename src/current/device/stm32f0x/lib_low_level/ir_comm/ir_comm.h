@@ -17,7 +17,7 @@
 #define IR_COMM_RX              (1<<0)
 #define IR_COMM_RX_ADC_CH       ADC_Channel_0
 
-#define IR_COMM_BUFFER_SIZE     (u32)(6+8) 
+#define IR_COMM_BUFFER_SIZE     (u32)(6+8)
 
 #ifdef IR_COMM_TRANSMITER
 u8 tx_buffer[IR_COMM_BUFFER_SIZE];
@@ -39,7 +39,7 @@ void ir_comm_start_rx();
 u8 ir_comm_get_rx_flag();
 
 
-u32 get_received_signal_level();
+u16 ir_comm_received_signal_strength();
 
 
 #endif

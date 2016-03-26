@@ -12,6 +12,7 @@ struct sIRPacket
   u16 id;
   u16 type;
   u8 payload[IR_PACKET_PAYLOAD_SIZE];
+  u16 signal_strength;
 };
 
 #define IR_PACKET_SUCCESS           ((u32)0)

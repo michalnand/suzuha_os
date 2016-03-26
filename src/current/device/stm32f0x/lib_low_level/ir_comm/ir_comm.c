@@ -15,12 +15,17 @@ volatile u8 ir_comm_rx_ptr;
 volatile u32 ir_comm_rx_deadline_counter;
 #endif
 
-u32 ir_comm_adc_received_level;
+u32 _ir_comm_rx_signal_strength;
+u32 _ir_comm_adc_received_level;
+u32 _ir_comm_adc_received_level_cnt;
 
 void ir_comm_init()
 {
-  ir_comm_adc_received_level = 0;
-  ir_comm_rx_deadline_counter = 0;
+    ir_comm_rx_deadline_counter = 0;
+
+  _ir_comm_rx_signal_strength = 0;
+  _ir_comm_adc_received_level = 0;
+  _ir_comm_adc_received_level_cnt = 0;
 
   GPIO_InitTypeDef        GPIO_InitStructure;
   u32 i;
@@ -127,9 +132,9 @@ u8 ir_comm_get_rx_flag()
 
 #endif
 
-u32 get_received_signal_level()
+u16 ir_comm_received_signal_strength()
 {
-  return ir_comm_adc_received_level>>7;
+  return _ir_comm_rx_signal_strength;
 }
 
 
@@ -209,15 +214,18 @@ void TIM14_IRQHandler()
   */
 
   if (adc_res < 1000)
+  {
       rx_input = 0;
-
-  ir_comm_adc_received_level = ir_comm_adc_received_level - (ir_comm_adc_received_level>>7) + adc_res;
+      _ir_comm_adc_received_level+= 4096 - adc_res;
+      _ir_comm_adc_received_level_cnt++;
+  }
 
 
   switch (ir_comm_rx_state)
   {
     case 0:
             ir_comm_rx_ptr = 0;       //wait for bytes
+
             break;
 
     case 1:
@@ -247,6 +255,14 @@ void TIM14_IRQHandler()
                   ir_comm_rx_deadline_counter = 0;
                   ir_comm_rx_ptr = 0;
                   ir_comm_rx_state = 1;
+
+                  if (_ir_comm_adc_received_level_cnt != 0)
+                    _ir_comm_rx_signal_strength = _ir_comm_adc_received_level/_ir_comm_adc_received_level_cnt;
+                  else
+                    _ir_comm_rx_signal_strength = 0;
+
+                  _ir_comm_adc_received_level = 0;
+                  _ir_comm_adc_received_level_cnt = 0;
                 }
             }
             break;
