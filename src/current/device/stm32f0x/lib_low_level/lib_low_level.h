@@ -15,6 +15,8 @@
 #include "ir_comm/ir_comm.h"
 #include "ir_comm/ir_packet.h"
 
+#include "ws2812/ws2812.h"
+
 #include "../../../options.h"
 
 

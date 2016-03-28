@@ -5,7 +5,7 @@ void i2c_delay()
     u32 loops = 1;
     while (loops--)
         __asm("nop");
-}
+} 
 
 void SetLowSDA()
 {

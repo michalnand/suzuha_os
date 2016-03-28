@@ -64,8 +64,11 @@ void main_thread()
 
 	create_thread(i2c_devices_thread, i2c_devices_thread_stack, sizeof(i2c_devices_thread_stack), PRIORITY_MAX);
 
+  ws2812_init();
+
 	while (1)
 	{
+    ws2812_demo();
     //print into terminal
     led_on(LED_1);
 

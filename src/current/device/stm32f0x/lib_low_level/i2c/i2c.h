@@ -5,9 +5,9 @@
 
 #define RCC_AHBPeriph_GPIO_I2C RCC_AHBPeriph_GPIOB
 
-#define SCL     	   5
-#define SDA     	   4
-#define I2C_GPIO    GPIOB
+#define SCL     	   8
+#define SDA     	   11
+#define I2C_GPIO    GPIOA
 
 #define NO_I2C_ACK 0
 #define OK_I2C_ACK 1
