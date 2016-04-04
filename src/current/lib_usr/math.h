@@ -5,6 +5,8 @@
 
 #define PI_		(mint)3.141592654
 
+#include "cos_table.h"
+
 
 mint m_abs(mint value);
 signed int mint_abs(signed int value);

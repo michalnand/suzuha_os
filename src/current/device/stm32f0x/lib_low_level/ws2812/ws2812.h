@@ -3,8 +3,15 @@
 
 #include "../lib_low_level.h"
 
-#define WS2812_NUM_LEDS				((u32)24)
+#define WS2812_NUM_LEDS				((u32)64)
 
+typedef struct
+{
+	u8 red;
+	u8 green;
+	u8 blue;
+}
+	RGB_LED;
 
 void ws2812_init();
 void ws2812_demo();

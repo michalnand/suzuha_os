@@ -69,6 +69,7 @@ void main_thread()
 	while (1)
 	{
     ws2812_demo();
+
     //print into terminal
     led_on(LED_1);
 

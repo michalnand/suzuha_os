@@ -6,12 +6,7 @@
 #define SPI_MOSI_SOURCE   GPIO_PinSource5
 #define SPI_GPIO          GPIOB
 
-typedef struct
-{
-	u8 red;
-	u8 green;
-	u8 blue;
-} RGB_LED;
+
 
 
 RGB_LED ws2812_leds[WS2812_NUM_LEDS] = {{0,0,0}};
@@ -107,15 +102,12 @@ void ws2812_demo()
 		u32 time = timer_get_time();
 		if ((time%100) == 0)
 		{
-
 			if (leds[time%3].way == 1)
 				leds[time%3].way = WS2812_NUM_LEDS-1;
 			else
 				leds[time%3].way = 1;
-
 		}
 	}
-
 }
 
 

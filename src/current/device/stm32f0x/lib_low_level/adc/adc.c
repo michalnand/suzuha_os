@@ -2,28 +2,39 @@
 #include "../std_periph/stm32f0xx_adc.h"
 #include "../std_periph/stm32f0xx_gpio.h"
 
-u32 adc_random_seed = 0;
+u32 adc_random_seed__ = 0;
 
-u32 adc_random_init()
+u32 adc_random_seed()
 {
-    u32 i, j, res;
+    u32 i, j;
+    u32 res = 0;
 
-    //enable internal channel
-    ADC_TempSensorCmd(ENABLE);
-    ADC_ChannelConfig(ADC1, ADC_Channel_TempSensor, ADC_SampleTime_1_5Cycles);
-    res = 0;
-    for (i = 0; i < 32; i++)
+    for (j = 0; j < 8; j++)
     {
-        ADC_StartOfConversion(ADC1);
-        while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC))
-            __asm("nop");
+      u32 res_tmp = 0;
+      for (i = 0; i < 32; i++)
+      {
+          //enable internal channel
+          ADC_TempSensorCmd(ENABLE);
 
-        res<<= 1;
-        res|= ADC_GetConversionValue(ADC1)&1;
-        ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
+          if (j&1)
+            ADC_ChannelConfig(ADC1, ADC_Channel_TempSensor, ADC_SampleTime_1_5Cycles);
+          else
+            ADC_ChannelConfig(ADC1, ADC_Channel_Vrefint, ADC_SampleTime_1_5Cycles);
+
+          ADC_StartOfConversion(ADC1);
+          while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC))
+              __asm("nop");
+
+          res_tmp<<= 1;
+          res_tmp|= ADC_GetConversionValue(ADC1)&1;
+          ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
+
+          ADC_TempSensorCmd(DISABLE);
+      }
+
+      res^= res_tmp;
     }
-    ADC_TempSensorCmd(DISABLE);
-
 
     return res;
 }
@@ -67,7 +78,7 @@ void adc_init()
         __asm("nop");
 
 
-    adc_random_seed = adc_random_init();
+    adc_random_seed__ = adc_random_seed();
 }
 
 void adc_config_ch(u32 ch)
@@ -90,7 +101,7 @@ u32 adc_read()
 }
 
 
-u32 adc_random()
+u32 adc_random_seed_get()
 {
-    return adc_random_seed;
+    return adc_random_seed__;
 }

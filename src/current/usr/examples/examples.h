@@ -4,8 +4,9 @@
 #include "../../os/suzuha_os.h"
 
 /* #define EXAMPLE_THREADS_BASIC */
- #define EXAMPLE_I2C_DEVICES  
+ /* #define EXAMPLE_I2C_DEVICES */
 /* #define EXAMPLE_IR_COMM */
+#define RGB_MATRIX
 
 
 #ifdef EXAMPLE_THREADS_BASIC
@@ -18,6 +19,10 @@
 
 #ifdef EXAMPLE_IR_COMM
 #include "ir_comm_example.h"
+#endif
+
+#ifdef RGB_MATRIX
+#include "rgb_matrix.h"
 #endif
 
 #endif

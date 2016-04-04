@@ -6,7 +6,8 @@
 void adc_init();
 void adc_config_ch(u32 ch);
 u32 adc_read();
-u32 adc_random();
+u32 adc_random_seed();
+u32 adc_random_seed_get();
 
 
 #endif
