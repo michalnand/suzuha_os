@@ -5,8 +5,6 @@
 
 #define PI_		(mint)3.141592654
 
-#include "cos_table.h"
-
 
 mint m_abs(mint value);
 signed int mint_abs(signed int value);
@@ -21,6 +19,8 @@ float m_sqrt(float x);
 
 void m_srand(unsigned int seed);
 unsigned int  m_rnd();
+
+unsigned char cos_table_get(unsigned char idx);
 
 
 #endif

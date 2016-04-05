@@ -1,5 +1,7 @@
 #include "math.h"
 
+#include "cos_table.h"
+
 mint m_abs(mint value)
 {
 	if (value < 0)
@@ -134,4 +136,9 @@ unsigned int m_rnd()
 	__rndb__ = (__rndb__ >> 1) ^ (-(__rndb__ & 1u) & 0xD0000001u);
 
 	return (__rnda__ ^ __rndb__);
+}
+
+unsigned char cos_table_get(unsigned char idx)
+{
+	return cos_table[idx];
 }

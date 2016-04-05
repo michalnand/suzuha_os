@@ -39,27 +39,29 @@ u32 adc_random_seed()
     return res;
 }
 
-void adc_init()
+void adc_init(u32 channels_mask)
 {
-    GPIO_InitTypeDef        GPIO_InitStructure;
-    u32 ad_pins_enable = (1<<0);
+    u32 ad_pins_enable = channels_mask;
 
+    GPIO_InitTypeDef        GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Pin = ad_pins_enable;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-
 
     ADC_InitTypeDef ADC_InitStructure;
 
     //enable ADC1 clock
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
-    // Initialize ADC 14MHz RC
+    RCC_ADCCLKConfig(RCC_ADCCLK_PCLK_Div2);
+
+    /*
     RCC_ADCCLKConfig(RCC_ADCCLK_HSI14);
     RCC_HSI14Cmd(ENABLE);
     while (!RCC_GetFlagStatus(RCC_FLAG_HSI14RDY))
         __asm("nop");
+    */
 
     ADC_DeInit(ADC1);
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
@@ -67,7 +69,7 @@ void adc_init()
     ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
     ADC_InitStructure.ADC_ScanDirection = ADC_ScanDirection_Upward;
     ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_TRGO; //default
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_TRGO;
     ADC_Init(ADC1, &ADC_InitStructure);
 
     ADC_GetCalibrationFactor(ADC1);
@@ -77,19 +79,18 @@ void adc_init()
     while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_ADRDY))
         __asm("nop");
 
-
     adc_random_seed__ = adc_random_seed();
 }
 
 void adc_config_ch(u32 ch)
 {
-    ADC_ChannelConfig(ADC1, ch, ADC_SampleTime_1_5Cycles);
-    adc_read();
+    ADC_ChannelConfig(ADC1, ch, ADC_SampleTime_239_5Cycles);
+    //ADC_ChannelConfig(ADC1, ch, ADC_SampleTime_41_5Cycles);
 }
 
 u32 adc_read()
 {
-    ADC1->CR |= (uint32_t)ADC_CR_ADSTART;
+    ADC1->CR|= (uint32_t)ADC_CR_ADSTART;
 
     while ((ADC1->ISR&ADC_FLAG_EOC) == 0)
         __asm("nop");

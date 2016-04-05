@@ -6,7 +6,7 @@
 /* #define EXAMPLE_THREADS_BASIC */
  /* #define EXAMPLE_I2C_DEVICES */
 /* #define EXAMPLE_IR_COMM */
-#define RGB_MATRIX
+#define EXAMPLE_ADC
 
 
 #ifdef EXAMPLE_THREADS_BASIC
@@ -21,8 +21,8 @@
 #include "ir_comm_example.h"
 #endif
 
-#ifdef RGB_MATRIX
-#include "rgb_matrix.h"
+#ifdef EXAMPLE_ADC
+#include "adc_example.h"
 #endif
 
 #endif
