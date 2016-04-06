@@ -1,86 +1,53 @@
 #include "pwm.h"
 
 
-#define PWM_CH_0_GPIO	GPIOA
-#define PWM_CH_0		((u32)(1<<8))
-
-#define PWM_CH_1_GPIO	GPIOA
-#define PWM_CH_1		((u32)(1<<11))
-
-#define PWM_CH_2_GPIO	GPIOA
-#define PWM_CH_2		((u32)(1<<1))
-
-#define PWM_CH_COUNT 3
-
 void pwm_init()
 {
-	u32 i;
-	for (i = 0; i < PWM_CH_COUNT; i++)
-	{
-		g_pwm.pwm_cnt[i] = 0;
-		g_pwm.pwm_ch[i] = 0;
-	}
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  TIM_OCInitTypeDef  TIM_OCInitStructure;
+  GPIO_InitTypeDef GPIO_InitStructure;
 
-	g_pwm.cnt = 0;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP ;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM16, ENABLE);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_2);
 
-	TIM_TimeBaseInitTypeDef timerInitStructure;
-	timerInitStructure.TIM_Prescaler = 8;
-	timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	timerInitStructure.TIM_Period = 1000;
-	timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	timerInitStructure.TIM_RepetitionCounter = 0;
-	TIM_TimeBaseInit(TIM16, &timerInitStructure);
-	TIM_Cmd(TIM16, ENABLE);
+  /* TIM1 clock enable */
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1 , ENABLE);
 
-	TIM_ITConfig(TIM16, TIM_IT_CC1, ENABLE);
+  /* Time Base configuration */
+  TIM_TimeBaseStructure.TIM_Prescaler = 0;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseStructure.TIM_Period = 1024;
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
-	NVIC_InitTypeDef nvicStructure;
-	nvicStructure.NVIC_IRQChannel = TIM16_IRQn;
-	nvicStructure.NVIC_IRQChannelPriority = 1;
-	nvicStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&nvicStructure);
+  TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+
+  /* Channel 1, 2,3 and 4 Configuration in PWM mode */
+  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+  TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
+  TIM_OCInitStructure.TIM_Pulse = 0;
+  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+  TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
+  TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
+  TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+
+  TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+
+  /* TIM1 counter enable */
+  TIM_Cmd(TIM1, ENABLE);
+
+  /* TIM1 Main Output Enable */
+  TIM_CtrlPWMOutputs(TIM1, ENABLE);
 }
 
-
-void TIM16_IRQHandler()
+void pwm_set(u32 value)
 {
-	if (g_pwm.pwm_cnt[0] <= g_pwm.cnt)
-		PWM_CH_0_GPIO->BRR = PWM_CH_0;
-	else
-		if (g_pwm.cnt == 0)
-		{
-			PWM_CH_0_GPIO->BSRR = PWM_CH_0;
-		}
-
-	if (g_pwm.pwm_cnt[1] <= g_pwm.cnt)
-		PWM_CH_1_GPIO->BRR = PWM_CH_1;
-	else
-		if (g_pwm.cnt == 0)
-		{
-			PWM_CH_1_GPIO->BSRR = PWM_CH_1;
-		}
-
-	if (g_pwm.pwm_cnt[2] <= g_pwm.cnt)
-		PWM_CH_2_GPIO->BRR = PWM_CH_2;
-	else
-		if (g_pwm.cnt == 0)
-		{
-			PWM_CH_2_GPIO->BSRR = PWM_CH_2;
-		}
-
-	if (g_pwm.cnt == 0)
-	{
-		g_pwm.pwm_cnt[0] = g_pwm.pwm_ch[0];
-		g_pwm.pwm_cnt[1] = g_pwm.pwm_ch[1];
-		g_pwm.pwm_cnt[2] = g_pwm.pwm_ch[2];
-	}
-
-
-	g_pwm.cnt++;
-	if (g_pwm.cnt > PWM_MAX)
-		g_pwm.cnt = 0;
-
-	TIM16->SR = 0;
+	TIM1->CCR1 = value;
 }

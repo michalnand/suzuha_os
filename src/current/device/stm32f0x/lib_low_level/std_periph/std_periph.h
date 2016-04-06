@@ -10,5 +10,6 @@
 #include "stm32f0xx_tim.h"
 #include "stm32f0xx_adc.h"
 #include "stm32f0xx_spi.h"
+#include "stm32f0xx_dac.h"
 
 #endif

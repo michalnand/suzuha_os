@@ -4,36 +4,36 @@
 
 u32 adc_random_seed__ = 0;
 
+
+
 u32 adc_random_seed()
 {
     u32 i, j;
+
     u32 res = 0;
 
     for (j = 0; j < 8; j++)
     {
-      u32 res_tmp = 0;
+      u32 tmp = 0;
       for (i = 0; i < 32; i++)
       {
-          //enable internal channel
-          ADC_TempSensorCmd(ENABLE);
+        ADC_TempSensorCmd(ENABLE);
+        ADC_VrefintCmd(ENABLE);
 
-          if (j&1)
-            ADC_ChannelConfig(ADC1, ADC_Channel_TempSensor, ADC_SampleTime_1_5Cycles);
-          else
-            ADC_ChannelConfig(ADC1, ADC_Channel_Vrefint, ADC_SampleTime_1_5Cycles);
+        if (j&1)
+          adc_config_ch(ADC_Channel_TempSensor);
+        else
+          adc_config_ch(ADC_Channel_Vrefint);
 
-          ADC_StartOfConversion(ADC1);
-          while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC))
-              __asm("nop");
+        tmp<<= 1;
+        tmp|= adc_read()&(1<<0);
 
-          res_tmp<<= 1;
-          res_tmp|= ADC_GetConversionValue(ADC1)&1;
-          ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
 
-          ADC_TempSensorCmd(DISABLE);
+        ADC_TempSensorCmd(DISABLE);
+        ADC_VrefintCmd(DISABLE);
       }
 
-      res^= res_tmp;
+      res^=tmp;
     }
 
     return res;
@@ -56,13 +56,6 @@ void adc_init(u32 channels_mask)
 
     RCC_ADCCLKConfig(RCC_ADCCLK_PCLK_Div2);
 
-    /*
-    RCC_ADCCLKConfig(RCC_ADCCLK_HSI14);
-    RCC_HSI14Cmd(ENABLE);
-    while (!RCC_GetFlagStatus(RCC_FLAG_HSI14RDY))
-        __asm("nop");
-    */
-
     ADC_DeInit(ADC1);
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
@@ -84,13 +77,17 @@ void adc_init(u32 channels_mask)
 
 void adc_config_ch(u32 ch)
 {
-    ADC_ChannelConfig(ADC1, ch, ADC_SampleTime_239_5Cycles);
-    //ADC_ChannelConfig(ADC1, ch, ADC_SampleTime_41_5Cycles);
+  u32 tmp = 0;
+
+  ADC1->CHSELR = (u32)ch;
+  tmp &= ~ADC_SMPR1_SMPR;
+  tmp |= (u32)ADC_SampleTime_7_5Cycles;
+  ADC1->SMPR = tmp;
 }
 
 u32 adc_read()
 {
-    ADC1->CR|= (uint32_t)ADC_CR_ADSTART;
+    ADC1->CR|= (u32)ADC_CR_ADSTART;
 
     while ((ADC1->ISR&ADC_FLAG_EOC) == 0)
         __asm("nop");
