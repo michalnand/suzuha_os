@@ -1,7 +1,7 @@
 #include "adc_example.h"
 
 #ifdef EXAMPLE_ADC
-
+ 
 #define  ADC_CHANNELS_COUNT   4
 
 u32 adc_res[ADC_CHANNELS_COUNT];

@@ -1,6 +1,7 @@
 #include "uart.h"
 
 
+/*
 #define USART                          USART6
 #define USART_CLK_ENABLE()             __HAL_RCC_USART6_CLK_ENABLE()
 #define USART_CLK_DISABLE()            __HAL_RCC_USART6_CLK_DISABLE()
@@ -18,7 +19,25 @@
 #define USART_RX_AF                    GPIO_AF8_USART6
 
 #define USART_IRQn                     USART1_IRQn
+*/
 
+#define USART                          USART3
+#define USART_CLK_ENABLE()             __HAL_RCC_USART3_CLK_ENABLE()
+#define USART_CLK_DISABLE()            __HAL_RCC_USART3_CLK_DISABLE()
+
+#define USART_TX_PIN                   GPIO_PIN_8
+#define USART_TX_GPIO_PORT             GPIOD
+#define USART_TX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USART_TX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOD_CLK_DISABLE()
+#define USART_TX_AF                    GPIO_AF7_USART3
+
+#define USART_RX_PIN                   GPIO_PIN_9
+#define USART_RX_GPIO_PORT             GPIOD
+#define USART_RX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USART_RX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOD_CLK_DISABLE()
+#define USART_RX_AF                    GPIO_AF7_USART3
+
+#define USART_IRQn                     USART1_IRQn
 
 UART_HandleTypeDef UartHandle;
 

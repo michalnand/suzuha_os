@@ -1,7 +1,7 @@
 #include "i2c_devices.h"
 
 #ifdef EXAMPLE_I2C_DEVICES
-
+ 
 #include "../../lib_usr/hmc5883.h"
 #include "../../lib_usr/mpu6050.h"
 #include "../../lib_usr/sh1106.h"

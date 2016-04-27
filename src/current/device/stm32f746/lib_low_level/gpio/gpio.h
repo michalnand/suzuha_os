@@ -4,9 +4,9 @@
 #include "../lib_low_level.h"
 //#include "stm32f4xx_gpio.h"
 
-#define GPIO_BASE	GPIOI
+#define GPIO_BASE	GPIOB
 
-#define LED_1	(1<<1)
+#define LED_1	(1<<14)
 
 void gpio_init();
 void led_on(u32 led);

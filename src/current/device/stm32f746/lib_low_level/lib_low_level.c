@@ -137,12 +137,13 @@ void lib_low_level_init()
 	gpio_init();
 	#endif
 
+
 	#ifdef _UART_H_
 	uart_init();
 	#endif
 
 	#ifdef _TIMER_H_
-	timer_init();
+	//timer_init();
 	#endif
 
 

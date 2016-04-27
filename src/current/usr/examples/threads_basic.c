@@ -6,6 +6,9 @@ void child1_thread()
 {
   while (1)
   {
+    char c = uart_read();
+    printf_("char >%c<\n", c); 
+
     led_on(LED_1);
     printf_("child 1 thread 1111111\n");
     led_off(LED_1);

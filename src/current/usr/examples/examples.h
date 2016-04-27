@@ -3,8 +3,8 @@
 
 #include "../../os/suzuha_os.h"
 
-/* #define EXAMPLE_THREADS_BASIC */
-  #define EXAMPLE_I2C_DEVICES 
+ #define EXAMPLE_THREADS_BASIC 
+/*  #define EXAMPLE_I2C_DEVICES  */
 /* #define EXAMPLE_IR_COMM */
 /* #define EXAMPLE_ADC */
 
