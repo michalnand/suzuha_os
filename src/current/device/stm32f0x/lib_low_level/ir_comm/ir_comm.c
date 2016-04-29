@@ -19,6 +19,30 @@ u32 _ir_comm_rx_signal_strength;
 u32 _ir_comm_adc_received_level;
 u32 _ir_comm_adc_received_level_cnt;
 
+#ifdef IR_COMM_TRANSMITER
+u8 tx_buffer[IR_COMM_BUFFER_SIZE];
+#endif
+
+#ifdef IR_COMM_RECEIVER
+u8 rx_buffer[IR_COMM_BUFFER_SIZE];
+#endif
+
+#ifdef IR_COMM_TRANSMITER
+u8 *get_tx_buffer()
+{
+  return tx_buffer;
+}
+#endif
+
+
+#ifdef IR_COMM_RECEIVER
+u8 *get_rx_buffer()
+{
+  return rx_buffer;
+}
+#endif
+
+
 void ir_comm_init()
 {
     ir_comm_rx_deadline_counter = 0;

@@ -1,5 +1,5 @@
-#ifndef __system_stm32f0xx__H__
-#define  __system_stm32f0xx__H__
+#ifndef __SYSTEM_stm32f0xx___H__
+#define __SYSTEM_stm32f0xx___H__
 
 
 void SystemInit();

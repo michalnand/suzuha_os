@@ -58,6 +58,9 @@
 #endif
 
 
+#define assert_param(param) (param)
+
+
 #define     STM32F031
 
 /** @addtogroup Library_configuration_section
@@ -480,7 +483,7 @@ typedef enum IRQn
   */
 
 #include "core_cm0.h"
-#include "system_stm32f0xx.h"
+//#include "system_stm32f0xx.h"
 #include <stdint.h>
 
 /** @addtogroup Exported_types

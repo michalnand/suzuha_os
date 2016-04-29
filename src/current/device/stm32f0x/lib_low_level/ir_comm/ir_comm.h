@@ -19,15 +19,14 @@
 
 #define IR_COMM_BUFFER_SIZE     (u32)(6+8)
 
-#ifdef IR_COMM_TRANSMITER
-u8 tx_buffer[IR_COMM_BUFFER_SIZE];
-#endif
 
-#ifdef IR_COMM_RECEIVER
-u8 rx_buffer[IR_COMM_BUFFER_SIZE];
-#endif
+
+u8 *get_tx_buffer();
+u8 *get_rx_buffer();
 
 void ir_comm_init();
+
+
 
 void ir_comm_start_tx();
 //return 0 if tx done

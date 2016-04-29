@@ -1,5 +1,10 @@
 #include "lib_low_level.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Memory locations defined by the linker
 extern unsigned int __heap_start[];
 extern unsigned int __StackTop[];
@@ -7,8 +12,10 @@ extern unsigned int __data_start__[], __data_end__[];
 extern unsigned int __bss_start__[], __bss_end__[];
 extern unsigned int __etext[];                // End of code/flash
 
+
+extern int main();
+
 void _reset_init(void)    __attribute__((naked, aligned(2)));
-extern int main(void);
 
 //  Default interrupt handler
 void __attribute__((interrupt("IRQ"))) Default_Handler()
@@ -36,6 +43,7 @@ static void __attribute__((naked)) HardFault_Handler(void)
 }
 
 /* Weak definitions of handlers point to Default_Handler if not implemented */
+
 void NMI_Handler()          __attribute__ ((weak, alias("Default_Handler")));
 void SVC_Handler()          __attribute__ ((weak, alias("Default_Handler")));
 void PendSV_Handler()          __attribute__ ((weak, alias("Default_Handler")));
@@ -64,6 +72,10 @@ void I2C1_IRQHandler() __attribute__ ((weak, alias("Default_Handler")));
 void SPI1_IRQHandler() __attribute__ ((weak, alias("Default_Handler")));
 void USART1_IRQHandler() __attribute__ ((weak, alias("Default_Handler")));
 void BootRAM_IRQHandler() __attribute__ ((weak, alias("Default_Handler")));
+
+
+
+
 
 
 // ----------------------------------------------------------------------------------
@@ -136,3 +148,7 @@ void _reset_init(void)
 
     main();
 }
+
+#ifdef __cplusplus
+}
+#endif

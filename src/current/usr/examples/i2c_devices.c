@@ -1,12 +1,19 @@
 #include "i2c_devices.h"
 
 #ifdef EXAMPLE_I2C_DEVICES
- 
+
 #include "../../lib_usr/hmc5883.h"
 #include "../../lib_usr/mpu6050.h"
 #include "../../lib_usr/sh1106.h"
 #include "../../lib_usr/apds9950.h"
 #include "../../lib_usr/math.h"
+
+#include "object_test.h"
+
+
+#define THREAD_STACK_SIZE	64
+
+thread_stack_t i2c_devices_thread_stack[THREAD_STACK_SIZE];
 
 void i2c_devices_thread()
 {
@@ -40,15 +47,15 @@ void i2c_devices_thread()
 		{
 			LCD_SH1106_clear_buffer(0x00);
 
-			lcd_put_int(g_mpu6050.gx_sum, 0, 0);
-			lcd_put_int(g_mpu6050.gy_sum, 0, 16);
-			lcd_put_int(g_mpu6050.gz_sum, 0, 32);
+			lcd_put_int(get_g_mpu6050()->gx_sum, 0, 0);
+			lcd_put_int(get_g_mpu6050()->gy_sum, 0, 16);
+			lcd_put_int(get_g_mpu6050()->gz_sum, 0, 32);
 
-			lcd_put_int(g_hmc5883.mx, 64, 0);
-			lcd_put_int(g_hmc5883.my, 64, 16);
-			lcd_put_int(g_hmc5883.mz, 64, 32);
+			lcd_put_int(get_g_hmc5883()->mx, 64, 0);
+			lcd_put_int(get_g_hmc5883()->my, 64, 16);
+			lcd_put_int(get_g_hmc5883()->mz, 64, 32);
 
-			lcd_put_int(g_apds9950.ambient, 0, 48);
+			lcd_put_int(get_g_apds9950()->ambient, 0, 48);
 			lcd_put_int(timer_get_time(), 64, 48);
 		}
   }
@@ -66,18 +73,20 @@ void main_thread()
 
   ws2812_init();
 
+  object_test_call();
+
 	while (1)
 	{
-    ws2812_demo();
+    //ws2812_demo();
 
     //print into terminal
     led_on(LED_1);
 
     printf_("%u : \n", timer_get_time());
-    printf_("[%i %i %i] ", g_mpu6050.ax, g_mpu6050.ay, g_mpu6050.az);
-    printf_("[%i %i %i] ", g_mpu6050.gx, g_mpu6050.gy, g_mpu6050.gz);
-    printf_("[%i %i %i] ", g_hmc5883.mx, g_hmc5883.my, g_hmc5883.mz);
-    printf_("[%i %i %i] ", g_apds9950.r, g_apds9950.g, g_apds9950.b);
+    printf_("[%i %i %i] ", get_g_mpu6050()->ax, get_g_mpu6050()->ay, get_g_mpu6050()->az);
+    printf_("[%i %i %i] ", get_g_mpu6050()->gx, get_g_mpu6050()->gy, get_g_mpu6050()->gz);
+    printf_("[%i %i %i] ", get_g_hmc5883()->mx, get_g_hmc5883()->my, get_g_hmc5883()->mz);
+    printf_("[%i %i %i] ", get_g_apds9950()->r, get_g_apds9950()->g, get_g_apds9950()->b);
 
     printf_("\n");
 

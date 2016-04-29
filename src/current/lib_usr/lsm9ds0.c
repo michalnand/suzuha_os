@@ -1,5 +1,13 @@
 #include "lsm9ds0.h"
 
+struct sLSM9DS0IMU g_lsm9ds0_imu;
+
+
+struct sLSM9DS0IMU * get_g_lsm9ds0_imu()
+{
+  return &g_lsm9ds0_imu;
+}
+
 u32 lsm9ds0_init()
 {
     u8 tmp;

@@ -1,13 +1,33 @@
 #include "os/suzuha_os.h"
 #include "usr/usr_main.h"
 
+#define MAIN_THREAD_STACK_SIZE	64
+
+thread_stack_t main_thread_stack[MAIN_THREAD_STACK_SIZE];
+
+
+void _exit()
+{
+
+}
+
+void _kill()
+{
+
+
+}
+
+int _getpid()
+{
+	return 0;
+}
 
 void mem_info_print()
 {
 	extern char _text;
 	extern char _data;
 	extern char __StackTop;
-	extern char _ebss; 
+	extern char _ebss;
 	extern char _heap;
 
 	printf_("booting from %u\n", &_text);

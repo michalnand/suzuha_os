@@ -1,5 +1,12 @@
 #include "mpu6050.h"
 
+struct sMPU6050 g_mpu6050;
+
+struct sMPU6050* get_g_mpu6050()
+{
+  return &g_mpu6050;
+}
+
 void mpu6050_init()
 {
   g_mpu6050.ax = 0;
@@ -40,7 +47,7 @@ void mpu6050_init()
   g_mpu6050.gz_sum = 0;
 }
 
-void mpu6050_read() 
+void mpu6050_read()
 {
   g_mpu6050.ax = ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x3B))<<8;
 	g_mpu6050.ax|= ((u16)i2c_read_reg(MPU6050_ADDRESS, 0x3C));

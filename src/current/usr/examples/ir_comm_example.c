@@ -2,6 +2,10 @@
 
 #ifdef EXAMPLE_IR_COMM
 
+#define THREAD_STACK_SIZE	64
+
+thread_stack_t ir_comm_thread_stack[THREAD_STACK_SIZE];
+
 
 void ir_comm_thread()
 {

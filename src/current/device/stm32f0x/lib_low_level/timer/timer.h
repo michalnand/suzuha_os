@@ -3,6 +3,10 @@
 
 #include "../lib_low_level.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define EVENT_TIMER_COUNT	4
 
@@ -35,5 +39,8 @@ u32 event_timer_get_flag(u32 id);
 
 void event_timer_clear_flag(u32 id);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

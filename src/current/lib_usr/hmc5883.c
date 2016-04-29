@@ -1,5 +1,13 @@
 #include "hmc5883.h"
 
+
+struct sHMC5883 g_hmc5883;
+
+struct sHMC5883* get_g_hmc5883()
+{
+  return &g_hmc5883;
+}
+
 u32 hmc5883_init()
 {
   g_hmc5883.mx = 0;

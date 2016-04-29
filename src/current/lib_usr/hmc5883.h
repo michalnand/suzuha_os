@@ -3,6 +3,11 @@
 
 #include "../device/device.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 // #define USE_HMC5883 1
 
 /*magnetometer HMC5883L*/
@@ -34,9 +39,13 @@ struct sHMC5883
   i16 mx, my, mz;
 };
 
-struct sHMC5883 g_hmc5883;
 
+struct sHMC5883* get_g_hmc5883();
 u32 hmc5883_init();
 void hmc5883_read();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

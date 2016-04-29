@@ -1,10 +1,15 @@
 #include "adc_example.h"
 
 #ifdef EXAMPLE_ADC
- 
+
 #define  ADC_CHANNELS_COUNT   4
 
+#define THREAD_STACK_SIZE	64
+
+
 u32 adc_res[ADC_CHANNELS_COUNT];
+
+thread_stack_t adc_thread_stack[THREAD_STACK_SIZE];
 
 
 void adc_thread()

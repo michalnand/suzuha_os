@@ -1,6 +1,11 @@
 #ifndef _MATH_H_
 #define _MATH_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #define mint	float
 
 #define PI_		(mint)3.141592654
@@ -22,5 +27,9 @@ unsigned int  m_rnd();
 
 unsigned char cos_table_get(unsigned char idx);
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

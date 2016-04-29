@@ -3,6 +3,11 @@
 
 #include "../lib_low_level.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #define RCC_AHBPeriph_GPIO_I2C RCC_AHBPeriph_GPIOB
 
 #define SCL     	   8
@@ -22,5 +27,9 @@ void i2cStart();
 void i2cStop();
 int i2cWrite(u8 a);
 u8 i2cRead(u8  ack);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -3,6 +3,10 @@
 
 #include "../suzuha_os.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef volatile u32 mutex_t;
 
 #define LIB_MUTEX			1
@@ -14,5 +18,9 @@ void mutex_init(mutex_t *mutex);
 void mutex_lock(mutex_t *mutex);
 void mutex_unlock(mutex_t *mutex);
 void mutex_destroy(mutex_t *mutex);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

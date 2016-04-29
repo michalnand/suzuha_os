@@ -23,6 +23,10 @@
 
 #include "../suzuha_os.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  @brief define that messages_f.h is used
 */
@@ -142,4 +146,10 @@ u32 msg_raise_async(struct sMsg *msg);
 	@brief return 0 if no message in front, else return !0
 */
 u32 msg_check();
+
+#ifdef __cplusplus
+}
+#endif
+
+
 #endif

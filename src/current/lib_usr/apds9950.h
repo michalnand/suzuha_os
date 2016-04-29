@@ -3,12 +3,16 @@
 
 #include "../device/device.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 struct sAPDS9950
 {
     u16 r, g, b, ambient, proximity;
 };
 
-struct sAPDS9950 g_apds9950;
 
 
 /*APDS-9950 RGB sensor*/
@@ -52,8 +56,13 @@ struct sAPDS9950 g_apds9950;
 #define RGB_PDATAL 			0x1C
 #define RGB_PDATAH 			0x1D
 
+struct sAPDS9950* get_g_apds9950();
 
 u32 apds950_init();
 void apds9950_read();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -5,10 +5,6 @@
 
 #ifdef EXAMPLE_I2C_DEVICES
 
-#define THREAD_STACK_SIZE	64
-
-thread_stack_t main_thread_stack[THREAD_STACK_SIZE];
-thread_stack_t i2c_devices_thread_stack[THREAD_STACK_SIZE];
 
 void main_thread();
 

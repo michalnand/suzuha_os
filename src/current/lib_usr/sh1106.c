@@ -90,9 +90,9 @@ void LCD_SH1106_flush_buffer()
 
 u32 LCD_SH1106_flush_buffer_partial()
 {
-	volatile u32 i, j, k;
-
+	u32 ptr = 0;
 	u32 res = 1;
+	u32 i, j, k;
 
 	switch (LCD_SH1106_state)
 	{
@@ -111,7 +111,7 @@ u32 LCD_SH1106_flush_buffer_partial()
 					LCD_SH1106_write_command(0xB0 + i + 0);		//set page address
 					LCD_SH1106_write_command((0 + 2) & 0xf);	//set lower column address
 					LCD_SH1106_write_command(0x10 | (0 >> 4));	//set higher column address
-					u32 ptr = 0;
+					ptr = 0;
 					for(j = 0; j < 8; j++)
 					{
 

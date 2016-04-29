@@ -29,7 +29,7 @@ void stdio_init()
 		putc_('\n');
 
 
-	printf_("stdio init done\n");
+	printf_((char*)"stdio init done\n");
 }
 
 

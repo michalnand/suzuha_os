@@ -33,18 +33,18 @@ u8 ir_send_packet(struct sIRPacket *ir_packet)
 {
   if (ir_comm_get_tx_flag() == 0)
   {
-    tx_buffer[0] = IR_PACKET_START_BYTE;
+    get_tx_buffer()[0] = IR_PACKET_START_BYTE;
 
-    tx_buffer[1] = ir_packet->id>>8;
-    tx_buffer[2] = ir_packet->id&0xff;
-    tx_buffer[3] = ir_packet->type>>8;
-    tx_buffer[4] = ir_packet->type&0xff;
+    get_tx_buffer()[1] = ir_packet->id>>8;
+    get_tx_buffer()[2] = ir_packet->id&0xff;
+    get_tx_buffer()[3] = ir_packet->type>>8;
+    get_tx_buffer()[4] = ir_packet->type&0xff;
 
     u32 i;
     for (i = 0; i < IR_PACKET_PAYLOAD_SIZE; i++)
-      tx_buffer[5 + i] = ir_packet->payload[i];
+      get_tx_buffer()[5 + i] = ir_packet->payload[i];
 
-    tx_buffer[IR_COMM_BUFFER_SIZE-1] = ir_packet_crc(tx_buffer, IR_COMM_BUFFER_SIZE-1);
+    get_tx_buffer()[IR_COMM_BUFFER_SIZE-1] = ir_packet_crc(get_tx_buffer(), IR_COMM_BUFFER_SIZE-1);
 
     ir_comm_start_tx();
     return IR_PACKET_SUCCESS;
@@ -61,24 +61,24 @@ u8 ir_receive_packet(struct sIRPacket *ir_packet)
   u8 res = IR_PACKET_RX_NO_DATA;
   if (ir_comm_get_rx_flag() == 0)
   {
-    u8 crc = ir_packet_crc(rx_buffer, IR_COMM_BUFFER_SIZE-1);
+    u8 crc = ir_packet_crc(get_rx_buffer(), IR_COMM_BUFFER_SIZE-1);
 
-    ir_packet->id = ((u16)rx_buffer[1])<<8;
-    ir_packet->id|= ((u16)rx_buffer[2]);
+    ir_packet->id = ((u16)get_rx_buffer()[1])<<8;
+    ir_packet->id|= ((u16)get_rx_buffer()[2]);
 
-    ir_packet->type = ((u16)rx_buffer[3])<<8;
-    ir_packet->type|= ((u16)rx_buffer[4]);
+    ir_packet->type = ((u16)get_rx_buffer()[3])<<8;
+    ir_packet->type|= ((u16)get_rx_buffer()[4]);
 
     u32 i;
     for (i = 0; i < IR_PACKET_PAYLOAD_SIZE; i++)
-      ir_packet->payload[i] = rx_buffer[5 + i];
+      ir_packet->payload[i] = get_rx_buffer()[5 + i];
 
     ir_packet->signal_strength = ir_comm_received_signal_strength();
 
-    if (rx_buffer[0] != IR_PACKET_START_BYTE)
+    if (get_rx_buffer()[0] != IR_PACKET_START_BYTE)
       res = IR_PACKET_RX_START_ERROR;
     else
-    if (rx_buffer[IR_COMM_BUFFER_SIZE-1] != crc)
+    if (get_rx_buffer()[IR_COMM_BUFFER_SIZE-1] != crc)
       res = IR_PACKET_RX_CRC_ERROR;
     else
       res = IR_PACKET_SUCCESS;

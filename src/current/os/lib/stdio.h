@@ -4,7 +4,9 @@
 
 #include "../suzuha_os.h"
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void putc_(char c);
 char getc_();
@@ -31,5 +33,10 @@ void printf_(char *s, ...);
 
 
 void stdio_init();
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

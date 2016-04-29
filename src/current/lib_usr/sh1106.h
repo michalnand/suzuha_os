@@ -1,8 +1,13 @@
 #ifndef _SH1106_H_
 #define _SH1106_H_
 
-
 #include "../device/device.h"
+#include "../os/suzuha_os.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define LCD_SH1106_WIDTH	((u32)128)
 #define LCD_SH1106_HEIGHT	((u32)64)
@@ -50,5 +55,8 @@ void lcd_put_s(char *s);
 
 void lcd_put_int(i32 n, u32 x, u32 y);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

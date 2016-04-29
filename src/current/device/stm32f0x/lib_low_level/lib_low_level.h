@@ -5,6 +5,7 @@
 
 #include "std_periph/std_periph.h"
 #include "core/cortex_cpu.h"
+#include "core/system_stm32f0xx.h"
 
 #include "gpio/gpio.h"
 #include "timer/timer.h"
@@ -19,7 +20,14 @@
 
 #include "../../../options.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void lib_low_level_init();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

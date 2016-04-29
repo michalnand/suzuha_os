@@ -1,11 +1,12 @@
 #include "cortex_cpu.h"
 #include "stm32f0xx.h"
 
+/*
 void assert_param(u32 param)
 {
   (void)param;
 }
-
+*/
 void sys_tick_init()
 {
   SysTick->LOAD  = 48000;                       /* set reload register */

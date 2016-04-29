@@ -3,7 +3,7 @@
   @brief  main system kernel
   @newgroup kernel
   @addtogroup kernel
- 
+
   defines OS microkernel functions :
 
   \* threads creating
@@ -19,6 +19,11 @@
 #define _KERNEL_H_
 
 #include "../suzuha_os.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define SCHED_PRIORITY  1
 
@@ -63,7 +68,7 @@
  @brief CPU context regs count
 */
 #define CONTEXT_REGS_COUNT		(16) // + 1 + 33)
- 
+
 /**
  @brief after reset this is set as current running thread, it represent no thread
 */
@@ -73,13 +78,13 @@
  @brief maximum thread priority
 
  lower number is higher priority\n
- concrete value depends on TASK_MAX_COUNT 
+ concrete value depends on TASK_MAX_COUNT
 */
 #define PRIORITY_MAX			(THREADS_MAX_COUNT)
 
 /**
  @brief minimum thread priority
- 
+
  if used this value, thread can be sleeping for very long time\n
  depends on other thread state and count
 */
@@ -98,14 +103,14 @@
 
  each created thread have allocated this structure\n
 
- \* *sp		: it saves thread stack, include program counter, so context can be succesfully saved or restored after context switch 
+ \* *sp		: it saves thread stack, include program counter, so context can be succesfully saved or restored after context switch
  \* flag	: in this is stack state saved, if item is used for thread, flag TF_CREATED is set, if thread is waiting flag TF_WAITING is set,    initial value is TF_NULL
  \* cnt, icnt	: icnt stores priority counter value, cnt is temporary counter, when thread is choosen with scheduler to run this value is set to icnt value, after each other systick this value decremts
 */
 struct sThread
 {
   u16 cnt, icnt;
-  u32 flag; 
+  u32 flag;
   u32 *sp;
 };
 
@@ -161,7 +166,7 @@ void kernel_start();
  @brief create new thread
 
  function create new thread to executing\n
- 
+
  @param void (*thread_ptr)() is pointer to thread function
  @param *s_ptr is pointer to thread stack, it must be global variable array
  @param stack_size is stack array size
@@ -176,9 +181,9 @@ void kernel_start();
  \* if thread success created, item \_\_task\_\_[TASK_ID] is initialized\n
  execution starts after sys tick interrupt and scheduler choose
 */
-u32 create_thread(void (*thread_ptr)(), thread_stack_t *s_ptr, u32 stack_size, u16 priority);	
+u32 create_thread(void (*thread_ptr)(), thread_stack_t *s_ptr, u32 stack_size, u16 priority);
 
-/** 
+/**
  @brief disable interrupt and enter to infinite loop
 
  call this function when total program failure
@@ -207,7 +212,7 @@ void wake_up_threads_int();
 
 /**
   @brief wait until thread with specified ID ends
-  
+
   this ID is returned when create_task(); called\n
 
   @param task_id : unique thread id returned when task_created called
@@ -218,5 +223,9 @@ void join(u32 thread_id);
 
 
 void null_thread();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
