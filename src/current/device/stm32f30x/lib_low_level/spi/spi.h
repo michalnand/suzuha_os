@@ -3,6 +3,11 @@
 
 #include "../lib_low_level.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #define SPI_GPIO	GPIOA
 #define SCK     	(1<<5)
 #define MOSI     	(1<<7)
@@ -10,8 +15,8 @@
 
 #define SPI_CS_GPIO	GPIOB
 #define SPI_CS_PIN	(1<<6)
- 
-#define SPI_DELAY_CYCLES	1 
+
+#define SPI_DELAY_CYCLES	1
 
 
 
@@ -25,5 +30,9 @@ void SPI_CS_INIT();
 void SPI_CS_LOW();
 void SPI_CS_HIGH();
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

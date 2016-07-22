@@ -1,6 +1,11 @@
 #ifndef LIB_LOW_LEVEL_H_
 #define LIB_LOW_LEVEL_H_
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "int_def.h"
 #include "core/stm32f30x.h"
 #include "core/cortex_cpu.h"
@@ -32,5 +37,9 @@
 
 
 void lib_low_level_init();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

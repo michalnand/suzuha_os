@@ -8,6 +8,9 @@
 extern "C" {
 #endif
 
+#ifndef NULL
+#define NULL  0
+#endif
 
 void* malloc_safe(u32 size);
 void free_safe(void *ptr);

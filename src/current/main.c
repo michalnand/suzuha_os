@@ -5,23 +5,6 @@
 
 thread_stack_t main_thread_stack[MAIN_THREAD_STACK_SIZE];
 
-
-void _exit()
-{
-
-}
-
-void _kill()
-{
-
-
-}
-
-int _getpid()
-{
-	return 0;
-}
-
 void mem_info_print()
 {
 	extern char _text;
@@ -45,10 +28,25 @@ int main(void)
 
 	lib_os_init();
 	mem_info_print();
+/*
+	led_on(LED_1);
+	timer_delay_loops(1000);
+	led_off(LED_1);
+
+	while (1)
+	{
+		timer_delay_ms(1000);
+
+		led_on(LED_1);
+		printf_("uptime %u\n", timer_get_time());
+		timer_delay_ms(10);
+		led_off(LED_1);
+	}
+	*/
 
 
 	create_thread(main_thread, main_thread_stack, sizeof(main_thread_stack), PRIORITY_MAX);
 	kernel_start();
-
+	
 	return 0;
 }

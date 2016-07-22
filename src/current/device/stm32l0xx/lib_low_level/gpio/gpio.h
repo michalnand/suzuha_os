@@ -3,10 +3,15 @@
 
 #include "../lib_low_level.h"
 
-#define GPIO_BASE	GPIOB
 
+#define GPIO_BASE	GPIOB
 #define LED_1	(1<<3)
 
+
+/*
+#define GPIO_BASE	GPIOA
+#define LED_1	(1<<2)
+*/
 
 #define USER_KEY	(1<<4)
 

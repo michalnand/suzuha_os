@@ -9,6 +9,10 @@ void lib_os_init()
 	#endif
 
 	#ifdef _STDIO_H_
-	stdio_init(); 
+	stdio_init();
+	#endif
+
+	#ifdef _MEM_H_
+//	mem_init();
 	#endif
 }

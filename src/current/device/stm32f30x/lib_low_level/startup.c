@@ -1,6 +1,10 @@
 #include "lib_low_level.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Memory locations defined by the linker
 extern uint32_t __heap_start[];
 extern uint32_t __StackTop[];
@@ -244,3 +248,8 @@ void _reset_init(void)
 
     main();
 }
+
+
+#ifdef __cplusplus
+}
+#endif

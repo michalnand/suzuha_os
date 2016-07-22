@@ -35,11 +35,9 @@ void i2c_devices_thread()
 		{
 			event_timer_clear_flag(EVENT_TIMER_0_ID);
 
-      led_on(LED_1);
 			hmc5883_read();
 			mpu6050_read();
 			apds9950_read();
-      led_off(LED_1);
 		}
 
     //put data on display
@@ -71,9 +69,9 @@ void main_thread()
 
 	create_thread(i2c_devices_thread, i2c_devices_thread_stack, sizeof(i2c_devices_thread_stack), PRIORITY_MAX);
 
-  ws2812_init();
+  //ws2812_init();
 
-  object_test_call();
+  //object_test_call();
 
 	while (1)
 	{
@@ -89,6 +87,8 @@ void main_thread()
     printf_("[%i %i %i] ", get_g_apds9950()->r, get_g_apds9950()->g, get_g_apds9950()->b);
 
     printf_("\n");
+
+    timer_delay_ms(100);
 
     led_off(LED_1);
     timer_delay_ms(1000);

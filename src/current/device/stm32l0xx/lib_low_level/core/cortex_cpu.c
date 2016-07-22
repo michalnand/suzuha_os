@@ -52,12 +52,13 @@ void sleep()
 {
  // SysTick->CTRL&=~(SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk);
 
- /*
+/*
   SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+
 
   PWR->CR  = (PWR->CR & (uint32_t)(~(PWR_CR_PDDS))) | PWR_CR_LPSDSR;
   PWR->CSR&=~PWR_CSR_WUF;
- */
+*/
   __asm volatile("wfi");
 
 //  SysTick->CTRL|= (SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk);

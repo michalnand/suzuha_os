@@ -1,6 +1,6 @@
 #include "object_test.h"
 
-
+/*
 class CParent
 {
   public:
@@ -51,17 +51,11 @@ void CTestingClass::process(u32 value)
   }
 }
 
+*/
 void object_test_call()
 {
-  class CTestingClass testing_class;
 
-/*
-  int *v = new int;
+  //class CTestingClass testing_class;
+  //testing_class.process(10);
 
-  *v = 13;
-*/
-
-  testing_class.process(10);
-
-  // delete v;
 }
