@@ -58,7 +58,7 @@ struct sAPDS9950
 
 struct sAPDS9950* get_g_apds9950();
 
-u32 apds950_init();
+u32 apds9950_init();
 void apds9950_read();
 
 #ifdef __cplusplus

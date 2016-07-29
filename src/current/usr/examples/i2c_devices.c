@@ -22,7 +22,7 @@ void i2c_devices_thread()
 
   hmc5883_init();   //compass
   mpu6050_init();   //gyro+acc
-  apds950_init();   //rgb sensor
+  apds9950_init();   //rgb sensor
 
                       //i2c display
   LCD_SH1106_init();
@@ -69,6 +69,8 @@ void main_thread()
 
 	create_thread(i2c_devices_thread, i2c_devices_thread_stack, sizeof(i2c_devices_thread_stack), PRIORITY_MAX);
 
+
+  
   //ws2812_init();
 
   //object_test_call();

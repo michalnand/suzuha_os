@@ -1,6 +1,10 @@
 #ifndef _INT_DEF_H_
 #define _INT_DEF_H_
 
+#ifndef u64
+typedef unsigned long int u64 ;
+#endif
+
 #ifndef u32
 typedef unsigned int u32 ;
 #endif

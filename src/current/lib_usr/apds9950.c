@@ -7,7 +7,7 @@ struct sAPDS9950* get_g_apds9950()
 	return &g_apds9950;
 }
 
-u32 apds950_init()
+u32 apds9950_init()
 {
 	i2c_write_reg(RGB_ADDRESS, RGB_COMMAND|RGB_ATIME, 0xFF); 			/*2.4ms time*/
 	i2c_write_reg(RGB_ADDRESS, RGB_COMMAND|RGB_WTIME, 0xFF); 			/*2.4ms time*/
