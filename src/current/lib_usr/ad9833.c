@@ -2,7 +2,7 @@
 
 void ad9833_delay()
 {
-  unsigned int loops = 100;
+  unsigned int loops = 10;
   while (loops--)
     __asm("nop");
 }

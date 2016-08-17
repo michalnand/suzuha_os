@@ -42,38 +42,30 @@ void main_thread()
 
   printf_(OS_WELCOME_MESSAGE);
 
-/*
+
   create_thread(child1_thread, child1_thread_stack, sizeof(child1_thread_stack), PRIORITY_MAX);
   create_thread(child2_thread, child2_thread_stack, sizeof(child2_thread_stack), PRIORITY_MAX);
-*/
+
 
   ad9833_init();
   ad9833_set_frequency(1000, AD9833_SINE);
-  //ad9833_set_gain(int gain);
+  ad9833_set_gain(200);
 
+  timer_delay_ms(1000);
+
+
+  u32 freq;
+  u32 freq_delay = 10;
 
   while (1)
   {
-
-    led_off(LED_1);
-    ad9833_set_frequency(1000000, AD9833_SINE);
-    ad9833_set_gain(200);
-    timer_delay_ms(300);
-
-    led_on(LED_1);
-    ad9833_set_frequency(1000000, AD9833_SINE);
-    ad9833_set_gain(255);
-    timer_delay_ms(300);
-
-    /*
-    led_on(LED_1);
-    ad9833_set_frequency(500, AD9833_SINE);
-    timer_delay_ms(300);
-
-    led_off(LED_1);
-    ad9833_set_frequency(4000, AD9833_SINE);
-    timer_delay_ms(300);
-    */
+    for (freq = 1000000; freq < 10000000; freq+= 10000)
+    {
+      led_on(LED_1);
+      ad9833_set_frequency(freq, AD9833_SINE);
+      led_off(LED_1);
+      timer_delay_ms(freq_delay);
+    }
   }
 }
 
